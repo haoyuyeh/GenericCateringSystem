@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LogInVC.swift
 //  GenericCateringSystem
 //
 //  Created by Hao Yu Yeh on 2023/10/19.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LogInVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

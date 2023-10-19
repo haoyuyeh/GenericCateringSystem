@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad10_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--MenuVC-->
+        <scene sceneID="TvC-nx-a0H">
+            <objects>
+                <viewController storyboardIdentifier="MenuVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dba-XM-T09" userLabel="MenuVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DiY-Cc-0UL">
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="uDa-Lh-feF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Menu" id="W9e-Pl-d5N">
+                        <imageReference key="image" image="menucard.fill" catalog="system" symbolScale="default"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T6E-l0-s5F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10" y="199"/>
+        </scene>
+        <!--Casher TabC-->
+        <scene sceneID="srH-Oh-XnI">
+            <objects>
+                <tabBarController storyboardIdentifier="CasherTabC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZqM-gA-6xI" customClass="CasherTabC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="K4Z-yX-Kz7">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="dba-XM-T09" kind="relationship" relationship="viewControllers" id="cty-yP-Tpo"/>
+                        <segue destination="xiS-2e-Lyl" kind="relationship" relationship="viewControllers" id="smi-Qt-yGn"/>
+                        <segue destination="m3d-MJ-Jpf" kind="relationship" relationship="viewControllers" id="cpw-0x-2Ny"/>
+                        <segue destination="UjR-zO-QX4" kind="relationship" relationship="viewControllers" id="6Lj-9N-nWZ"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FuZ-6c-bB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-757" y="199"/>
+        </scene>
+        <!--EatInVC-->
+        <scene sceneID="GSQ-4P-AN8">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="EatInVC" storyboardName="EatIn" referencedIdentifier="EatInVC" id="xiS-2e-Lyl" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="rzT-bv-dRR"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LWh-JS-dOP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-552" y="601"/>
+        </scene>
+        <!--TakeOutVC-->
+        <scene sceneID="e23-13-6nw">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="TakeOutVC" storyboardName="TakeOut" referencedIdentifier="TakeOutVC" id="m3d-MJ-Jpf" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="4dS-jF-eAg"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qUC-ye-WCR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-552" y="645"/>
+        </scene>
+        <!--HistoricalOrdersVC-->
+        <scene sceneID="FWZ-pX-EIs">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="HistoricalOrdersVC" storyboardName="HistoricalOrders" referencedIdentifier="HistoricalOrdersVC" id="UjR-zO-QX4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="6qL-Od-Zd9"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bt7-0F-ykt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-552" y="690"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="menucard.fill" catalog="system" width="105" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

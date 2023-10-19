@@ -49,7 +49,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="rdN-XC-dJG" kind="showDetail" id="3OG-Va-OAa"/>
+                                            <segue destination="rdN-XC-dJG" kind="show" id="3OG-Va-OAa"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -152,6 +152,9 @@
                                                 <integer key="value" value="10"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="FCH-tb-5cE" kind="showDetail" id="dAn-GN-myR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -172,7 +175,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3wm-Mf-BrP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="543.5593220338983" y="-171.21951219512195"/>
+            <point key="canvasLocation" x="446" y="-181"/>
+        </scene>
+        <!--CasherTabC-->
+        <scene sceneID="sMz-zu-njP">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="CasherTabC" storyboardName="Casher" referencedIdentifier="CasherTabC" id="FCH-tb-5cE" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nDR-kr-Hoj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="891" y="-181"/>
         </scene>
     </scenes>
     <resources>

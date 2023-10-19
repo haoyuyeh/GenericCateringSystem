@@ -13,6 +13,12 @@
 		7BA0E44D2AE105A200CDA322 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E44B2AE105A200CDA322 /* LogIn.storyboard */; };
 		7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E44E2AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld */; };
 		7BA0E4522AE105A300CDA322 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4512AE105A300CDA322 /* Assets.xcassets */; };
+		7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4612AE15F2400CDA322 /* ConfigVC.swift */; };
+		7BA0E4652AE16A5300CDA322 /* Casher.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4642AE16A5300CDA322 /* Casher.storyboard */; };
+		7BA0E4672AE16A7400CDA322 /* CasherTabC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */; };
+		7BA0E4692AE175C400CDA322 /* EatIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4682AE175C400CDA322 /* EatIn.storyboard */; };
+		7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */; };
+		7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,12 @@
 		7BA0E44F2AE105A200CDA322 /* GenericCateringSystem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GenericCateringSystem.xcdatamodel; sourceTree = "<group>"; };
 		7BA0E4512AE105A300CDA322 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7BA0E4562AE105A300CDA322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BA0E4612AE15F2400CDA322 /* ConfigVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigVC.swift; sourceTree = "<group>"; };
+		7BA0E4642AE16A5300CDA322 /* Casher.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Casher.storyboard; sourceTree = "<group>"; };
+		7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasherTabC.swift; sourceTree = "<group>"; };
+		7BA0E4682AE175C400CDA322 /* EatIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EatIn.storyboard; sourceTree = "<group>"; };
+		7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TakeOut.storyboard; sourceTree = "<group>"; };
+		7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoricalOrders.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +98,8 @@
 		7BA0E45F2AE1184500CDA322 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7BA0E44B2AE105A200CDA322 /* LogIn.storyboard */,
-				7BA0E4492AE105A200CDA322 /* LogInVC.swift */,
+				7BA0E4632AE15FDD00CDA322 /* Log In Storyboard */,
+				7BA0E46E2AE17E6000CDA322 /* Casher Device */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,6 +109,28 @@
 			children = (
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7BA0E4632AE15FDD00CDA322 /* Log In Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				7BA0E44B2AE105A200CDA322 /* LogIn.storyboard */,
+				7BA0E4492AE105A200CDA322 /* LogInVC.swift */,
+				7BA0E4612AE15F2400CDA322 /* ConfigVC.swift */,
+			);
+			path = "Log In Storyboard";
+			sourceTree = "<group>";
+		};
+		7BA0E46E2AE17E6000CDA322 /* Casher Device */ = {
+			isa = PBXGroup;
+			children = (
+				7BA0E4642AE16A5300CDA322 /* Casher.storyboard */,
+				7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */,
+				7BA0E4682AE175C400CDA322 /* EatIn.storyboard */,
+				7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */,
+				7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */,
+			);
+			path = "Casher Device";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,8 +191,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BA0E4692AE175C400CDA322 /* EatIn.storyboard in Resources */,
 				7BA0E4522AE105A300CDA322 /* Assets.xcassets in Resources */,
+				7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */,
+				7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */,
 				7BA0E44D2AE105A200CDA322 /* LogIn.storyboard in Resources */,
+				7BA0E4652AE16A5300CDA322 /* Casher.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +211,8 @@
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
 				7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
+				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
+				7BA0E4672AE16A7400CDA322 /* CasherTabC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

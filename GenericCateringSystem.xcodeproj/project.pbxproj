@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
+		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
 		7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4452AE105A200CDA322 /* AppDelegate.swift */; };
 		7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */; };
 		7BA0E44A2AE105A200CDA322 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4492AE105A200CDA322 /* LogInVC.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
+		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
 		7BA0E4422AE105A200CDA322 /* GenericCateringSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenericCateringSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0E4452AE105A200CDA322 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +59,14 @@
 				7B3789B12AE293080001EC9B /* Display.storyboard */,
 			);
 			path = "Display Device";
+			sourceTree = "<group>";
+		};
+		7B3789B62AE2980C0001EC9B /* Customer Device */ = {
+			isa = PBXGroup;
+			children = (
+				7B3789B42AE297F20001EC9B /* Customer.storyboard */,
+			);
+			path = "Customer Device";
 			sourceTree = "<group>";
 		};
 		7BA0E4392AE105A200CDA322 = {
@@ -111,6 +121,7 @@
 				7BA0E4632AE15FDD00CDA322 /* Log In */,
 				7BA0E46E2AE17E6000CDA322 /* Casher Device */,
 				7B3789B32AE293440001EC9B /* Display Device */,
+				7B3789B62AE2980C0001EC9B /* Customer Device */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -206,6 +217,7 @@
 				7BA0E4522AE105A300CDA322 /* Assets.xcassets in Resources */,
 				7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */,
 				7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */,
+				7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */,
 				7BA0E44D2AE105A200CDA322 /* LogIn.storyboard in Resources */,
 				7BA0E4652AE16A5300CDA322 /* Casher.storyboard in Resources */,
 				7B3789B22AE293080001EC9B /* Display.storyboard in Resources */,

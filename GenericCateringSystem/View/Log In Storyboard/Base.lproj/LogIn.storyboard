@@ -18,27 +18,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="1180" height="820"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillEqually" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="4Ju-Fg-l1g">
-                                <rect key="frame" x="368.5" y="334.5" width="443" height="151"/>
+                            <stackView opaque="NO" contentMode="center" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="4Ju-Fg-l1g" userLabel="Outer Stack View">
+                                <rect key="frame" x="118" y="99.5" width="944" height="621"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3J-eZ-5Ln">
-                                        <rect key="frame" x="0.0" y="0.0" width="443" height="50.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3J-eZ-5Ln" userLabel="Device Name Stack View">
+                                        <rect key="frame" x="250.5" y="0.0" width="443" height="509"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Name : " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdK-QY-9fd" userLabel="DeviceNameLabel">
-                                                <rect key="frame" x="0.0" y="0.0" width="216.5" height="50.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="216.5" height="509"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="test" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ls8-bO-mYS" userLabel="DeviceNameTF">
-                                                <rect key="frame" x="226.5" y="0.0" width="216.5" height="50.5"/>
+                                                <rect key="frame" x="226.5" y="0.0" width="216.5" height="509"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="LOl-ts-TTF" userLabel="LogInBtn">
-                                        <rect key="frame" x="111" y="100.5" width="221.5" height="50.5"/>
+                                        <rect key="frame" x="361.5" y="559" width="221.5" height="62"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
@@ -55,15 +55,16 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="LOl-ts-TTF" firstAttribute="width" secondItem="a3J-eZ-5Ln" secondAttribute="width" multiplier="0.5" id="NIa-Ed-Mby"/>
+                                    <constraint firstItem="LOl-ts-TTF" firstAttribute="height" secondItem="4Ju-Fg-l1g" secondAttribute="height" multiplier="0.1" id="Xr1-uf-tU4"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="4Ju-Fg-l1g" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.194588" id="fXb-xY-mq3"/>
+                            <constraint firstItem="4Ju-Fg-l1g" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.8" id="fXb-xY-mq3"/>
                             <constraint firstItem="4Ju-Fg-l1g" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="neJ-eR-bnN"/>
-                            <constraint firstItem="4Ju-Fg-l1g" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" multiplier="0.375424" id="uFU-oL-6EP"/>
+                            <constraint firstItem="4Ju-Fg-l1g" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" multiplier="0.8" id="uFU-oL-6EP"/>
                             <constraint firstItem="4Ju-Fg-l1g" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="z5d-Cb-HNU"/>
                         </constraints>
                     </view>

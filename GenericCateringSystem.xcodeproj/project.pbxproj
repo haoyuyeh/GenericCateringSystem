@@ -9,6 +9,17 @@
 /* Begin PBXBuildFile section */
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
+		7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */; };
+		7B7392DB2AE394D700E3A968 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D12AE394D700E3A968 /* Item+CoreDataClass.swift */; };
+		7B7392DC2AE394D700E3A968 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D22AE394D700E3A968 /* Item+CoreDataProperties.swift */; };
+		7B7392DD2AE394D700E3A968 /* Option+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D32AE394D700E3A968 /* Option+CoreDataClass.swift */; };
+		7B7392DE2AE394D700E3A968 /* Option+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D42AE394D700E3A968 /* Option+CoreDataProperties.swift */; };
+		7B7392DF2AE394D700E3A968 /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D52AE394D700E3A968 /* Category+CoreDataClass.swift */; };
+		7B7392E02AE394D700E3A968 /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D62AE394D700E3A968 /* Category+CoreDataProperties.swift */; };
+		7B7392E12AE394D700E3A968 /* Order+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D72AE394D700E3A968 /* Order+CoreDataClass.swift */; };
+		7B7392E22AE394D700E3A968 /* Order+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D82AE394D700E3A968 /* Order+CoreDataProperties.swift */; };
+		7B7392E32AE394D700E3A968 /* Device+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392D92AE394D700E3A968 /* Device+CoreDataClass.swift */; };
+		7B7392E42AE394D700E3A968 /* Device+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7392DA2AE394D700E3A968 /* Device+CoreDataProperties.swift */; };
 		7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4452AE105A200CDA322 /* AppDelegate.swift */; };
 		7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */; };
 		7BA0E44A2AE105A200CDA322 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4492AE105A200CDA322 /* LogInVC.swift */; };
@@ -26,6 +37,17 @@
 /* Begin PBXFileReference section */
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
+		7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		7B7392D12AE394D700E3A968 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B7392D22AE394D700E3A968 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7B7392D32AE394D700E3A968 /* Option+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Option+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B7392D42AE394D700E3A968 /* Option+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Option+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7B7392D52AE394D700E3A968 /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B7392D62AE394D700E3A968 /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7B7392D72AE394D700E3A968 /* Order+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B7392D82AE394D700E3A968 /* Order+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7B7392D92AE394D700E3A968 /* Device+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B7392DA2AE394D700E3A968 /* Device+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7BA0E4422AE105A200CDA322 /* GenericCateringSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenericCateringSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0E4452AE105A200CDA322 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +123,16 @@
 			isa = PBXGroup;
 			children = (
 				7BA0E44E2AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld */,
+				7B7392D12AE394D700E3A968 /* Item+CoreDataClass.swift */,
+				7B7392D22AE394D700E3A968 /* Item+CoreDataProperties.swift */,
+				7B7392D32AE394D700E3A968 /* Option+CoreDataClass.swift */,
+				7B7392D42AE394D700E3A968 /* Option+CoreDataProperties.swift */,
+				7B7392D52AE394D700E3A968 /* Category+CoreDataClass.swift */,
+				7B7392D62AE394D700E3A968 /* Category+CoreDataProperties.swift */,
+				7B7392D72AE394D700E3A968 /* Order+CoreDataClass.swift */,
+				7B7392D82AE394D700E3A968 /* Order+CoreDataProperties.swift */,
+				7B7392D92AE394D700E3A968 /* Device+CoreDataClass.swift */,
+				7B7392DA2AE394D700E3A968 /* Device+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,6 +143,7 @@
 				7BA0E4512AE105A300CDA322 /* Assets.xcassets */,
 				7BA0E4452AE105A200CDA322 /* AppDelegate.swift */,
 				7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */,
+				7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -231,11 +264,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B7392DE2AE394D700E3A968 /* Option+CoreDataProperties.swift in Sources */,
+				7B7392E42AE394D700E3A968 /* Device+CoreDataProperties.swift in Sources */,
+				7B7392E02AE394D700E3A968 /* Category+CoreDataProperties.swift in Sources */,
+				7B7392E12AE394D700E3A968 /* Order+CoreDataClass.swift in Sources */,
+				7B7392DF2AE394D700E3A968 /* Category+CoreDataClass.swift in Sources */,
+				7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */,
 				7BA0E44A2AE105A200CDA322 /* LogInVC.swift in Sources */,
+				7B7392DD2AE394D700E3A968 /* Option+CoreDataClass.swift in Sources */,
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
 				7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */,
+				7B7392E32AE394D700E3A968 /* Device+CoreDataClass.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
+				7B7392DC2AE394D700E3A968 /* Item+CoreDataProperties.swift in Sources */,
+				7B7392E22AE394D700E3A968 /* Order+CoreDataProperties.swift in Sources */,
+				7B7392DB2AE394D700E3A968 /* Item+CoreDataClass.swift in Sources */,
 				7BA0E4672AE16A7400CDA322 /* CasherTabC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

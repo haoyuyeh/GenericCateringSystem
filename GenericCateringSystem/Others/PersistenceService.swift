@@ -5,7 +5,6 @@
 //  Created by Hao Yu Yeh on 2023/10/21.
 //
 
-import Foundation
 import CoreData
 
 class PersistenceService {
@@ -21,7 +20,7 @@ class PersistenceService {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "GenericCateringSystem") // same as project name
+        let container = NSPersistentCloudKitContainer(name: "GenericCateringSystem") // same as project name
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -38,16 +37,22 @@ class PersistenceService {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return container
     }()
 
+    static var managedContext: NSManagedObjectContext {
+        return PersistenceService.share.persistentContainer.viewContext
+    }
+    
     // MARK: - Core Data Saving support
 
     func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
+        if PersistenceService.managedContext.hasChanges {
             do {
-                try context.save()
+                try PersistenceService.managedContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

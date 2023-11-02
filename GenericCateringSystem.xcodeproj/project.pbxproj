@@ -62,6 +62,7 @@
 		7BA0E4682AE175C400CDA322 /* EatIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EatIn.storyboard; sourceTree = "<group>"; };
 		7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TakeOut.storyboard; sourceTree = "<group>"; };
 		7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoricalOrders.storyboard; sourceTree = "<group>"; };
+		7BE778222AF3CD1700BE47FA /* GenericCateringSystem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GenericCateringSystem.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +111,7 @@
 		7BA0E4442AE105A200CDA322 /* GenericCateringSystem */ = {
 			isa = PBXGroup;
 			children = (
+				7BE778222AF3CD1700BE47FA /* GenericCateringSystem.entitlements */,
 				7BA0E4562AE105A300CDA322 /* Info.plist */,
 				7BA0E45C2AE105C600CDA322 /* Model */,
 				7BA0E45F2AE1184500CDA322 /* View */,
@@ -422,6 +424,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GenericCateringSystem/GenericCateringSystem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 73PJ5HL78M;
@@ -430,6 +433,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LogIn;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -451,6 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GenericCateringSystem/GenericCateringSystem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 73PJ5HL78M;
@@ -459,6 +464,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LogIn;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

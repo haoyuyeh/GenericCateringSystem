@@ -13,27 +13,43 @@
         <!--LogInVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LogIn" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" userLabel="LogInVC" customClass="LogInVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" userLabel="LogInVC" customClass="LogInVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1180" height="820"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="center" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="4Ju-Fg-l1g" userLabel="Outer Stack View">
+                            <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillProportionally" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="4Ju-Fg-l1g" userLabel="Outer Stack View">
                                 <rect key="frame" x="118" y="99.5" width="944" height="621"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3J-eZ-5Ln" userLabel="Device Name Stack View">
-                                        <rect key="frame" x="250.5" y="0.0" width="443" height="509"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3J-eZ-5Ln" userLabel="Device Name Stack View">
+                                        <rect key="frame" x="250.5" y="0.0" width="443" height="134"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Name : " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdK-QY-9fd" userLabel="DeviceNameLabel">
-                                                <rect key="frame" x="0.0" y="0.0" width="216.5" height="509"/>
+                                                <rect key="frame" x="0.0" y="93" width="216.5" height="41"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="test" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ls8-bO-mYS" userLabel="DeviceNameTF">
-                                                <rect key="frame" x="226.5" y="0.0" width="216.5" height="509"/>
+                                                <rect key="frame" x="226.5" y="83.5" width="216.5" height="50.5"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="H6H-FO-Eoa" userLabel="Password Stack View">
+                                        <rect key="frame" x="303.5" y="184" width="337" height="325"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password : " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-Ia-7MQ" userLabel="PasswordLabel">
+                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="41"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="test" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uOq-ml-QAE" userLabel="PasswordTF">
+                                                <rect key="frame" x="173.5" y="0.0" width="163.5" height="49"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -49,7 +65,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="rdN-XC-dJG" kind="show" id="3OG-Va-OAa"/>
+                                            <action selector="logInBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1UY-lS-Aqo"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -68,6 +84,10 @@
                             <constraint firstItem="4Ju-Fg-l1g" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="z5d-Cb-HNU"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="deviceNameTF" destination="ls8-bO-mYS" id="E9d-fA-WxY"/>
+                        <outlet property="passwordTF" destination="uOq-ml-QAE" id="d6O-d5-98q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -76,19 +96,19 @@
         <!--ConfigVC-->
         <scene sceneID="Xkw-Xv-P5X">
             <objects>
-                <viewController storyboardIdentifier="Config" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rdN-XC-dJG" customClass="ConfigVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfigVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rdN-XC-dJG" customClass="ConfigVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MZF-eZ-fRk">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="780"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1180" height="820"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JHL-m9-9QB" userLabel="Outer Stack View">
-                                <rect key="frame" x="0.0" y="195" width="704" height="390"/>
+                                <rect key="frame" x="0.0" y="218" width="1180" height="388"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-Q3-t2j" userLabel="Upper Stack View">
-                                        <rect key="frame" x="173.5" y="0.0" width="357" height="308"/>
+                                        <rect key="frame" x="411.5" y="0.0" width="357" height="306.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="91I-sQ-h4L" userLabel="Mode Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="204" height="123.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="204" height="122.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNT-ea-ROu">
                                                         <rect key="frame" x="0.0" y="41" width="97" height="41"/>
@@ -110,13 +130,13 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Device Name : mainHost" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ju-aB-c8o">
-                                                <rect key="frame" x="0.0" y="133.5" width="357" height="41"/>
+                                                <rect key="frame" x="0.0" y="132.5" width="357" height="41"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cDn-bM-qLm" userLabel="Device Roll Stack View">
-                                                <rect key="frame" x="0.0" y="184.5" width="333" height="123.5"/>
+                                                <rect key="frame" x="0.0" y="183.5" width="333" height="123"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Roll" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJC-RF-MZE">
                                                         <rect key="frame" x="0.0" y="41" width="161.5" height="41"/>
@@ -143,7 +163,7 @@
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEZ-CQ-m8Z">
-                                        <rect key="frame" x="246.5" y="318" width="211" height="72"/>
+                                        <rect key="frame" x="413" y="316.5" width="354" height="71.5"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>

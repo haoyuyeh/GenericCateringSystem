@@ -8,7 +8,10 @@
 import UIKit
 
 class ConfigVC: UIViewController {
-
+    // MARK: Properties
+//    private var viewModel =
+    var currentDevice: Device?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

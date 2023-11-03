@@ -32,6 +32,8 @@
 		7BA0E4692AE175C400CDA322 /* EatIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4682AE175C400CDA322 /* EatIn.storyboard */; };
 		7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */; };
 		7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */; };
+		7BE778242AF48B1200BE47FA /* LogInVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778232AF48B1200BE47FA /* LogInVCViewModel.swift */; };
+		7BE778272AF4986700BE47FA /* ExtBasicAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778262AF4986700BE47FA /* ExtBasicAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +65,8 @@
 		7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TakeOut.storyboard; sourceTree = "<group>"; };
 		7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoricalOrders.storyboard; sourceTree = "<group>"; };
 		7BE778222AF3CD1700BE47FA /* GenericCateringSystem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GenericCateringSystem.entitlements; sourceTree = "<group>"; };
+		7BE778232AF48B1200BE47FA /* LogInVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVCViewModel.swift; sourceTree = "<group>"; };
+		7BE778262AF4986700BE47FA /* ExtBasicAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtBasicAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,7 @@
 				7BA0E4452AE105A200CDA322 /* AppDelegate.swift */,
 				7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */,
 				7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */,
+				7BE778262AF4986700BE47FA /* ExtBasicAlert.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 		7BA0E4602AE1184E00CDA322 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				7BE778252AF48B1B00BE47FA /* Log In */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -188,6 +194,14 @@
 				7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */,
 			);
 			path = "Casher Device";
+			sourceTree = "<group>";
+		};
+		7BE778252AF48B1B00BE47FA /* Log In */ = {
+			isa = PBXGroup;
+			children = (
+				7BE778232AF48B1200BE47FA /* LogInVCViewModel.swift */,
+			);
+			path = "Log In";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +283,7 @@
 				7B7392DE2AE394D700E3A968 /* Option+CoreDataProperties.swift in Sources */,
 				7B7392E42AE394D700E3A968 /* Device+CoreDataProperties.swift in Sources */,
 				7B7392E02AE394D700E3A968 /* Category+CoreDataProperties.swift in Sources */,
+				7BE778242AF48B1200BE47FA /* LogInVCViewModel.swift in Sources */,
 				7B7392E12AE394D700E3A968 /* Order+CoreDataClass.swift in Sources */,
 				7B7392DF2AE394D700E3A968 /* Category+CoreDataClass.swift in Sources */,
 				7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */,
@@ -276,6 +291,7 @@
 				7B7392DD2AE394D700E3A968 /* Option+CoreDataClass.swift in Sources */,
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
 				7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */,
+				7BE778272AF4986700BE47FA /* ExtBasicAlert.swift in Sources */,
 				7B7392E32AE394D700E3A968 /* Device+CoreDataClass.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,

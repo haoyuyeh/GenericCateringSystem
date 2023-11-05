@@ -6,14 +6,13 @@
         <relationship name="options" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Option" inverseName="category" inverseEntity="Option"/>
     </entity>
     <entity name="Device" representedClassName="Device" syncable="YES">
-        <attribute name="iDFV" optional="YES" attributeType="String"/>
         <attribute name="isOccupied" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="mode" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mode" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String" defaultValueString="0000"/>
         <attribute name="person" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="roll" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="roll" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES">

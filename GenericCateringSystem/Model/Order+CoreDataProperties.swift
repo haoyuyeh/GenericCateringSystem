@@ -2,7 +2,7 @@
 //  Order+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/10/21.
+//  Created by Hao Yu Yeh on 2023/11/3.
 //
 //
 
@@ -18,12 +18,12 @@ extension Order {
 
     @NSManaged public var comments: String?
     @NSManaged public var currentState: Int16
-    @NSManaged public var establishedDate: Date
+    @NSManaged public var establishedDate: Date?
     @NSManaged public var isTakeOut: Bool
-    @NSManaged public var number: String
+    @NSManaged public var number: String?
     @NSManaged public var totalSum: Double
     @NSManaged public var type: Int16
-    @NSManaged public var uuid: UUID
+    @NSManaged public var uuid: UUID?
     @NSManaged public var items: NSSet?
 
 }

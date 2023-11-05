@@ -10,7 +10,6 @@ import UIKit
 
 class LogInVCViewModel {
     // MARK: Properties
-    let iDFV = UIDevice.current.identifierForVendor?.uuidString
 }
 // MARK: Helper functions
 extension LogInVCViewModel {
@@ -53,13 +52,11 @@ extension LogInVCViewModel {
         let predicate = NSPredicate(format: "name == %@", id)
         let device = fetchDevice(predicate: predicate).first
         
-        if device?.iDFV != self.iDFV {
-            return (LogInState.wrongDevice, nil)
-        }
         if device?.password != pw {
             return (LogInState.wrongPassword, nil)
+        }else {
+            return (LogInState.success, device)
         }
-        return (LogInState.success, device)
     }
     
     /// add new device into database
@@ -70,7 +67,6 @@ extension LogInVCViewModel {
     func addNewDevice(deviceName name: String, PW pw: String) -> Device {
         let newDevice = Device(context: PersistenceService.managedContext)
         newDevice.uuid = UUID()
-        newDevice.iDFV = self.iDFV!
         newDevice.name = name
         newDevice.password = pw
         PersistenceService.share.saveContext()

@@ -2,7 +2,7 @@
 //  Option+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/10/21.
+//  Created by Hao Yu Yeh on 2023/11/3.
 //
 //
 
@@ -16,10 +16,10 @@ extension Option {
         return NSFetchRequest<Option>(entityName: "Option")
     }
 
-    @NSManaged public var name: String
+    @NSManaged public var name: String?
     @NSManaged public var price: Double
-    @NSManaged public var uuid: UUID
-    @NSManaged public var category: Category
+    @NSManaged public var uuid: UUID?
+    @NSManaged public var category: Category?
     @NSManaged public var ownedBy: Option?
     @NSManaged public var subOptions: NSSet?
 

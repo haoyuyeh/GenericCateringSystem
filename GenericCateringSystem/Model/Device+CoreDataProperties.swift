@@ -2,7 +2,7 @@
 //  Device+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/10/21.
+//  Created by Hao Yu Yeh on 2023/11/3.
 //
 //
 
@@ -16,15 +16,14 @@ extension Device {
         return NSFetchRequest<Device>(entityName: "Device")
     }
 
-    @NSManaged public var iDFV: String
     @NSManaged public var isOccupied: Bool
-    @NSManaged public var mode: Int16
-    @NSManaged public var name: String
+    @NSManaged public var mode: String?
+    @NSManaged public var name: String?
     @NSManaged public var number: String?
-    @NSManaged public var password: String
+    @NSManaged public var password: String?
     @NSManaged public var person: Int16
-    @NSManaged public var roll: Int16
-    @NSManaged public var uuid: UUID
+    @NSManaged public var roll: String?
+    @NSManaged public var uuid: UUID?
 
 }
 

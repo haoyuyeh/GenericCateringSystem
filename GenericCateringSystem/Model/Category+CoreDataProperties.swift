@@ -2,7 +2,7 @@
 //  Category+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/10/21.
+//  Created by Hao Yu Yeh on 2023/11/3.
 //
 //
 
@@ -16,8 +16,8 @@ extension Category {
         return NSFetchRequest<Category>(entityName: "Category")
     }
 
-    @NSManaged public var name: String
-    @NSManaged public var uuid: UUID
+    @NSManaged public var name: String?
+    @NSManaged public var uuid: UUID?
     @NSManaged public var options: NSSet?
 
 }

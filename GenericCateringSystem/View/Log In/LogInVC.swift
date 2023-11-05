@@ -11,7 +11,6 @@ import UIKit
 enum LogInState: String {
     case emptyName
     case emptyPassword
-    case wrongDevice
     case wrongPassword
     case success
 }
@@ -42,10 +41,7 @@ class LogInVC: UIViewController {
         case .emptyPassword:
             self.showAlert(alertTitle: "Warning", message: "Password can't be empty!!")
 //            print("enter \(LogInState.emptyPassword.rawValue)")
-            
-        case .wrongDevice:
-            self.showAlert(alertTitle: "Warning", message: "Name and device do not match!!")
-//            print("enter \(LogInState.wrongDevice.rawValue)")
+
         case .wrongPassword:
             self.showAlert(alertTitle: "Warning", message: "Wrong password!!")
 //            print("enter \(LogInState.wrongPassword.rawValue)")
@@ -54,8 +50,10 @@ class LogInVC: UIViewController {
             // log into the system
             // segue to ConfigVC
             let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+            
             let destVC = storyboard.instantiateViewController(identifier: "ConfigVC") as ConfigVC
             destVC.currentDevice = self.currentDevice
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             
             show(destVC, sender: self)
             

@@ -99,6 +99,13 @@ class ConfigVC: UIViewController {
     
     @IBAction func startBtnPressed(_ sender: UIButton) {
         // segue to MenuVC
+        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
+        
+        let destVC = storyboard.instantiateViewController(identifier: "MenuVC") as MenuVC
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.currentDevice = self.currentDevice
+        
+        show(destVC, sender: sender)
     }
 }
 
@@ -108,22 +115,10 @@ extension ConfigVC {
     func preSetUP() {
         deviceNameLabel.text = "Device Name: \(currentDevice?.name ?? "nil")"
         
-        switch currentDevice?.roll {
-        case Roll.cashier.rawValue:
-            deviceNumberLabel.isHidden = true
-            deviceNumberTF.isHidden = true
-            personServedLable.isHidden = true
-            personServedTF.isHidden = true
-        case Roll.client.rawValue:
-            // only cashier can change accounts detail
-            editBtn.isHidden = true
-            deviceNumberTF.text = currentDevice?.number
-            personServedTF.text =  String(describing: currentDevice?.person ?? 0)
-        default:
-            break
-        }
         setupModeBtn()
         setupRollBtn()
+        
+        layoutArrangement()
     }
     
     /// set up mode button
@@ -159,9 +154,11 @@ extension ConfigVC {
     func setupRollBtn() {
         let cashierAction = UIAction(title: Roll.cashier.rawValue, handler: { [unowned self] _ in
             self.currentDevice?.roll = Roll.cashier.rawValue
+            layoutArrangement()
         })
         let clientAction = UIAction(title: Roll.client.rawValue, handler: { [unowned self] _ in
             self.currentDevice?.roll = Roll.client.rawValue
+            layoutArrangement()
         })
         /**
          it can only have one cashier in the system, therefore, it try to provide different options based on the state of cashier
@@ -195,6 +192,27 @@ extension ConfigVC {
         
         rollBtn.showsMenuAsPrimaryAction = true
         rollBtn.changesSelectionAsPrimaryAction = true
+    }
+    /// display the layout based on the roll of device
+    func layoutArrangement() {
+        switch currentDevice?.roll {
+        case Roll.cashier.rawValue:
+            deviceNumberLabel.isHidden = true
+            deviceNumberTF.isHidden = true
+            personServedLable.isHidden = true
+            personServedTF.isHidden = true
+        case Roll.client.rawValue:
+            // only cashier can change accounts detail
+            editBtn.isHidden = true
+            deviceNumberLabel.isHidden = false
+            deviceNumberTF.isHidden = false
+            personServedLable.isHidden = false
+            personServedTF.isHidden = false
+            deviceNumberTF.text = currentDevice?.number
+            personServedTF.text =  String(describing: currentDevice?.person ?? 0)
+        default:
+            break
+        }
     }
 }
 

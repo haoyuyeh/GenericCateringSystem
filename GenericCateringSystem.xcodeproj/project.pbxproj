@@ -18,7 +18,6 @@
 		7BA0E4522AE105A300CDA322 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4512AE105A300CDA322 /* Assets.xcassets */; };
 		7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4612AE15F2400CDA322 /* ConfigVC.swift */; };
 		7BA0E4652AE16A5300CDA322 /* Casher.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4642AE16A5300CDA322 /* Casher.storyboard */; };
-		7BA0E4672AE16A7400CDA322 /* CasherTabC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */; };
 		7BA0E4692AE175C400CDA322 /* EatIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4682AE175C400CDA322 /* EatIn.storyboard */; };
 		7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */; };
 		7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */; };
@@ -39,6 +38,9 @@
 		7BE7785B2AF62DD700BE47FA /* AccountVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785A2AF62DD700BE47FA /* AccountVCViewModel.swift */; };
 		7BE7785E2AF6324300BE47FA /* ExtTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785D2AF6324300BE47FA /* ExtTextField.swift */; };
 		7BE778602AF647BF00BE47FA /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785F2AF647BF00BE47FA /* AccountCell.swift */; };
+		7BE778622AF763F800BE47FA /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778612AF763F800BE47FA /* MenuVC.swift */; };
+		7BE778642AF7652D00BE47FA /* MenuVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */; };
+		7BF1205A2BB2BFCD002E18E8 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF120592BB2BFCD002E18E8 /* ItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +57,6 @@
 		7BA0E4562AE105A300CDA322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BA0E4612AE15F2400CDA322 /* ConfigVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigVC.swift; sourceTree = "<group>"; };
 		7BA0E4642AE16A5300CDA322 /* Casher.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Casher.storyboard; sourceTree = "<group>"; };
-		7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasherTabC.swift; sourceTree = "<group>"; };
 		7BA0E4682AE175C400CDA322 /* EatIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EatIn.storyboard; sourceTree = "<group>"; };
 		7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TakeOut.storyboard; sourceTree = "<group>"; };
 		7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoricalOrders.storyboard; sourceTree = "<group>"; };
@@ -77,6 +78,9 @@
 		7BE7785A2AF62DD700BE47FA /* AccountVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVCViewModel.swift; sourceTree = "<group>"; };
 		7BE7785D2AF6324300BE47FA /* ExtTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtTextField.swift; sourceTree = "<group>"; };
 		7BE7785F2AF647BF00BE47FA /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
+		7BE778612AF763F800BE47FA /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVCViewModel.swift; sourceTree = "<group>"; };
+		7BF120592BB2BFCD002E18E8 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				7BE778252AF48B1B00BE47FA /* Log In */,
+				7BE778652AF7654000BE47FA /* Casher Device */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -200,7 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA0E4642AE16A5300CDA322 /* Casher.storyboard */,
-				7BA0E4662AE16A7400CDA322 /* CasherTabC.swift */,
+				7BE778612AF763F800BE47FA /* MenuVC.swift */,
+				7BF120592BB2BFCD002E18E8 /* ItemCell.swift */,
 				7BA0E4682AE175C400CDA322 /* EatIn.storyboard */,
 				7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */,
 				7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */,
@@ -225,6 +231,22 @@
 				7BE7785D2AF6324300BE47FA /* ExtTextField.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7BE778652AF7654000BE47FA /* Casher Device */ = {
+			isa = PBXGroup;
+			children = (
+				7BE778662AF7655F00BE47FA /* Casher */,
+			);
+			path = "Casher Device";
+			sourceTree = "<group>";
+		};
+		7BE778662AF7655F00BE47FA /* Casher */ = {
+			isa = PBXGroup;
+			children = (
+				7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */,
+			);
+			path = Casher;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,11 +325,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BF1205A2BB2BFCD002E18E8 /* ItemCell.swift in Sources */,
 				7BE778512AF52F6300BE47FA /* Order+CoreDataProperties.swift in Sources */,
 				7BE7785B2AF62DD700BE47FA /* AccountVCViewModel.swift in Sources */,
 				7BE778552AF52F6300BE47FA /* Device+CoreDataProperties.swift in Sources */,
 				7BE778242AF48B1200BE47FA /* LogInVCViewModel.swift in Sources */,
 				7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */,
+				7BE778622AF763F800BE47FA /* MenuVC.swift in Sources */,
 				7BA0E44A2AE105A200CDA322 /* LogInVC.swift in Sources */,
 				7BE7782B2AF4E47100BE47FA /* ConfigVCViewModel.swift in Sources */,
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
@@ -317,9 +341,9 @@
 				7BE7785E2AF6324300BE47FA /* ExtTextField.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
-				7BA0E4672AE16A7400CDA322 /* CasherTabC.swift in Sources */,
 				7BE778562AF52F6300BE47FA /* Item+CoreDataClass.swift in Sources */,
 				7BE778572AF52F6300BE47FA /* Item+CoreDataProperties.swift in Sources */,
+				7BE778642AF7652D00BE47FA /* MenuVCViewModel.swift in Sources */,
 				7BE778602AF647BF00BE47FA /* AccountCell.swift in Sources */,
 				7BE7784F2AF52F6300BE47FA /* Option+CoreDataProperties.swift in Sources */,
 				7BE778542AF52F6300BE47FA /* Device+CoreDataClass.swift in Sources */,

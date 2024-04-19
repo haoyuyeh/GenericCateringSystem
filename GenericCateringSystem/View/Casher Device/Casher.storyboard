@@ -213,7 +213,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cTi-1Z-rA2" userLabel="Order Details Stack View">
-                                <rect key="frame" x="5" y="65.5" width="354" height="145"/>
+                                <rect key="frame" x="5" y="60.5" width="354" height="145"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dce-hq-o0w" userLabel="Order Type Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="41.5"/>
@@ -270,7 +270,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Tj-e2-fUX" userLabel="Ordered Items Table View">
-                                <rect key="frame" x="5" y="215.5" width="354" height="457"/>
+                                <rect key="frame" x="5" y="210.5" width="354" height="462"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="Biq-fv-URx" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
@@ -452,7 +452,7 @@
                             <constraint firstItem="R3b-nJ-wM0" firstAttribute="leading" secondItem="0Tj-e2-fUX" secondAttribute="trailing" constant="5" id="WMw-JN-JXK"/>
                             <constraint firstItem="F4C-hm-R8D" firstAttribute="leading" secondItem="uDa-Lh-feF" secondAttribute="leading" id="Ysa-YI-fQx"/>
                             <constraint firstItem="cTi-1Z-rA2" firstAttribute="height" secondItem="uDa-Lh-feF" secondAttribute="height" multiplier="0.2" id="fXY-7P-na8"/>
-                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="top" secondItem="F4C-hm-R8D" secondAttribute="bottom" constant="5" id="gfo-WB-4m1"/>
+                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="top" secondItem="F4C-hm-R8D" secondAttribute="bottom" id="gfo-WB-4m1"/>
                             <constraint firstItem="SFN-qa-QTW" firstAttribute="leading" secondItem="cTi-1Z-rA2" secondAttribute="trailing" constant="5" id="lcI-rF-pEX"/>
                             <constraint firstItem="g8S-X1-btR" firstAttribute="height" secondItem="uDa-Lh-feF" secondAttribute="height" multiplier="0.1" id="pN3-Zm-M9r"/>
                             <constraint firstItem="g8S-X1-btR" firstAttribute="leading" secondItem="uDa-Lh-feF" secondAttribute="leading" constant="5" id="sIZ-KT-CfJ"/>

@@ -5,6 +5,7 @@
 //  Created by Hao Yu Yeh on 2023/10/19.
 //
 
+import OSLog
 import UIKit
 import Foundation
 
@@ -37,6 +38,7 @@ class ConfigVC: UIViewController {
     @IBOutlet weak var personServedTF: UITextField!
     
     // MARK: Properties
+    private let logger = Logger(subsystem: "LogIn", category: "ConfigVC")
     private var viewModel = ConfigVCViewModel()
     var currentDevice: Device?
     
@@ -101,10 +103,14 @@ class ConfigVC: UIViewController {
         // segue to MenuVC
         let storyboard = UIStoryboard(name: "Casher", bundle: nil)
         
-        let destVC = storyboard.instantiateViewController(identifier: "MenuVC") as MenuVC
+        let destVC = storyboard.instantiateViewController(identifier: "CasherTabC") as UITabBarController
         destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = self.currentDevice
+        destVC.selectedIndex = 0
         
+        let menuVC = destVC.selectedViewController as! MenuVC
+        menuVC.currentDevice = self.currentDevice
+//        logger.debug("\(menuVC.currentDevice?.name ?? "nil")")
+
         show(destVC, sender: sender)
     }
 }

@@ -5,10 +5,12 @@
 //  Created by Hao Yu Yeh on 2023/11/5.
 //
 
+import OSLog
 import UIKit
 
 class MenuVC: UIViewController {
     // MARK: Properties
+    private let logger = Logger(subsystem: "Cashier", category: "MenuVC")
     private var viewModel = MenuVCViewModel()
     var currentDevice: Device?
     
@@ -41,7 +43,6 @@ class MenuVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 }
@@ -54,7 +55,6 @@ extension MenuVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
-        
         cell.itemNameLebel.text = viewModel.getItemName(at: indexPath.row)
         
         cell.itemQuantiyBtn.titleLabel?.text = String(viewModel.getItemQuantity(at: indexPath.row))

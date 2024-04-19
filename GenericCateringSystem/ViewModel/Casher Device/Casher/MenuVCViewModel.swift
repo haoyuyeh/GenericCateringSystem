@@ -12,7 +12,12 @@ class MenuVCViewModel {
     
 }
 
-// MARK: Helpler
+// MARK: Order Details
+extension MenuVCViewModel {
+    
+}
+
+// MARK: Ordered Item TableView
 extension MenuVCViewModel {
     /// get counts of current ordered items
     /// - Returns: Int
@@ -78,4 +83,19 @@ extension MenuVCViewModel {
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
     }
+}
+
+// MARK: Check Out
+extension MenuVCViewModel {
+    
+}
+
+// MARK: Catagories
+extension MenuVCViewModel {
+    
+}
+
+// MARK: Options
+extension MenuVCViewModel {
+    
 }

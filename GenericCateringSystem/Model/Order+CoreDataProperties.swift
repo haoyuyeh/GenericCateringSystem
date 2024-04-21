@@ -17,11 +17,17 @@ extension Order {
     }
 
     @NSManaged public var comments: String?
+    /**
+     for take-out orders, such as preparing, waiting, or etc.
+     */
     @NSManaged public var currentState: Int16
     @NSManaged public var establishedDate: Date?
     @NSManaged public var isTakeOut: Bool
     @NSManaged public var number: String?
     @NSManaged public var totalSum: Double
+    /**
+     type of take-out, such as walk-in, uber, etc.
+     */
     @NSManaged public var type: Int16
     @NSManaged public var uuid: UUID?
     @NSManaged public var items: NSSet?

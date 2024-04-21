@@ -17,7 +17,7 @@ extension LogInVCViewModel {
     /// fetching data of Device based on the predicate
     /// - Parameter predicate: critiria for filtering data
     /// - Returns: [Device]
-    func fetchDevice(predicate: NSPredicate) -> [Device] {
+    private func fetchDevice(predicate: NSPredicate) -> [Device] {
         let fetchRequest: NSFetchRequest<Device> = Device.fetchRequest()
         fetchRequest.predicate = predicate
         do {

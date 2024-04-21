@@ -373,7 +373,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CatagoryCell" id="27P-89-Y0A" userLabel="Catagory Cell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="center" reuseIdentifier="CategoryCell" id="27P-89-Y0A" userLabel="Catagory Cell" customClass="CatagoryCell" customModule="GenericCateringSystem" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="53.5" height="30.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Cq3-jG-eMt">
@@ -394,8 +394,15 @@
                                                 <constraint firstItem="5tB-Bv-SMD" firstAttribute="leading" secondItem="Cq3-jG-eMt" secondAttribute="leading" constant="5" id="ohc-xC-xGH"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="5tB-Bv-SMD" id="jWo-oa-asz"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="dba-XM-T09" id="s8G-FK-BCF"/>
+                                    <outlet property="delegate" destination="dba-XM-T09" id="knP-F3-4NR"/>
+                                </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="R3b-nJ-wM0" userLabel="Option Collection View">
                                 <rect key="frame" x="364" y="133" width="816" height="617"/>
@@ -407,7 +414,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OptionCell" id="Mj7-Or-y0a" userLabel="Option Cell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="center" reuseIdentifier="OptionCell" id="Mj7-Or-y0a" userLabel="Option Cell" customClass="OptionCell" customModule="GenericCateringSystem" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="53.5" height="30.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SnJ-hE-IcV">
@@ -428,8 +435,15 @@
                                                 <constraint firstItem="BZc-11-Nel" firstAttribute="leading" secondItem="SnJ-hE-IcV" secondAttribute="leading" constant="5" id="ypp-tJ-QVi"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="BZc-11-Nel" id="c2s-YI-aPE"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="dba-XM-T09" id="Rc4-9s-5aX"/>
+                                    <outlet property="delegate" destination="dba-XM-T09" id="wYR-5v-vr5"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uDa-Lh-feF"/>

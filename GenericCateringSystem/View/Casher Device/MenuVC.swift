@@ -26,10 +26,10 @@ class MenuVC: UIViewController {
     
     
     // MARK: IBOutlet
-    // order type change to pull down btn
-    @IBOutlet weak var orderTypeTF: UITextField!
+    @IBOutlet weak var orderTypeControler: UISegmentedControl!
+    @IBOutlet weak var deliveryPlatformNameTF: UITextField!
     @IBOutlet weak var orderNumberTF: UITextField!
-    @IBOutlet weak var orderOthersTF: UITextField!
+    @IBOutlet weak var orderDescriptionTF: UITextField!
     
     @IBOutlet weak var orderTableView: UITableView!
     
@@ -40,8 +40,25 @@ class MenuVC: UIViewController {
     
     // MARK: IBAction
     
+    @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+            // delivery platform
+        case 0:
+            deliveryPlatformNameTF.isHidden = false
+            orderNumberTF.isEnabled = true
+            orderNumberTF.text = nil
+            // Walk-in
+        default:
+            deliveryPlatformNameTF.isHidden = true
+            orderNumberTF.isEnabled = false
+            orderNumberTF.text = viewModel.getWalkInOrderNumber()
+        }
+    }
+    
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
-        // complet and save current order. then set current order to nil
+        // complet order and reset for next order
+        viewModel.completOrder(currentOrder: currentOrder!, type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform.rawValue: OrderType.walkIn.rawValue, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: orderDescriptionTF.text ?? "nil")
+        reset()
     }
     
     @IBAction func logOutBtnPressed(_ sender: UIButton) {
@@ -56,6 +73,8 @@ class MenuVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        viewModel.delegate = self
+        
         categoryCollectionView.dataSource = categoryDataSource
         updateCategorySnapshot()
         
@@ -72,11 +91,72 @@ extension MenuVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
-        cell.itemNameLebel.text = viewModel.getItemName(at: indexPath.row)
         
-        cell.itemQuantiyBtn.titleLabel?.text = String(viewModel.getItemQuantity(at: indexPath.row))
+        cell.delegate = self
+        cell.indexPath = indexPath
+        
+        cell.itemNameLebel.text = viewModel.getItemName(at: indexPath.row)
+        cell.itemQuantityTF.text = String(viewModel.getItemQuantity(at: indexPath.row))
         
         return cell
+    }
+}
+
+// MARK: UITableViewDataSource
+extension MenuVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        tableView.beginUpdates()
+        viewModel.deleteItem(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.endUpdates()
+    }
+}
+
+// MARK: ItemQuantityDelegate
+extension MenuVC: ItemQuantityDelegate {
+    func itemQuantityChanged(to num: Int, of index: IndexPath) {
+        viewModel.changeQuantity(of: index.row, to: num)
+    }
+}
+
+// MARK: TotalSumDelegate
+extension MenuVC: TotalSumDelegate {
+    func totalSumChanged(to sum: Double) {
+        sumLabel.text = String(sum)
+    }
+}
+
+// MARK: Helpler
+enum OrderType: Int {
+    case eatIn
+    case walkIn
+    case deliveryPlatform
+}
+
+enum TakeOutOrderState: Int {
+    case ordering
+    case preparing
+    case waitingPickUp
+    case orderDelivered
+}
+
+extension MenuVC {
+    
+    /// called when the order completed
+    func reset() {
+        viewModel.reset()
+        
+        currentOrder = nil
+        pickItemState = .enterCategory
+        selectedOption = nil
+        deliveryPlatformNameTF.text = nil
+        orderNumberTF.text = nil
+        orderDescriptionTF.text = nil
+        sumLabel.text = "0"
     }
 }
 
@@ -87,20 +167,10 @@ extension MenuVC: QuantityPopUpViewDelegate {
     /// - Parameter quantity: quantity of choosed item
     func addChoosedItem(quantity: Int) {
         if currentOrder == nil {
-            currentOrder = Order()
-            currentOrder?.uuid = UUID()
-            currentOrder?.establishedDate = Date()
-            currentOrder?.currentState
-            currentOrder?.isTakeOut = true
-            currentOrder?.type =
-            currentOrder?.number = orderNumberTF.text
-            currentOrder?.comments = orderOthersTF.text
+            currentOrder = viewModel.addNewOrder()
         }
-        var newItem = Item()
-        newItem.uuid = UUID()
-        newItem.orderedBy = currentOrder
-        (newItem.name, newItem.price) = viewModel.getNameAndUnitPrice(of: selectedOption)
-        newItem.quantity = Int16(quantity)
+        
+        viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!, quantity: quantity)
         
         quantityPopup.removeFromSuperview()
     }
@@ -121,7 +191,6 @@ extension MenuVC: UICollectionViewDelegate {
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
             selectedCategory = cell.uuid
         default:
-            
             let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
             selectedOption = cell.uuid
             
@@ -129,6 +198,7 @@ extension MenuVC: UICollectionViewDelegate {
                 pickItemState = .enterOption
             }else {
                 pickItemState = .endOfChoic
+                // use a popup view to retrieve quantity
                 quantityPopup = QuantityPopUpView(frame: self.view.frame)
                 quantityPopup.delegate = self
                 self.view.addSubview(quantityPopup)

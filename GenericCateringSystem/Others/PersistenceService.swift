@@ -61,4 +61,8 @@ class PersistenceService {
             }
         }
     }
+    
+    func delete(object: NSManagedObject) {
+        PersistenceService.managedContext.delete(object)
+    }
 }

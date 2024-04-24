@@ -7,19 +7,23 @@
 
 import UIKit
 
+protocol ItemQuantityDelegate {
+    func itemQuantityChanged(to num: Int, of index: IndexPath)
+}
+
 class ItemCell: UITableViewCell {
 
     
+    var delegate: ItemQuantityDelegate?
+    var indexPath: IndexPath?
+    
     @IBOutlet weak var itemNameLebel: UILabel!
+    @IBOutlet weak var itemQuantityTF: UITextField!
     
-    @IBOutlet weak var itemQuantiyBtn: UIButton!
-    
-    
-    
-    @IBAction func itemQuantityBtnPressed(_ sender: UIButton) {
+    @IBAction func itemQuantityChanged(_ sender: UITextField) {
+        
+        delegate?.itemQuantityChanged(to: Int(itemQuantityTF.text ?? "1")!, of: indexPath!)
     }
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,5 +35,4 @@ class ItemCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

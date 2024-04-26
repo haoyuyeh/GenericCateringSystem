@@ -16,10 +16,9 @@ class MenuVC: UIViewController {
     var currentDevice: Device?
     var currentOrder: Order?
     
-    var pickItemState = PickItemState.enterCategory
-    var selectedCategory: UUID?
-    var selectedOption: UUID?
-    var quantityPopup: QuantityPopUpView!
+    private var pickItemState = PickItemState.enterCategory
+    private var selectedCategory: UUID?
+    private var selectedOption: UUID?
     
     lazy var categoryDataSource = configureCategoryDataSource()
     lazy var optionDataSource = configureOptionDataSource()
@@ -56,6 +55,11 @@ class MenuVC: UIViewController {
     }
     
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
+        guard currentOrder != nil else {
+            self.showAlert(alertTitle: "Warning", message: "Not have an order!!!")
+            return
+        }
+        
         // complet order and reset for next order
         viewModel.completOrder(currentOrder: currentOrder!, type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform.rawValue: OrderType.walkIn.rawValue, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: orderDescriptionTF.text ?? "nil")
         reset()
@@ -67,6 +71,11 @@ class MenuVC: UIViewController {
     
     @IBAction func editBtnPressed(_ sender: UIButton) {
         // segue to MenuEditVC
+        let storyBoard = UIStoryboard(name: "Casher", bundle: nil)
+        let destVC = storyBoard.instantiateViewController(identifier: "MenuEditVC") as MenuEditVC
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        
+        show(destVC, sender: self)
     }
     
     
@@ -145,7 +154,6 @@ enum TakeOutOrderState: Int {
 }
 
 extension MenuVC {
-    
     /// called when the order completed
     func reset() {
         viewModel.reset()
@@ -157,22 +165,26 @@ extension MenuVC {
         orderNumberTF.text = nil
         orderDescriptionTF.text = nil
         sumLabel.text = "0"
+        orderTableView.reloadData()
+        
+        if orderTypeControler.selectedSegmentIndex == 1 {
+            orderNumberTF.text = viewModel.getWalkInOrderNumber()
+        }
+        updateCategorySnapshot()
+        updateOptionSnapshot()
     }
-}
-
-// MARK: QuantityPopUpViewDelegate
-extension MenuVC: QuantityPopUpViewDelegate {
+    
     /// Adding choosed item into current order,
     /// if not have one, then create
-    /// - Parameter quantity: quantity of choosed item
-    func addChoosedItem(quantity: Int) {
+    func addChoosedItem() {
         if currentOrder == nil {
             currentOrder = viewModel.addNewOrder()
         }
         
-        viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!, quantity: quantity)
+        viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)
+        pickItemState = .enterCategory
         
-        quantityPopup.removeFromSuperview()
+        orderTableView.reloadData()
     }
 }
 
@@ -190,18 +202,18 @@ extension MenuVC: UICollectionViewDelegate {
             pickItemState = .enterCategory
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
             selectedCategory = cell.uuid
+            updateOptionSnapshot()
         default:
             let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
             selectedOption = cell.uuid
             
             if viewModel.hasMoreOption(of: selectedOption) {
                 pickItemState = .enterOption
+                updateOptionSnapshot()
             }else {
                 pickItemState = .endOfChoic
-                // use a popup view to retrieve quantity
-                quantityPopup = QuantityPopUpView(frame: self.view.frame)
-                quantityPopup.delegate = self
-                self.view.addSubview(quantityPopup)
+                addChoosedItem()
+                selectedOption = nil
             }
         }
     }
@@ -215,11 +227,11 @@ enum CategorySection {
 extension MenuVC {
     func configureCategoryDataSource() -> UICollectionViewDiffableDataSource<CategorySection, Category> {
         let dataSource = UICollectionViewDiffableDataSource<CategorySection, Category>(collectionView: categoryCollectionView) {
-            (collectionView, indexPath, catagory) -> UICollectionViewCell? in
+            (collectionView, indexPath, category) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-            cell.name.text = catagory.name
-            cell.uuid = catagory.uuid
+            cell.name.text = category.name
+            cell.uuid = category.uuid
             return cell
         }
         return dataSource

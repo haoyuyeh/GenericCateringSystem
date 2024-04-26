@@ -2,7 +2,7 @@
 //  Option+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/11/3.
+//  Created by Hao Yu Yeh on 2024/4/26.
 //
 //
 
@@ -20,25 +20,25 @@ extension Option {
     @NSManaged public var price: Double
     @NSManaged public var uuid: UUID?
     @NSManaged public var category: Category?
-    @NSManaged public var ownedBy: Option?
-    @NSManaged public var subOptions: NSSet?
+    @NSManaged public var parent: Option?
+    @NSManaged public var children: NSSet?
 
 }
 
-// MARK: Generated accessors for subOptions
+// MARK: Generated accessors for children
 extension Option {
 
-    @objc(addSubOptionsObject:)
-    @NSManaged public func addToSubOptions(_ value: Option)
+    @objc(addChildrenObject:)
+    @NSManaged public func addToChildren(_ value: Option)
 
-    @objc(removeSubOptionsObject:)
-    @NSManaged public func removeFromSubOptions(_ value: Option)
+    @objc(removeChildrenObject:)
+    @NSManaged public func removeFromChildren(_ value: Option)
 
-    @objc(addSubOptions:)
-    @NSManaged public func addToSubOptions(_ values: NSSet)
+    @objc(addChildren:)
+    @NSManaged public func addToChildren(_ values: NSSet)
 
-    @objc(removeSubOptions:)
-    @NSManaged public func removeFromSubOptions(_ values: NSSet)
+    @objc(removeChildren:)
+    @NSManaged public func removeFromChildren(_ values: NSSet)
 
 }
 

@@ -19,13 +19,7 @@ class AccountVCViewModel {
 // MARK: Helper Function
 extension AccountVCViewModel {
     func fetchAccounts() {
-        let fetchRequest: NSFetchRequest<Device> = Device.fetchRequest()
-        do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            accounts = results
-        } catch  {
-            print("fetch Device failed at \(AccountVCViewModel.self)")
-        }
+        accounts = Helper.shared.fetchDevice(predicate: NSPredicate(value: true))
     }
     
     func getAccountCount() -> Int {
@@ -37,7 +31,7 @@ extension AccountVCViewModel {
     }
     
     func deleteAccount(at index: Int) {
-        PersistenceService.managedContext.delete(accounts[index])
+        PersistenceService.share.delete(object: accounts[index]) 
         accounts.remove(at: index)
         PersistenceService.share.saveContext()
     }

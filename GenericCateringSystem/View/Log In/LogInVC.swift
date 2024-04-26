@@ -71,8 +71,12 @@ extension LogInVC {
         // check if there are values in name & password TF
         
         // a name cannot be an empty string or only all whitespaces
-        let name = (deviceNameTF.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        if name.isEmpty {
+//        let name = (deviceNameTF.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+//        if name.isEmpty {
+//            return LogInState.emptyName
+//        }
+        
+        if !deviceNameTF.isInputMatch(pattern: "^[\\w\\s]+$") {
             return LogInState.emptyName
         }
         // password cannot be nil

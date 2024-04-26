@@ -14,15 +14,7 @@ class ConfigVCViewModel {
 // MARK: Helpler Function
 extension ConfigVCViewModel {
     func hasRoll(as predicate: NSPredicate) -> Bool {
-        let fetchRequest: NSFetchRequest<Device> = Device.fetchRequest()
-        fetchRequest.predicate = predicate
-        var results: [Device] = []
-        do {
-            results = try PersistenceService.managedContext.fetch(fetchRequest)
-            
-        } catch  {
-            print("fetch Device failed")
-        }
+        var results: [Device] = Helper.shared.fetchDevice(predicate: predicate)
         
         if results != [] {
             return true

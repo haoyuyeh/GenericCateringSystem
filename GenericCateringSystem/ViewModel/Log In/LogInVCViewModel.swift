@@ -13,22 +13,6 @@ class LogInVCViewModel {
 }
 // MARK: Helper functions
 extension LogInVCViewModel {
-    
-    /// fetching data of Device based on the predicate
-    /// - Parameter predicate: critiria for filtering data
-    /// - Returns: [Device]
-    private func fetchDevice(predicate: NSPredicate) -> [Device] {
-        let fetchRequest: NSFetchRequest<Device> = Device.fetchRequest()
-        fetchRequest.predicate = predicate
-        do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
-        } catch  {
-            print("fetch Device failed")
-            return []
-        }
-    }
-    
     /// checking if the name were existed in the database
     ///
     /// - Parameter id: log in ID
@@ -36,7 +20,7 @@ extension LogInVCViewModel {
     func isIDExist(checking id: String) -> Bool {
         let predicate = NSPredicate(format: "name == %@", id)
         
-        if fetchDevice(predicate: predicate) == [] {
+        if Helper.shared.fetchDevice(predicate: predicate) == [] {
             return false
         }else {
             return true
@@ -50,7 +34,7 @@ extension LogInVCViewModel {
     /// - Returns: ( LogInState, Device? )
     func credentialValidate(ID id: String, PW pw:String) -> (state:LogInState, device: Device?) {
         let predicate = NSPredicate(format: "name == %@", id)
-        let device = fetchDevice(predicate: predicate).first
+        let device = Helper.shared.fetchDevice(predicate: predicate).first
         
         if device?.password != pw {
             return (LogInState.wrongPassword, nil)

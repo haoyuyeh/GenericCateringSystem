@@ -61,21 +61,8 @@ class ConfigVC: UIViewController {
     
     
     @IBAction func personServedTFChanged(_ sender: UITextField) {
-        // if use this rex, meaning the string contains more than one digi
-        //        let rex = "[0-9]+"
-        // this one means the whole string has to be all digis
-        //        let rex = "^[0-9]+$"
-        //        let text = personServedTF.text ?? "0"
-        //        if text.range(of: rex, options: .regularExpression) != nil {
-        //            currentDevice?.person = Int16(text) ?? 0
-        //        }else {
-        //            sender.text = ""
-        //        }
-        if personServedTF.numbersValidate() {
-            currentDevice?.person = Int16(personServedTF.text ?? "0") ?? 0
-        }else {
-            sender.text = ""
-        }
+        // use number pad as input, no need to check for numbers only
+        currentDevice?.person = Int16(personServedTF.text ?? "0") ?? 0
     }
     
     

@@ -25,10 +25,10 @@ extension MenuVCViewModel {
     /// determine the order number for the current walk-in order
     /// - Returns: order number
     func getWalkInOrderNumber() -> String {
-        let predicate1 = NSPredicate(format: "type == %@", OrderType.walkIn.rawValue)
+        let predicate1 = NSPredicate(format: "type == %i", OrderType.walkIn.rawValue)
         let predicate2 = NSPredicate(format: "establishedDate >= %@", Calendar.current.startOfDay(for: Date()) as CVarArg)
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate1, predicate2])
-        let walkInOrders = fetchOrder(predicate: predicate)
+        let walkInOrders = Helper.shared.fetchOrder(predicate: predicate)
         return String(walkInOrders.count + 1)
     }
 }
@@ -63,13 +63,13 @@ extension MenuVCViewModel {
     ///   - order:
     ///   - option:
     ///   - q:
-    func addNewItem(currentOrder order: Order, selectedOption option: UUID, quantity q: Int) {
-        let newItem = Item()
+    func addNewItem(currentOrder order: Order, selectedOption option: UUID) {
+        let newItem = Item(context: PersistenceService.share.persistentContainer.viewContext)
         newItem.uuid = UUID()
         newItem.orderedBy = order
         // use option to trace back the correct item name and price
         (newItem.name, newItem.price) = getNameAndUnitPrice(of: option)
-        newItem.quantity = Int16(q)
+        newItem.quantity = 1
         
         let isExisted = isItemExisted(newItem: newItem)
         if isExisted.result {
@@ -150,7 +150,7 @@ extension MenuVCViewModel {
 extension MenuVCViewModel {
     func getAllCategory() -> [Category] {
         // fetch all data
-        return fetchCategory(predicate: NSPredicate(value: true))
+        return Helper.shared.fetchCategory(predicate: NSPredicate(value: true))
     }
 }
 
@@ -158,8 +158,10 @@ extension MenuVCViewModel {
 extension MenuVCViewModel {
     func hasMoreOption(of targetUUID: UUID?) -> Bool {
         if let uuid = targetUUID {
-            let option = fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-            if option.isEmpty {
+            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
+            logger.debug("\(option)")
+            let children = option.children?.allObjects as! [Option]
+            if children.isEmpty {
                 return false
             }else {
                 return true
@@ -178,11 +180,12 @@ extension MenuVCViewModel {
         if let uuid = targetUUID {
             switch state {
             case .enterCategory:
-                let category = fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-                return category[0].options?.allObjects as! [Option]
+                // get all options which do not have parent and under this category
+                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
+                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
             default:
-                let option = fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-                return option[0].subOptions?.allObjects as! [Option]
+                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
+                return option[0].children?.allObjects as! [Option]
             }
         }else {
             return []
@@ -195,7 +198,7 @@ extension MenuVCViewModel {
     /// - Returns:
     func getNameAndUnitPrice(of targetUUID: UUID?) -> (name:String, unitPrice:Double) {
         if let uuid = targetUUID {
-            let options = fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
+            let options = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
             if options != [] {
                 return generateItemNameAndUnitPrice(of: options[0])
             }else {
@@ -209,7 +212,7 @@ extension MenuVCViewModel {
     }
     
     func addNewOrder() -> Order {
-        let currentOrder = Order()
+        let currentOrder = Order(context: PersistenceService.share.persistentContainer.viewContext)
         currentOrder.uuid = UUID()
         currentOrder.establishedDate = Date()
         currentOrder.currentState = Int16(TakeOutOrderState.ordering.rawValue)
@@ -232,62 +235,35 @@ extension MenuVCViewModel {
         return sum
     }
     
-    private func fetchOrder(predicate: NSPredicate) -> [Order] {
-        let fetchRequest: NSFetchRequest<Order> = Order.fetchRequest()
-        fetchRequest.predicate = predicate
-        do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
-        } catch  {
-            logger.error("fetch Order failed")
-            return []
-        }
-    }
-    
-    private func fetchCategory(predicate: NSPredicate) -> [Category] {
-        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
-        fetchRequest.predicate = predicate
-        do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
-        } catch  {
-            logger.error("fetch Category failed")
-            return []
-        }
-    }
-    
-    private func fetchOption(predicate: NSPredicate) -> [Option] {
-        let fetchRequest: NSFetchRequest<Option> = Option.fetchRequest()
-        fetchRequest.predicate = predicate
-        do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
-        } catch  {
-            logger.error("fetch Option failed")
-            return []
-        }
-    }
-    
     /// use the end node to back track the whole name and price
     /// - Parameter option:
     /// - Returns:
     private func generateItemNameAndUnitPrice(of option: Option) -> (name:String, unitPrice:Double) {
         var nameReversed: [String] = []
-        var item = option
+        var item: Option? = option
         var totalPrice = 0.0
         
         repeat {
-            nameReversed.append(item.name ?? "nil")
-            totalPrice += item.price
-            item = item.ownedBy!
-        }while item.ownedBy != nil
+            nameReversed.append(item!.name ?? "nil")
+            totalPrice += item!.price
+            item = item!.parent
+        }while item != nil
         
         nameReversed.reverse()
         
-        var name = nameReversed[0] + " - "
-        for i in 1 ... (nameReversed.count - 1) {
-            name += nameReversed[i]
-            name += ","
+        var count = 0, name = ""
+        
+        while count < nameReversed.count {
+            switch count {
+            case 0:
+                name = nameReversed[count] + " - "
+            case 1...:
+                name += nameReversed[count]
+                name += ","
+            default:
+                break
+            }
+            count += 1
         }
         return (name, totalPrice)
     }

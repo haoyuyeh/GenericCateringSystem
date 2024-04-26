@@ -27,8 +27,8 @@
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="options" inverseEntity="Category"/>
-        <relationship name="ownedBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Option" inverseName="subOptions" inverseEntity="Option"/>
-        <relationship name="subOptions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Option" inverseName="ownedBy" inverseEntity="Option"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Option" inverseName="parent" inverseEntity="Option"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Option" inverseName="children" inverseEntity="Option"/>
     </entity>
     <entity name="Order" representedClassName="Order" syncable="YES">
         <attribute name="comments" optional="YES" attributeType="String"/>

@@ -105,13 +105,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>58</string>
+					<string>85</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>57</string>
+					<string>84</string>
 					<key>Timestamp</key>
-					<string>735815513.280654</string>
+					<string>735894049.164746</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -135,8 +135,8 @@
 </string>
 				<key>trailing</key>
 				<string>    }
-
-}
+    
+    func deleteOption(targets: [UUID]) {
 </string>
 			</dict>
 			<key>title</key>

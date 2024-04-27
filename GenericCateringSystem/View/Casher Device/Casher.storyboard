@@ -22,7 +22,7 @@
                                 <rect key="frame" x="10" y="29" width="1160" height="77.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnh-pD-VVs" userLabel="CategoryPlus">
-                                        <rect key="frame" x="0.0" y="21.5" width="228" height="34.5"/>
+                                        <rect key="frame" x="0.0" y="21.5" width="189" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus.square.on.square" catalog="system" title="Category" cornerStyle="capsule">
                                             <backgroundConfiguration key="background">
@@ -35,7 +35,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7VQ-AU-eRT" userLabel="CategoryDelete">
-                                        <rect key="frame" x="233" y="21.5" width="228" height="34.5"/>
+                                        <rect key="frame" x="194" y="21.5" width="189.5" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" title="Category" cornerStyle="capsule">
                                             <backgroundConfiguration key="background">
@@ -48,7 +48,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGb-9T-6hs" userLabel="OptionPlus">
-                                        <rect key="frame" x="466" y="21.5" width="228" height="34.5"/>
+                                        <rect key="frame" x="388.5" y="21.5" width="189" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus.square.on.square" catalog="system" title="Option" cornerStyle="capsule">
                                             <backgroundConfiguration key="background">
@@ -61,7 +61,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsY-nj-UVM" userLabel="OptionDelete">
-                                        <rect key="frame" x="699" y="21.5" width="228" height="34.5"/>
+                                        <rect key="frame" x="582.5" y="21.5" width="189" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" title="Option" cornerStyle="capsule">
                                             <backgroundConfiguration key="background">
@@ -73,8 +73,20 @@
                                             <action selector="deleteOptionBtnPressed:" destination="7r7-gp-qro" eventType="touchUpInside" id="VwD-GI-0xe"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IlU-Rn-dDr" userLabel="DeleteCancel">
-                                        <rect key="frame" x="932" y="22" width="228" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IlU-Rn-dDr" userLabel="Delete">
+                                        <rect key="frame" x="776.5" y="22" width="189.5" height="34"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" cornerStyle="capsule">
+                                            <backgroundConfiguration key="background">
+                                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                            </backgroundConfiguration>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="deleteBtnPressed:" destination="7r7-gp-qro" eventType="touchUpInside" id="OOt-Fd-Zpx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVw-lM-TcG" userLabel="DeleteCancel">
+                                        <rect key="frame" x="971" y="22" width="189" height="34"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system" cornerStyle="capsule">
                                             <backgroundConfiguration key="background">
@@ -82,15 +94,15 @@
                                             </backgroundConfiguration>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="deleteCancelBtnPressed:" destination="7r7-gp-qro" eventType="touchUpInside" id="7b7-fl-SK6"/>
+                                            <action selector="deleteCancelBtnPressed:" destination="7r7-gp-qro" eventType="touchUpInside" id="G8n-2g-40A"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hUd-9I-XDy" userLabel="Catagory Collection View">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hUd-9I-XDy" userLabel="Catagory Collection View">
                                 <rect key="frame" x="5" y="111.5" width="1170" height="77.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cEs-R5-pDt">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cEs-R5-pDt">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -98,27 +110,37 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CategoryCell" id="Z5A-zj-kCQ" customClass="CategoryCell" customModule="GenericCateringSystem" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-25.5" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="68" height="30.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2pb-j9-Uy5">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="u85-uR-aD4">
+                                            <rect key="frame" x="0.0" y="0.0" width="68" height="30.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MH3-8P-8C2">
-                                                    <rect key="frame" x="5" y="5" width="118" height="118"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="lWg-yb-acZ">
+                                                    <rect key="frame" x="5" y="5" width="58" height="20.5"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="M8Z-yl-8Qm">
+                                                            <rect key="frame" x="0.0" y="1" width="19.5" height="18"/>
+                                                            <color key="tintColor" systemColor="systemRedColor"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MH3-8P-8C2">
+                                                            <rect key="frame" x="19.5" y="0.0" width="38.5" height="20.5"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="MH3-8P-8C2" firstAttribute="leading" secondItem="2pb-j9-Uy5" secondAttribute="leading" constant="5" id="HW7-qW-0Jo"/>
-                                                <constraint firstItem="MH3-8P-8C2" firstAttribute="trailing" secondItem="2pb-j9-Uy5" secondAttribute="trailing" constant="-5" id="bQS-5I-F6Z"/>
-                                                <constraint firstItem="MH3-8P-8C2" firstAttribute="bottom" secondItem="2pb-j9-Uy5" secondAttribute="bottom" constant="-5" id="bkk-6E-bkK"/>
-                                                <constraint firstItem="MH3-8P-8C2" firstAttribute="top" secondItem="2pb-j9-Uy5" secondAttribute="top" constant="5" id="koE-hJ-BkL"/>
+                                                <constraint firstItem="lWg-yb-acZ" firstAttribute="leading" secondItem="u85-uR-aD4" secondAttribute="leading" constant="5" id="0we-LN-VZG"/>
+                                                <constraint firstItem="lWg-yb-acZ" firstAttribute="bottom" secondItem="u85-uR-aD4" secondAttribute="bottom" constant="-5" id="74a-W0-Szh"/>
+                                                <constraint firstItem="lWg-yb-acZ" firstAttribute="trailing" secondItem="u85-uR-aD4" secondAttribute="trailing" constant="-5" id="jFB-3i-eiG"/>
+                                                <constraint firstItem="lWg-yb-acZ" firstAttribute="top" secondItem="u85-uR-aD4" secondAttribute="top" constant="5" id="nvf-aI-SgG"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="isSelectedImg" destination="M8Z-yl-8Qm" id="NkZ-BW-0IQ"/>
                                             <outlet property="name" destination="MH3-8P-8C2" id="0xe-78-L2f"/>
                                         </connections>
                                     </collectionViewCell>
@@ -144,22 +166,33 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4e-i4-RCY">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qeA-sJ-PnF">
                                                     <rect key="frame" x="5" y="5" width="118" height="118"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-Lh-vgF">
+                                                            <rect key="frame" x="49.5" y="1" width="19.5" height="56"/>
+                                                            <color key="tintColor" systemColor="systemRedColor"/>
+                                                            <imageReference key="image" image="square" catalog="system" symbolScale="default"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4e-i4-RCY">
+                                                            <rect key="frame" x="37.5" y="58.5" width="43.5" height="59.5"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="b4e-i4-RCY" secondAttribute="trailing" constant="5" id="GDh-rn-hdi"/>
-                                                <constraint firstItem="b4e-i4-RCY" firstAttribute="top" secondItem="LtQ-Pp-dND" secondAttribute="top" constant="5" id="Gjs-2U-yI1"/>
-                                                <constraint firstAttribute="bottom" secondItem="b4e-i4-RCY" secondAttribute="bottom" constant="5" id="TqK-Ai-VSL"/>
-                                                <constraint firstItem="b4e-i4-RCY" firstAttribute="leading" secondItem="LtQ-Pp-dND" secondAttribute="leading" constant="5" id="wx7-4s-eNR"/>
+                                                <constraint firstItem="qeA-sJ-PnF" firstAttribute="top" secondItem="LtQ-Pp-dND" secondAttribute="top" constant="5" id="Ni3-32-0uR"/>
+                                                <constraint firstItem="qeA-sJ-PnF" firstAttribute="bottom" secondItem="LtQ-Pp-dND" secondAttribute="bottom" constant="-5" id="lpo-m0-Vwz"/>
+                                                <constraint firstItem="qeA-sJ-PnF" firstAttribute="trailing" secondItem="LtQ-Pp-dND" secondAttribute="trailing" constant="-5" id="ndR-4a-rV2"/>
+                                                <constraint firstItem="qeA-sJ-PnF" firstAttribute="leading" secondItem="LtQ-Pp-dND" secondAttribute="leading" constant="5" id="vcX-9T-Zaf"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <connections>
+                                            <outlet property="isSelectedImg" destination="EOF-Lh-vgF" id="NEi-ex-4Pb"/>
                                             <outlet property="name" destination="b4e-i4-RCY" id="Om3-Za-xy2"/>
                                         </connections>
                                     </collectionViewCell>
@@ -221,7 +254,8 @@
                         <outlet property="addOptionBtn" destination="sGb-9T-6hs" id="VyK-rX-R72"/>
                         <outlet property="cancelBtn" destination="Y84-AT-1yz" id="0eI-UF-JZe"/>
                         <outlet property="categoryCollectionView" destination="hUd-9I-XDy" id="6yZ-QG-goQ"/>
-                        <outlet property="deleteCancelBtn" destination="IlU-Rn-dDr" id="ucN-eF-cmI"/>
+                        <outlet property="deleteBtn" destination="IlU-Rn-dDr" id="X15-ua-9aP"/>
+                        <outlet property="deleteCancelBtn" destination="tVw-lM-TcG" id="ZzJ-3l-shV"/>
                         <outlet property="deleteCategoryBtn" destination="7VQ-AU-eRT" id="YQq-hb-hVv"/>
                         <outlet property="deleteOptionBtn" destination="TsY-nj-UVM" id="ygX-re-Dpg"/>
                         <outlet property="okBtn" destination="jP7-p4-EyZ" id="Usr-1u-ljJ"/>
@@ -230,7 +264,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zpf-rm-sJJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="987" y="-111"/>
+            <point key="canvasLocation" x="783.5593220338983" y="-170.48780487804876"/>
         </scene>
         <!--MenuVC-->
         <scene sceneID="TvC-nx-a0H">
@@ -613,6 +647,7 @@
         <image name="menucard.fill" catalog="system" width="105" height="128"/>
         <image name="plus.square.on.square" catalog="system" width="128" height="116"/>
         <image name="rectangle.portrait.and.arrow.forward" catalog="system" width="128" height="108"/>
+        <image name="square" catalog="system" width="128" height="114"/>
         <image name="square.and.pencil" catalog="system" width="128" height="121"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>

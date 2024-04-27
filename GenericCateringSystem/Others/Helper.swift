@@ -22,7 +22,7 @@ extension Helper {
         fetchRequest.predicate = predicate
         do {
             let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
+            return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Device failed")
             return []
@@ -34,7 +34,7 @@ extension Helper {
         fetchRequest.predicate = predicate
         do {
             let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
+            return results.sorted { $0.establishedDate! < $1.establishedDate! }
         } catch  {
             logger.error("fetch Order failed")
             return []
@@ -46,7 +46,7 @@ extension Helper {
         fetchRequest.predicate = predicate
         do {
             let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
+            return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Category failed")
             return []
@@ -58,7 +58,7 @@ extension Helper {
         fetchRequest.predicate = predicate
         do {
             let results = try PersistenceService.managedContext.fetch(fetchRequest)
-            return results
+            return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Option failed")
             return []

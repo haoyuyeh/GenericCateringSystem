@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import OSLog
 
 class CategoryCell: UICollectionViewCell {
-    
-    
+    private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
+
+    @IBOutlet weak var isSelectedImg: UIImageView!
     @IBOutlet weak var name: UILabel!
+    
     var uuid: UUID? = nil
+    var cellIsSelected = false
     
     override var isSelected: Bool {
         didSet{
@@ -22,5 +26,13 @@ class CategoryCell: UICollectionViewCell {
                 self.backgroundColor = .white
             }
         }
+    }
+}
+
+extension CategoryCell: CategoryDeleteModeDelegate {
+    func isEnterDeleteMode(value: Bool) {
+        logger.debug("isEnterDeleteMode \(value)")
+
+        isSelectedImg.isHidden = !value
     }
 }

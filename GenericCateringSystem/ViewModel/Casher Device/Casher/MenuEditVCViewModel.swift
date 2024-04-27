@@ -33,6 +33,33 @@ extension MenuEditVCViewModel {
 //        PersistenceService.share.saveContext()
     }
     
+    func deleteCategory(targets: [UUID]) {
+        for target in targets {
+            let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
+            PersistenceService.share.delete(object: category)
+            logger.debug("category number in database: \(Helper.shared.fetchCategory(predicate: NSPredicate(value: true)))")
+        }
+    }
+}
+
+// MARK: Options
+extension MenuEditVCViewModel {
+    func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
+        if let uuid = targetUUID {
+            switch state {
+            case .enterCategory:
+                // get all options which do not have parent and under this category
+                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
+                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
+            default:
+                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
+                return option[0].children?.allObjects as! [Option]
+            }
+        }else {
+            return []
+        }
+    }
+    
     /// This function will create a core data object and validate the name of option
     /// - Parameters:
     ///   - name:
@@ -57,24 +84,12 @@ extension MenuEditVCViewModel {
         }
                 PersistenceService.share.saveContext()
     }
-
-}
-
-// MARK: Options
-extension MenuEditVCViewModel {
-    func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
-        if let uuid = targetUUID {
-            switch state {
-            case .enterCategory:
-                // get all options which do not have parent and under this category
-                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
-            default:
-                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-                return option[0].children?.allObjects as! [Option]
-            }
-        }else {
-            return []
+    
+    func deleteOption(targets: [UUID]) {
+        for target in targets {
+            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
+            PersistenceService.share.delete(object: option)
+            logger.debug("option number in database: \(Helper.shared.fetchOption(predicate: NSPredicate(value: true)))")
         }
     }
 }

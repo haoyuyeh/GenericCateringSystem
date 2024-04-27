@@ -14,7 +14,7 @@ class ConfigVCViewModel {
 // MARK: Helpler Function
 extension ConfigVCViewModel {
     func hasRoll(as predicate: NSPredicate) -> Bool {
-        var results: [Device] = Helper.shared.fetchDevice(predicate: predicate)
+        let results: [Device] = Helper.shared.fetchDevice(predicate: predicate)
         
         if results != [] {
             return true

@@ -82,6 +82,18 @@ class MenuEditVC: UIViewController {
     /// discard all changes and return to previous view
     /// - Parameter sender:
     @IBAction func deleteCancelBtnPressed(_ sender: UIButton) {
+        if let selected = categoryCollectionView.indexPathsForSelectedItems {
+            selected.forEach{
+                let cell = self.categoryCollectionView.cellForItem(at: $0) as! CategoryCell
+                cell.cellIsChoosed = false
+                self.categoryCollectionView.deselectItem(at: $0, animated: false)}
+        }
+        if let selected = optionCollectionView.indexPathsForSelectedItems {
+            selected.forEach{
+                let cell = self.optionCollectionView.cellForItem(at: $0) as! OptionCell
+                cell.cellIsChoosed = false
+                self.optionCollectionView.deselectItem(at: $0, animated: false)}
+        }
         config()
     }
     
@@ -130,26 +142,24 @@ extension MenuEditVC: UICollectionViewDelegate {
             switch collectionView {
             case categoryCollectionView:
                 let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-                cell.cellIsSelected = !cell.cellIsSelected
-                if cell.cellIsSelected {
-                    cell.isSelectedImg.image = UIImage(named: "checkmark.square")
-                    
-                }else {
-                    cell.isSelectedImg.image = UIImage(named: "square")
-                    
-                }
-                updateCategorySnapshot()
+                cell.cellIsChoosed = true
             default:
                 let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
-                cell.cellIsSelected = !cell.cellIsSelected
-                if cell.cellIsSelected {
-                    cell.isSelectedImg.image = UIImage(named: "checkmark.square")
-                    
-                }else {
-                    cell.isSelectedImg.image = UIImage(named: "square")
-                    
-                }
-                updateOptionSnapshot()
+                cell.cellIsChoosed = true
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if !deleteBtn.isHidden {
+            // delete mode
+            switch collectionView {
+            case categoryCollectionView:
+                let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
+                cell.cellIsChoosed = false
+            default:
+                let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
+                cell.cellIsChoosed = false
             }
         }
     }
@@ -173,15 +183,6 @@ extension MenuEditVC {
         deleteBtn.isHidden = true
         deleteCancelBtn.isHidden = true
         
-        
-        
-        
-        
-        
-        
-        categoryCollectionView.indexPathsForSelectedItems?.forEach{
-            self.categoryCollectionView.deselectItem(at: $0, animated: false)
-        }
         selectedCategory = nil
         selectedOption = nil
         addOptionBtn.isHidden = true
@@ -189,20 +190,15 @@ extension MenuEditVC {
         
         categoryCollectionView.allowsMultipleSelection = false
         categoryCollectionView.isUserInteractionEnabled = true
-        categoryCollectionView.dataSource = categoryDataSource
+        categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        categoryCollectionView.reloadData()
         updateCategorySnapshot()
         
         optionCollectionView.allowsMultipleSelection = false
         optionCollectionView.isUserInteractionEnabled = true
-        optionCollectionView.dataSource = optionDataSource
+        categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        categoryCollectionView.reloadData()
         updateOptionSnapshot()
-        
-        
-        
-//        self.logger.debug("option selectbtn state \(deleteBtn.isHidden)")
-        logger.debug("deleteBtn state at \(self.deleteBtn.isHidden)")
-//        self.logger.debug("deleteCancelBtn state \(self.deleteCancelBtn.isHidden)")
-//        self.logger.debug("okBtn state \(self.okBtn.isHidden)")
     }
     /// show an alert to let user enter the info of category
     func addCategory() {
@@ -263,8 +259,14 @@ extension MenuEditVC {
         
         deleteBtn.isHidden = false
         deleteCancelBtn.isHidden = false
+        
         categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        categoryCollectionView.reloadData()
+        updateCategorySnapshot()
+        
         optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        optionCollectionView.reloadData()
+        updateOptionSnapshot()
         
         switch objectType {
         case .category:
@@ -285,6 +287,7 @@ extension MenuEditVC {
                 let cell = categoryCollectionView.cellForItem(at: select) as! CategoryCell
                 results.append(cell.uuid!)
             }
+            
             return results
         default:
             let selected = optionCollectionView.indexPathsForSelectedItems ?? []
@@ -293,6 +296,7 @@ extension MenuEditVC {
                 let cell = optionCollectionView.cellForItem(at: select) as! OptionCell
                 results.append(cell.uuid!)
             }
+            
             return results
         }
     }
@@ -309,7 +313,7 @@ extension MenuEditVC {
             cell.uuid = category.uuid
             self.categoryDelegate = cell
             self.categoryDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
-            self.logger.debug("categorydelegate has value")
+            
             return cell
         }
         return dataSource
@@ -337,7 +341,7 @@ extension MenuEditVC {
             cell.uuid = option.uuid
             self.optionDelegate = cell
             self.optionDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
-
+            
             return cell
         }
         return dataSource

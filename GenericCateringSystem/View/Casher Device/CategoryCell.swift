@@ -10,29 +10,44 @@ import OSLog
 
 class CategoryCell: UICollectionViewCell {
     private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
-
+    
+    /// use to mark whether this cell will be delete or not
     @IBOutlet weak var isSelectedImg: UIImageView!
     @IBOutlet weak var name: UILabel!
     
     var uuid: UUID? = nil
-    var cellIsSelected = false
-    
-    override var isSelected: Bool {
-        didSet{
-            if self.isSelected{
-                self.backgroundColor = .systemYellow
-
+    var isEnterDeleteMode: Bool{
+        didSet {
+            if self.isEnterDeleteMode {
+                isSelectedImg.isHidden = false
             }else {
-                self.backgroundColor = .white
+                isSelectedImg.isHidden = true
             }
         }
+    }
+    
+    /// use to track whether the cell is selected during delete mode
+    var cellIsChoosed: Bool {
+        didSet {
+            if isEnterDeleteMode {
+                if self.cellIsChoosed {
+                    isSelectedImg.image = UIImage(systemName: "checkmark.square")
+                }else {
+                    isSelectedImg.image = UIImage(systemName: "square")
+                }
+            }
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        self.isEnterDeleteMode = false
+        self.cellIsChoosed = false
+        super.init(coder: coder)
     }
 }
 
 extension CategoryCell: CategoryDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
-        logger.debug("isEnterDeleteMode \(value)")
-
-        isSelectedImg.isHidden = !value
+        isEnterDeleteMode = value
     }
 }

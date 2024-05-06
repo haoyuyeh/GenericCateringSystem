@@ -21,7 +21,7 @@ extension Helper {
         let fetchRequest: NSFetchRequest<Device> = Device.fetchRequest()
         fetchRequest.predicate = predicate
         do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
+            let results = try PersistenceService.shared.persistentContainer.viewContext.fetch(fetchRequest)
             return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Device failed")
@@ -33,7 +33,7 @@ extension Helper {
         let fetchRequest: NSFetchRequest<Order> = Order.fetchRequest()
         fetchRequest.predicate = predicate
         do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
+            let results = try PersistenceService.shared.persistentContainer.viewContext.fetch(fetchRequest)
             return results.sorted { $0.establishedDate! < $1.establishedDate! }
         } catch  {
             logger.error("fetch Order failed")
@@ -45,7 +45,7 @@ extension Helper {
         let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         fetchRequest.predicate = predicate
         do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
+            let results = try PersistenceService.shared.persistentContainer.viewContext.fetch(fetchRequest)
             return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Category failed")
@@ -57,11 +57,25 @@ extension Helper {
         let fetchRequest: NSFetchRequest<Option> = Option.fetchRequest()
         fetchRequest.predicate = predicate
         do {
-            let results = try PersistenceService.managedContext.fetch(fetchRequest)
+            let results = try PersistenceService.shared.persistentContainer.viewContext.fetch(fetchRequest)
             return results.sorted { $0.name! < $1.name! }
         } catch  {
             logger.error("fetch Option failed")
             return []
+        }
+    }
+}
+
+// MARK: User Input Restraint
+extension Helper {
+    /// make sure the input will be digits only
+    /// - Parameter input:
+    /// - Returns: default value is "0"
+    func digisGuarantee(input: String) -> String {
+        if input.isMatch(pattern: "^[\\d]+$") {
+           return input
+        }else {
+            return "0"
         }
     }
 }

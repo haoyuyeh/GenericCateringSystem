@@ -21,8 +21,15 @@ class ItemCell: UITableViewCell {
     @IBOutlet weak var itemQuantityTF: UITextField!
     
     @IBAction func itemQuantityChanged(_ sender: UITextField) {
-        
-        delegate?.itemQuantityChanged(to: Int(itemQuantityTF.text ?? "1")!, of: indexPath!)
+        if let text = sender.text {
+            if !text.isMatch(pattern: "^[\\d]+$") {
+                sender.text = "1"
+            }
+        }else {
+            sender.text = "1"
+        }
+        delegate?.itemQuantityChanged(to: Int(sender.text!)!,
+                                      of: indexPath!)
     }
     
     override func awakeFromNib() {

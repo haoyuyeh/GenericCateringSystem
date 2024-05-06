@@ -31,13 +31,13 @@ extension AccountVCViewModel {
     }
     
     func deleteAccount(at index: Int) {
-        PersistenceService.share.delete(object: accounts[index]) 
+        PersistenceService.shared.delete(object: accounts[index])
         accounts.remove(at: index)
-        PersistenceService.share.saveContext()
+        PersistenceService.shared.saveContext()
     }
     
     func saveChanges() {
-        PersistenceService.share.saveContext()
+        PersistenceService.shared.saveContext()
     }
 }
 

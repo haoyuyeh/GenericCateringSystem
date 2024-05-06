@@ -49,14 +49,13 @@ class ConfigVC: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        PersistenceService.share.saveContext()
+        PersistenceService.shared.saveContext()
     }
     
     // MARK: IBAction
     
     @IBAction func deviceNumberTFChanged(_ sender: UITextField) {
         currentDevice?.number = deviceNumberTF.text ?? ""
-        print("deviceNumberTF = \(deviceNumberTF.text!)")
     }
     
     
@@ -69,8 +68,9 @@ class ConfigVC: UIViewController {
     @IBAction func logOutBtnPressed(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
         
-        let destVC = storyboard.instantiateViewController(identifier: "LogIn") as LogInVC
+        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
         destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.currentDevice = currentDevice
         
         show(destVC, sender: sender)
     }
@@ -81,7 +81,7 @@ class ConfigVC: UIViewController {
         
         let destVC = storyboard.instantiateViewController(identifier: "AccountVC") as AccountVC
         destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = self.currentDevice
+        destVC.currentDevice = currentDevice
         
         show(destVC, sender: sender)
     }
@@ -95,10 +95,21 @@ class ConfigVC: UIViewController {
         destVC.selectedIndex = 0
         
         let menuVC = destVC.selectedViewController as! MenuVC
-        menuVC.currentDevice = self.currentDevice
-//        logger.debug("\(menuVC.currentDevice?.name ?? "nil")")
+        menuVC.currentDevice = currentDevice
 
         show(destVC, sender: sender)
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension ConfigVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 

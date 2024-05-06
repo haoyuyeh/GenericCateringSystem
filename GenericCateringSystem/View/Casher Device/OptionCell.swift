@@ -11,9 +11,10 @@ class OptionCell: UICollectionViewCell {
     
     @IBOutlet weak var isSelectedImg: UIImageView!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var unitPrice: UILabel!
     
     var uuid: UUID? = nil
-    var isEnterDeleteMode: Bool{
+    var isEnterDeleteMode: Bool {
         didSet {
             if self.isEnterDeleteMode {
                 isSelectedImg.isHidden = false

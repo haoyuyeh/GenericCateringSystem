@@ -40,6 +40,9 @@ class MenuVC: UIViewController {
     // MARK: IBAction
     
     @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
+        currentOrder = nil
+        viewModel.discardAll()
+        orderTableView.reloadData()
         switch sender.selectedSegmentIndex {
             // delivery platform
         case 0:
@@ -67,13 +70,21 @@ class MenuVC: UIViewController {
     
     @IBAction func logOutBtnPressed(_ sender: UIButton) {
         // segue to LogInVC
+        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+        
+        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.currentDevice = currentDevice
+        
+        show(destVC, sender: sender)
     }
     
     @IBAction func editBtnPressed(_ sender: UIButton) {
         // segue to MenuEditVC
         let storyBoard = UIStoryboard(name: "Casher", bundle: nil)
-        let destVC = storyBoard.instantiateViewController(identifier: "MenuEditVC") as MenuEditVC
+        let destVC = storyBoard.instantiateViewController(withIdentifier: "MenuEditVC") as! MenuEditVC
         destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.currentDevice = currentDevice
         
         show(destVC, sender: self)
     }
@@ -89,6 +100,18 @@ class MenuVC: UIViewController {
         
         optionCollectionView.dataSource = optionDataSource
         updateOptionSnapshot()
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension MenuVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
@@ -111,7 +134,7 @@ extension MenuVC: UITableViewDataSource {
     }
 }
 
-// MARK: UITableViewDataSource
+// MARK: UITableViewDelegate
 extension MenuVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
@@ -156,7 +179,7 @@ enum TakeOutOrderState: Int {
 extension MenuVC {
     /// called when the order completed
     func reset() {
-        viewModel.reset()
+        viewModel.discardAll()
         
         currentOrder = nil
         pickItemState = .enterCategory
@@ -183,6 +206,7 @@ extension MenuVC {
         
         viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)
         pickItemState = .enterCategory
+        selectedOption = nil
         
         orderTableView.reloadData()
     }
@@ -202,18 +226,19 @@ extension MenuVC: UICollectionViewDelegate {
             pickItemState = .enterCategory
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
             selectedCategory = cell.uuid
+            
             updateOptionSnapshot()
         default:
             let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
             selectedOption = cell.uuid
             
-            if viewModel.hasMoreOption(of: selectedOption) {
+            if viewModel.hasChildrenOption(of: selectedOption) {
                 pickItemState = .enterOption
+                
                 updateOptionSnapshot()
             }else {
                 pickItemState = .endOfChoic
                 addChoosedItem()
-                selectedOption = nil
             }
         }
     }
@@ -260,6 +285,7 @@ extension MenuVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             cell.name.text = option.name
+            cell.unitPrice.text = String(option.price)  
             cell.uuid = option.uuid
             return cell
         }

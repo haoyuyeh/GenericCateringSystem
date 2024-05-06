@@ -23,7 +23,7 @@ class LogInVC: UIViewController {
     
     // MARK: Properties
     private var viewModel = LogInVCViewModel()
-    private var currentDevice: Device?
+    var currentDevice: Device?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +36,12 @@ class LogInVC: UIViewController {
         switch logInValidation() {
         case .emptyName:
             self.showAlert(alertTitle: "Warning", message: "Device name can't be empty or whitespaces only!!")
-//            print("enter \(LogInState.emptyName.rawValue)")
             
         case .emptyPassword:
             self.showAlert(alertTitle: "Warning", message: "Password can't be empty!!")
-//            print("enter \(LogInState.emptyPassword.rawValue)")
 
         case .wrongPassword:
             self.showAlert(alertTitle: "Warning", message: "Wrong password!!")
-//            print("enter \(LogInState.wrongPassword.rawValue)")
                         
         default:
             // log into the system
@@ -56,10 +53,19 @@ class LogInVC: UIViewController {
             destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             
             show(destVC, sender: self)
-            
-//            self.showAlert(alertTitle: "Message", message: "Log in success!!")
-//            print("enter \(LogInState.success.rawValue)")
         }
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension LogInVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
@@ -71,12 +77,8 @@ extension LogInVC {
         // check if there are values in name & password TF
         
         // a name cannot be an empty string or only all whitespaces
-//        let name = (deviceNameTF.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-//        if name.isEmpty {
-//            return LogInState.emptyName
-//        }
-        
-        if !deviceNameTF.isInputMatch(pattern: "^[\\w\\s]+$") {
+        let name = deviceNameTF.text ?? ""
+        if !name.isMatch(pattern: "^[\\w\\s-]+$") {
             return LogInState.emptyName
         }
         // password cannot be nil

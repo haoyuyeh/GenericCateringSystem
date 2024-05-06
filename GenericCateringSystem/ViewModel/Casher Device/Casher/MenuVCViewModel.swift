@@ -64,7 +64,7 @@ extension MenuVCViewModel {
     ///   - option:
     ///   - q:
     func addNewItem(currentOrder order: Order, selectedOption option: UUID) {
-        let newItem = Item(context: PersistenceService.share.persistentContainer.viewContext)
+        let newItem = Item(context: PersistenceService.shared.persistentContainer.viewContext)
         newItem.uuid = UUID()
         newItem.orderedBy = order
         // use option to trace back the correct item name and price
@@ -74,7 +74,7 @@ extension MenuVCViewModel {
         let isExisted = isItemExisted(newItem: newItem)
         if isExisted.result {
             currentOrderedItems[isExisted.itemIndex!].quantity += newItem.quantity
-            PersistenceService.share.delete(object: newItem)
+            PersistenceService.shared.delete(object: newItem)
         }else {
             currentOrderedItems.append(newItem)
             currentOrderedItems = currentOrderedItems.sorted{
@@ -106,7 +106,7 @@ extension MenuVCViewModel {
     /// - Parameter index:
     func deleteItem(at index: Int) {
         let deletedItem = currentOrderedItems.remove(at: index)
-        PersistenceService.share.delete(object: deletedItem)
+        PersistenceService.shared.delete(object: deletedItem)
         delegate?.totalSumChanged(to: calculateTotalSum())
     }
     
@@ -137,12 +137,7 @@ extension MenuVCViewModel {
         order.number = num
         order.comments = note
         
-        PersistenceService.share.saveContext()
-    }
-    
-    /// reset data for the next order
-    func reset() {
-        currentOrderedItems = []
+        PersistenceService.shared.saveContext()
     }
 }
 
@@ -156,10 +151,10 @@ extension MenuVCViewModel {
 
 // MARK: Options
 extension MenuVCViewModel {
-    func hasMoreOption(of targetUUID: UUID?) -> Bool {
+    func hasChildrenOption(of targetUUID: UUID?) -> Bool {
         if let uuid = targetUUID {
             let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-            logger.debug("\(option)")
+//            logger.debug("\(option)")
             let children = option.children?.allObjects as! [Option]
             if children.isEmpty {
                 return false
@@ -175,7 +170,11 @@ extension MenuVCViewModel {
             return true
         }
     }
-    
+    /// This function will retrieve all sub-options of given option or root options of given category
+    /// - Parameters:
+    ///   - targetUUID:
+    ///   - state: option or category
+    /// - Returns:
     func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
         if let uuid = targetUUID {
             switch state {
@@ -212,7 +211,7 @@ extension MenuVCViewModel {
     }
     
     func addNewOrder() -> Order {
-        let currentOrder = Order(context: PersistenceService.share.persistentContainer.viewContext)
+        let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
         currentOrder.uuid = UUID()
         currentOrder.establishedDate = Date()
         currentOrder.currentState = Int16(TakeOutOrderState.ordering.rawValue)
@@ -224,6 +223,15 @@ extension MenuVCViewModel {
 
 // MARK: Helper Functions
 extension MenuVCViewModel {
+    func discardAll() {
+        currentOrderedItems = []
+        PersistenceService.shared.resetContext()
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
+    }
+    
     private func calculateTotalSum() -> Double {
         var sum = 0.0
         for item in currentOrderedItems {

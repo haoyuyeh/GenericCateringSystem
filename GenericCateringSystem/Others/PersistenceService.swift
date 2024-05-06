@@ -4,12 +4,14 @@
 //
 //  Created by Hao Yu Yeh on 2023/10/21.
 //
-
+import OSLog
 import CoreData
 
 class PersistenceService {
+    // MARK: Properties
+    private let logger = Logger(subsystem: "Others", category: "PersistenceService")
     // singleton
-    static let share = PersistenceService()
+    static let shared = PersistenceService()
     
     // MARK: - Core Data stack
 
@@ -23,6 +25,7 @@ class PersistenceService {
         let container = NSPersistentCloudKitContainer(name: "GenericCateringSystem") // same as project name
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
+                
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                  
@@ -42,27 +45,28 @@ class PersistenceService {
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return container
     }()
-
-    static var managedContext: NSManagedObjectContext {
-        return PersistenceService.share.persistentContainer.viewContext
-    }
     
     // MARK: - Core Data Saving support
 
-    func saveContext () {
-        if PersistenceService.managedContext.hasChanges {
+    func saveContext() {
+        if PersistenceService.shared.persistentContainer.viewContext.hasChanges {
             do {
-                try PersistenceService.managedContext.save()
+                try PersistenceService.shared.persistentContainer.viewContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                logger.error("save failed: \(nserror)")
+//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
     
+    func resetContext() {
+        PersistenceService.shared.persistentContainer.viewContext.reset()
+    }
+    
     func delete(object: NSManagedObject) {
-        PersistenceService.managedContext.delete(object)
+        PersistenceService.shared.persistentContainer.viewContext.delete(object)
     }
 }

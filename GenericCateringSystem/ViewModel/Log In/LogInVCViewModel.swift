@@ -49,11 +49,11 @@ extension LogInVCViewModel {
     ///   - pw: password
     /// - Returns: Device
     func addNewDevice(deviceName name: String, PW pw: String) -> Device {
-        let newDevice = Device(context: PersistenceService.managedContext)
+        let newDevice = Device(context: PersistenceService.shared.persistentContainer.viewContext)
         newDevice.uuid = UUID()
         newDevice.name = name
         newDevice.password = pw
-        PersistenceService.share.saveContext()
+        PersistenceService.shared.saveContext()
         
         return newDevice
     }

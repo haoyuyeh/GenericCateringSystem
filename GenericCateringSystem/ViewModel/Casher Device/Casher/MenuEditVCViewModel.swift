@@ -23,20 +23,19 @@ extension MenuEditVCViewModel {
     /// This function will create a core data object and validate the name of category
     /// - Parameter name:
     func addCategory(name: String) {
-        let newCategory = Category(context: PersistenceService.share.persistentContainer.viewContext)
+        let newCategory = Category(context: PersistenceService.shared.persistentContainer.viewContext)
         newCategory.uuid = UUID()
-        if name.isMatch(pattern: "^[\\w\\s]+$") {
+        if name.isMatch(pattern: "^[\\w\\s-]+$") {
             newCategory.name = name
         }else {
             newCategory.name = "empty"
         }
-//        PersistenceService.share.saveContext()
     }
     
     func deleteCategory(targets: [UUID]) {
         for target in targets {
             let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
-            PersistenceService.share.delete(object: category)
+            PersistenceService.shared.delete(object: category)
             logger.debug("category number in database: \(Helper.shared.fetchCategory(predicate: NSPredicate(value: true)))")
         }
     }
@@ -44,6 +43,11 @@ extension MenuEditVCViewModel {
 
 // MARK: Options
 extension MenuEditVCViewModel {
+    /// This function will retrieve all sub-options of given option or root options of given category
+    /// - Parameters:
+    ///   - targetUUID:
+    ///   - state: option or category
+    /// - Returns: 
     func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
         if let uuid = targetUUID {
             switch state {
@@ -67,10 +71,10 @@ extension MenuEditVCViewModel {
     ///   - category: which the option is belonged to
     ///   - option: parent option
     func addOption(name: String, unitPrice: Double, belongTo category: UUID, parent option: UUID?) {
-        let newOption = Option(context: PersistenceService.share.persistentContainer.viewContext)
+        let newOption = Option(context: PersistenceService.shared.persistentContainer.viewContext)
         
         newOption.uuid = UUID()
-        if name.isMatch(pattern: "^[\\w\\s]+$") {
+        if name.isMatch(pattern: "^[\\w\\s-]+$") {
             newOption.name = name
         }else {
             newOption.name = "empty"
@@ -82,16 +86,24 @@ extension MenuEditVCViewModel {
         }else {
             newOption.parent = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", option! as CVarArg))[0]
         }
-                PersistenceService.share.saveContext()
     }
     
     func deleteOption(targets: [UUID]) {
         for target in targets {
             let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
-            PersistenceService.share.delete(object: option)
+            PersistenceService.shared.delete(object: option)
             logger.debug("option number in database: \(Helper.shared.fetchOption(predicate: NSPredicate(value: true)))")
         }
     }
 }
 
-
+// MARK: Helper
+extension MenuEditVCViewModel {
+    func discardAll() {
+        PersistenceService.shared.resetContext()
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
+    }
+}

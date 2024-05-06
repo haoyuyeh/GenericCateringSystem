@@ -15,8 +15,18 @@ class CategoryCell: UICollectionViewCell {
     @IBOutlet weak var isSelectedImg: UIImageView!
     @IBOutlet weak var name: UILabel!
     
+    override var isSelected: Bool {
+        didSet{
+            if self.isSelected {
+                self.backgroundColor = UIColor.systemYellow
+            }else {
+                self.backgroundColor = UIColor.white
+            }
+        }
+    }
+    
     var uuid: UUID? = nil
-    var isEnterDeleteMode: Bool{
+    var isEnterDeleteMode: Bool {
         didSet {
             if self.isEnterDeleteMode {
                 isSelectedImg.isHidden = false

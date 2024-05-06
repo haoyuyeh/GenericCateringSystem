@@ -170,12 +170,18 @@
                                                     <rect key="frame" x="5" y="5" width="118" height="118"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-Lh-vgF">
-                                                            <rect key="frame" x="49.5" y="1" width="19.5" height="56"/>
+                                                            <rect key="frame" x="49.5" y="1" width="19.5" height="36"/>
                                                             <color key="tintColor" systemColor="systemRedColor"/>
                                                             <imageReference key="image" image="square" catalog="system" symbolScale="default"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4e-i4-RCY">
-                                                            <rect key="frame" x="37.5" y="58.5" width="43.5" height="59.5"/>
+                                                            <rect key="frame" x="37.5" y="38.5" width="43.5" height="40"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUf-Xx-Toh">
+                                                            <rect key="frame" x="37.5" y="78.5" width="43.5" height="39.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -194,6 +200,7 @@
                                         <connections>
                                             <outlet property="isSelectedImg" destination="EOF-Lh-vgF" id="NEi-ex-4Pb"/>
                                             <outlet property="name" destination="b4e-i4-RCY" id="Om3-Za-xy2"/>
+                                            <outlet property="unitPrice" destination="tUf-Xx-Toh" id="b4k-QP-oWc"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -329,6 +336,9 @@
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="dba-XM-T09" id="jKf-6Y-v7j"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -346,6 +356,9 @@
                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="dba-XM-T09" id="wF0-Tk-sWv"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -363,6 +376,9 @@
                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="dba-XM-T09" id="ObO-Lm-50B"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -389,13 +405,14 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="99" borderStyle="roundedRect" placeholder="999" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZXc-5n-Tfr">
+                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="99" borderStyle="roundedRect" placeholder="999" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZXc-5n-Tfr">
                                                             <rect key="frame" x="257.5" y="0.0" width="64.5" height="34.5"/>
                                                             <color key="textColor" systemColor="systemRedColor"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
                                                             <connections>
                                                                 <action selector="itemQuantityChanged:" destination="Biq-fv-URx" eventType="editingDidEnd" id="qLM-7F-aQm"/>
+                                                                <outlet property="delegate" destination="dba-XM-T09" id="Zhn-D2-BBZ"/>
                                                             </connections>
                                                         </textField>
                                                     </subviews>
@@ -518,23 +535,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZc-11-Nel">
-                                                    <rect key="frame" x="5" y="5" width="118" height="118"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Y6q-WR-ggq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZc-11-Nel">
+                                                            <rect key="frame" x="42.5" y="0.0" width="43.5" height="57"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLr-gA-rAD">
+                                                            <rect key="frame" x="42.5" y="62" width="43.5" height="66"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="BZc-11-Nel" secondAttribute="bottom" constant="5" id="4g7-op-ROs"/>
-                                                <constraint firstAttribute="trailing" secondItem="BZc-11-Nel" secondAttribute="trailing" constant="5" id="rZ9-ZP-6nB"/>
-                                                <constraint firstItem="BZc-11-Nel" firstAttribute="top" secondItem="SnJ-hE-IcV" secondAttribute="top" constant="5" id="sgh-lJ-UBH"/>
-                                                <constraint firstItem="BZc-11-Nel" firstAttribute="leading" secondItem="SnJ-hE-IcV" secondAttribute="leading" constant="5" id="ypp-tJ-QVi"/>
+                                                <constraint firstItem="Y6q-WR-ggq" firstAttribute="trailing" secondItem="SnJ-hE-IcV" secondAttribute="trailing" id="9Gk-8M-PEn"/>
+                                                <constraint firstItem="Y6q-WR-ggq" firstAttribute="leading" secondItem="SnJ-hE-IcV" secondAttribute="leading" id="Ilk-Xb-E6F"/>
+                                                <constraint firstItem="Y6q-WR-ggq" firstAttribute="top" secondItem="SnJ-hE-IcV" secondAttribute="top" id="j2V-Nd-fCy"/>
+                                                <constraint firstAttribute="bottom" secondItem="Y6q-WR-ggq" secondAttribute="bottom" id="oVY-DL-GLL"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <connections>
                                             <outlet property="name" destination="BZc-11-Nel" id="c2s-YI-aPE"/>
+                                            <outlet property="unitPrice" destination="hLr-gA-rAD" id="WwZ-bv-kqC"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -655,10 +684,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

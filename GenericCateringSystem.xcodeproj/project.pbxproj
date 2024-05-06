@@ -32,7 +32,6 @@
 		7BE778572AF52F6300BE47FA /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7784D2AF52F6300BE47FA /* Item+CoreDataProperties.swift */; };
 		7BE778592AF62D5900BE47FA /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778582AF62D5900BE47FA /* AccountVC.swift */; };
 		7BE7785B2AF62DD700BE47FA /* AccountVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785A2AF62DD700BE47FA /* AccountVCViewModel.swift */; };
-		7BE7785E2AF6324300BE47FA /* TextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785D2AF6324300BE47FA /* TextField+Ext.swift */; };
 		7BE778602AF647BF00BE47FA /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7785F2AF647BF00BE47FA /* AccountCell.swift */; };
 		7BE778622AF763F800BE47FA /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778612AF763F800BE47FA /* MenuVC.swift */; };
 		7BE778642AF7652D00BE47FA /* MenuVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */; };
@@ -78,7 +77,6 @@
 		7BE7784D2AF52F6300BE47FA /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7BE778582AF62D5900BE47FA /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
 		7BE7785A2AF62DD700BE47FA /* AccountVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVCViewModel.swift; sourceTree = "<group>"; };
-		7BE7785D2AF6324300BE47FA /* TextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Ext.swift"; sourceTree = "<group>"; };
 		7BE7785F2AF647BF00BE47FA /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		7BE778612AF763F800BE47FA /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVCViewModel.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			isa = PBXGroup;
 			children = (
 				7BE778262AF4986700BE47FA /* Viewcontroller+Ext.swift */,
-				7BE7785D2AF6324300BE47FA /* TextField+Ext.swift */,
 				7BF120732BDB5122002E18E8 /* String+Ext.swift */,
 			);
 			path = Extensions;
@@ -358,7 +355,6 @@
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
 				7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */,
 				7BE778272AF4986700BE47FA /* Viewcontroller+Ext.swift in Sources */,
-				7BE7785E2AF6324300BE47FA /* TextField+Ext.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BF1206E2BDA1AEB002E18E8 /* MenuEditVC.swift in Sources */,
 				7BF1205E2BD4B750002E18E8 /* OptionCell.swift in Sources */,

@@ -8,9 +8,11 @@
 import OSLog
 import UIKit
 
+/// Tell the category cell how to display itself
 protocol CategoryDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool)
 }
+/// Tell the option cell how to display itself
 protocol OptionDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool)
 }
@@ -20,6 +22,7 @@ class MenuEditVC: UIViewController {
     private let logger = Logger(subsystem: "Cashier", category: "MenuEditVC")
     
     private var viewModel = MenuEditVCViewModel()
+    var currentDevice: Device?
     private var pickItemState = PickItemState.enterCategory
     private var selectedCategory: UUID?
     private var selectedOption: UUID?
@@ -48,8 +51,6 @@ class MenuEditVC: UIViewController {
     @IBOutlet weak var optionCollectionView: UICollectionView!
     
     // MARK: IBAction
-    
-    
     @IBAction func addCategoryBtnPressed(_ sender: UIButton) {
         addCategory()
     }
@@ -70,6 +71,8 @@ class MenuEditVC: UIViewController {
         delete(objectType: .option)
     }
     
+    /// delete selected categories or options, then return to edit mode
+    /// - Parameter sender:
     @IBAction func deleteBtnPressed(_ sender: UIButton) {
         if categoryCollectionView.isUserInteractionEnabled {
             viewModel.deleteCategory(targets: generateDeleteObjects(type: .category))
@@ -79,21 +82,9 @@ class MenuEditVC: UIViewController {
         config()
     }
     
-    /// discard all changes and return to previous view
+    /// discard all changes and return to edit mode
     /// - Parameter sender:
     @IBAction func deleteCancelBtnPressed(_ sender: UIButton) {
-        if let selected = categoryCollectionView.indexPathsForSelectedItems {
-            selected.forEach{
-                let cell = self.categoryCollectionView.cellForItem(at: $0) as! CategoryCell
-                cell.cellIsChoosed = false
-                self.categoryCollectionView.deselectItem(at: $0, animated: false)}
-        }
-        if let selected = optionCollectionView.indexPathsForSelectedItems {
-            selected.forEach{
-                let cell = self.optionCollectionView.cellForItem(at: $0) as! OptionCell
-                cell.cellIsChoosed = false
-                self.optionCollectionView.deselectItem(at: $0, animated: false)}
-        }
         config()
     }
     
@@ -101,18 +92,42 @@ class MenuEditVC: UIViewController {
     /// save all data and segue to MenuVC
     /// - Parameter sender:
     @IBAction func OKBtnPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
+        let destVC = storyboard.instantiateViewController(withIdentifier: "MenuVC") as! MenuVC
+        destVC.currentDevice = currentDevice
+        viewModel.saveAll()
         
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        show(destVC, sender: self)
     }
     
     /// discard all changes and segue to MenuVC
     /// - Parameter sender:
     @IBAction func CancelBtnPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
+        let destVC = storyboard.instantiateViewController(withIdentifier: "MenuVC") as! MenuVC
+        destVC.currentDevice = currentDevice
+        viewModel.discardAll()
         
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        show(destVC, sender: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension MenuEditVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
@@ -128,13 +143,16 @@ extension MenuEditVC: UICollectionViewDelegate {
                 selectedOption = nil
                 let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
                 selectedCategory = cell.uuid
+                
                 addOptionBtn.isHidden = false
                 deleteOptionBtn.isHidden = false
+                
                 updateOptionSnapshot()
             default:
                 pickItemState = .enterOption
                 let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
                 selectedOption = cell.uuid
+                
                 updateOptionSnapshot()
             }
         }else {
@@ -175,8 +193,6 @@ extension MenuEditVC {
     func config() {
         addCategoryBtn.isHidden = false
         deleteCategoryBtn.isHidden = false
-        addOptionBtn.isHidden = false
-        deleteOptionBtn.isHidden = false
         okBtn.isHidden = false
         cancelBtn.isHidden = false
         
@@ -191,19 +207,36 @@ extension MenuEditVC {
         categoryCollectionView.allowsMultipleSelection = false
         categoryCollectionView.isUserInteractionEnabled = true
         categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        categoryCollectionView.reloadData()
+        // enter delete mode will enable multiple selection, therefore, it should clear all selections
+        if let selected = categoryCollectionView.indexPathsForSelectedItems {
+            selected.forEach{
+                let cell = self.categoryCollectionView.cellForItem(at: $0) as! CategoryCell
+                cell.cellIsChoosed = false
+                self.categoryCollectionView.deselectItem(at: $0, animated: false)}
+        }
         updateCategorySnapshot()
+        // reloadData will refresh all data relate to the collection view, such as indexPathsForSelectedItems
+        // therefore, if there are some operations relate to the cell, they should be put before reloadData
+        categoryCollectionView.reloadData()
         
         optionCollectionView.allowsMultipleSelection = false
         optionCollectionView.isUserInteractionEnabled = true
-        categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        categoryCollectionView.reloadData()
+        optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        if let selected = optionCollectionView.indexPathsForSelectedItems {
+            selected.forEach{
+                let cell = self.optionCollectionView.cellForItem(at: $0) as! OptionCell
+                cell.cellIsChoosed = false
+                self.optionCollectionView.deselectItem(at: $0, animated: false)}
+        }
         updateOptionSnapshot()
     }
+    
+    
     /// show an alert to let user enter the info of category
     func addCategory() {
         let alert = UIAlertController(title: nil, message: "Create category", preferredStyle: .alert)
         alert.addTextField { (textField) in
+            textField.delegate = self
             textField.placeholder = "name of category"
             textField.keyboardType = .default
             textField.autocorrectionType = .yes
@@ -226,6 +259,7 @@ extension MenuEditVC {
     func addOption() {
         let alert = UIAlertController(title: nil, message: "Create Option", preferredStyle: .alert)
         alert.addTextField { (textField) in
+            textField.delegate = self
             textField.placeholder = "name of option"
             textField.keyboardType = .default
             textField.autocorrectionType = .yes
@@ -233,12 +267,16 @@ extension MenuEditVC {
             textField.clearButtonMode = .whileEditing
         }
         alert.addTextField { (textField) in
+            textField.delegate = self
             textField.placeholder = "unit price of option"
             textField.keyboardType = .decimalPad
             textField.clearButtonMode = .whileEditing
         }
         let ok = UIAlertAction(title: "OK", style: .default) { [unowned self] (_) in
-            self.viewModel.addOption(name: alert.textFields![0].text ?? "empty", unitPrice: Double(alert.textFields![1].text ?? "0.0")!, belongTo: selectedCategory!, parent: selectedOption)
+            self.viewModel.addOption(name: alert.textFields![0].text ?? "empty",
+                                     unitPrice: Double(Helper.shared.digisGuarantee(input: alert.textFields![1].text ?? "0.0"))!,
+                                     belongTo: selectedCategory!,
+                                     parent: selectedOption)
             self.updateOptionSnapshot()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -278,13 +316,16 @@ extension MenuEditVC {
         }
     }
     
+    /// This function will compile the deleted objects list, based on the selections of collection views
+    /// - Parameter type: category or option
+    /// - Returns: <#description#>
     func generateDeleteObjects(type: DeleteObjectType) -> [UUID] {
         switch type {
         case .category:
             let selected = categoryCollectionView.indexPathsForSelectedItems ?? []
             var results: [UUID] = []
-            for select in selected {
-                let cell = categoryCollectionView.cellForItem(at: select) as! CategoryCell
+            selected.forEach { indexPath in
+                let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
                 results.append(cell.uuid!)
             }
             
@@ -292,8 +333,8 @@ extension MenuEditVC {
         default:
             let selected = optionCollectionView.indexPathsForSelectedItems ?? []
             var results: [UUID] = []
-            for select in selected {
-                let cell = optionCollectionView.cellForItem(at: select) as! OptionCell
+            selected.forEach { indexPath in
+                let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
                 results.append(cell.uuid!)
             }
             
@@ -339,6 +380,8 @@ extension MenuEditVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             cell.name.text = option.name
             cell.uuid = option.uuid
+            cell.unitPrice.text = String(option.price)
+            
             self.optionDelegate = cell
             self.optionDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
             

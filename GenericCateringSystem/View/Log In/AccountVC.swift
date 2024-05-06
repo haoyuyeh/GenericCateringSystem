@@ -24,7 +24,7 @@ class AccountVC: UIViewController {
         
         let destVC = storyboard.instantiateViewController(identifier: "ConfigVC") as ConfigVC
         destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = self.currentDevice
+        destVC.currentDevice = currentDevice
         
         show(destVC, sender: sender)
     }
@@ -64,5 +64,17 @@ extension AccountVC: UITableViewDelegate {
         viewModel.deleteAccount(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.endUpdates()
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension AccountVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }

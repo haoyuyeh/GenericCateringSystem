@@ -184,11 +184,6 @@ extension MenuEditVC: UICollectionViewDelegate {
 }
 
 // MARK: Helper Function
-enum DeleteObjectType {
-    case category
-    case option
-}
-
 extension MenuEditVC {
     func config() {
         addCategoryBtn.isHidden = false

@@ -131,7 +131,7 @@ extension MenuVCViewModel {
     ///   - num:
     ///   - note:
     func completOrder(currentOrder order: Order, type t: Int, platformName pName: String, number num: String, comments note: String) {
-        order.currentState = Int16(TakeOutOrderState.preparing.rawValue)
+        order.currentState = Int16(OrderState.preparing.rawValue)
         order.type = Int16(t)
         order.platformName = pName
         order.number = num
@@ -214,7 +214,7 @@ extension MenuVCViewModel {
         let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
         currentOrder.uuid = UUID()
         currentOrder.establishedDate = Date()
-        currentOrder.currentState = Int16(TakeOutOrderState.ordering.rawValue)
+        currentOrder.currentState = Int16(OrderState.ordering.rawValue)
         currentOrder.isTakeOut = true
         
         return currentOrder

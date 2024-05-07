@@ -163,19 +163,6 @@ extension MenuVC: TotalSumDelegate {
 }
 
 // MARK: Helpler
-enum OrderType: Int {
-    case eatIn
-    case walkIn
-    case deliveryPlatform
-}
-
-enum TakeOutOrderState: Int {
-    case ordering
-    case preparing
-    case waitingPickUp
-    case orderDelivered
-}
-
 extension MenuVC {
     /// called when the order completed
     func reset() {
@@ -213,12 +200,6 @@ extension MenuVC {
 }
 
 // MARK: UICollectionViewDelegate
-enum PickItemState {
-    case enterCategory
-    case enterOption
-    case endOfChoic
-}
-
 extension MenuVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
@@ -245,10 +226,6 @@ extension MenuVC: UICollectionViewDelegate {
 }
 
 // MARK: Category CollectionView
-enum CategorySection {
-    case all
-}
-
 extension MenuVC {
     func configureCategoryDataSource() -> UICollectionViewDiffableDataSource<CategorySection, Category> {
         let dataSource = UICollectionViewDiffableDataSource<CategorySection, Category>(collectionView: categoryCollectionView) {
@@ -257,6 +234,7 @@ extension MenuVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             cell.name.text = category.name
             cell.uuid = category.uuid
+            
             return cell
         }
         return dataSource
@@ -274,10 +252,6 @@ extension MenuVC {
 }
 
 // MARK: Option CollectionView
-enum OptionSection {
-    case all
-}
-
 extension MenuVC {
     func configureOptionDataSource() -> UICollectionViewDiffableDataSource<OptionSection, Option> {
         let dataSource = UICollectionViewDiffableDataSource<OptionSection, Option>(collectionView: optionCollectionView) {

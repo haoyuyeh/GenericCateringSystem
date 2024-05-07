@@ -46,6 +46,12 @@
 		7BF120742BDB5122002E18E8 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF120732BDB5122002E18E8 /* String+Ext.swift */; };
 		7BF120772BDB72B1002E18E8 /* Option+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF120752BDB72B1002E18E8 /* Option+CoreDataClass.swift */; };
 		7BF120782BDB72B1002E18E8 /* Option+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF120762BDB72B1002E18E8 /* Option+CoreDataProperties.swift */; };
+		7BF84B5E2BE9EAC700C5944C /* EatInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B5D2BE9EAC700C5944C /* EatInVC.swift */; };
+		7BF84B612BE9EC4900C5944C /* EatInVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B602BE9EC4900C5944C /* EatInVCViewModel.swift */; };
+		7BF84B632BE9ECB700C5944C /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B622BE9ECB700C5944C /* TableCell.swift */; };
+		7BF84B652BE9FDD300C5944C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B642BE9FDD300C5944C /* Enums.swift */; };
+		7BF84B672BEA207E00C5944C /* TableOrderDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B662BEA207D00C5944C /* TableOrderDetailVC.swift */; };
+		7BF84B692BEA247800C5944C /* TableOrderDetailVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF84B682BEA247800C5944C /* TableOrderDetailVCViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +97,12 @@
 		7BF120732BDB5122002E18E8 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		7BF120752BDB72B1002E18E8 /* Option+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Option+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7BF120762BDB72B1002E18E8 /* Option+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Option+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7BF84B5D2BE9EAC700C5944C /* EatInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatInVC.swift; sourceTree = "<group>"; };
+		7BF84B602BE9EC4900C5944C /* EatInVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatInVCViewModel.swift; sourceTree = "<group>"; };
+		7BF84B622BE9ECB700C5944C /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
+		7BF84B642BE9FDD300C5944C /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		7BF84B662BEA207D00C5944C /* TableOrderDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableOrderDetailVC.swift; sourceTree = "<group>"; };
+		7BF84B682BEA247800C5944C /* TableOrderDetailVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableOrderDetailVCViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +186,7 @@
 				7BA0E4452AE105A200CDA322 /* AppDelegate.swift */,
 				7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */,
 				7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */,
+				7BF84B642BE9FDD300C5944C /* Enums.swift */,
 				7BF120712BDA4277002E18E8 /* Helper.swift */,
 				7BE7785C2AF6321F00BE47FA /* Extensions */,
 			);
@@ -222,6 +235,9 @@
 				7BF1205D2BD4B750002E18E8 /* OptionCell.swift */,
 				7BF1206D2BDA1AEB002E18E8 /* MenuEditVC.swift */,
 				7BA0E4682AE175C400CDA322 /* EatIn.storyboard */,
+				7BF84B5D2BE9EAC700C5944C /* EatInVC.swift */,
+				7BF84B622BE9ECB700C5944C /* TableCell.swift */,
+				7BF84B662BEA207D00C5944C /* TableOrderDetailVC.swift */,
 				7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */,
 				7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */,
 			);
@@ -251,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				7BE778662AF7655F00BE47FA /* Casher */,
+				7BF84B5F2BE9EC1800C5944C /* EatIn */,
 			);
 			path = "Casher Device";
 			sourceTree = "<group>";
@@ -262,6 +279,15 @@
 				7BF1206F2BDA1B1A002E18E8 /* MenuEditVCViewModel.swift */,
 			);
 			path = Casher;
+			sourceTree = "<group>";
+		};
+		7BF84B5F2BE9EC1800C5944C /* EatIn */ = {
+			isa = PBXGroup;
+			children = (
+				7BF84B602BE9EC4900C5944C /* EatInVCViewModel.swift */,
+				7BF84B682BEA247800C5944C /* TableOrderDetailVCViewModel.swift */,
+			);
+			path = EatIn;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,7 +368,9 @@
 			files = (
 				7BF120772BDB72B1002E18E8 /* Option+CoreDataClass.swift in Sources */,
 				7BF120782BDB72B1002E18E8 /* Option+CoreDataProperties.swift in Sources */,
+				7BF84B692BEA247800C5944C /* TableOrderDetailVCViewModel.swift in Sources */,
 				7BF1205A2BB2BFCD002E18E8 /* ItemCell.swift in Sources */,
+				7BF84B672BEA207E00C5944C /* TableOrderDetailVC.swift in Sources */,
 				7BE7785B2AF62DD700BE47FA /* AccountVCViewModel.swift in Sources */,
 				7BE778552AF52F6300BE47FA /* Device+CoreDataProperties.swift in Sources */,
 				7BF1205C2BD4B635002E18E8 /* CategoryCell.swift in Sources */,
@@ -358,6 +386,7 @@
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BF1206E2BDA1AEB002E18E8 /* MenuEditVC.swift in Sources */,
 				7BF1205E2BD4B750002E18E8 /* OptionCell.swift in Sources */,
+				7BF84B5E2BE9EAC700C5944C /* EatInVC.swift in Sources */,
 				7BF120702BDA1B1A002E18E8 /* MenuEditVCViewModel.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
 				7BE778562AF52F6300BE47FA /* Item+CoreDataClass.swift in Sources */,
@@ -368,8 +397,11 @@
 				7BF1206C2BD8F719002E18E8 /* Order+CoreDataProperties.swift in Sources */,
 				7BE778602AF647BF00BE47FA /* AccountCell.swift in Sources */,
 				7BE778542AF52F6300BE47FA /* Device+CoreDataClass.swift in Sources */,
+				7BF84B612BE9EC4900C5944C /* EatInVCViewModel.swift in Sources */,
 				7BE778592AF62D5900BE47FA /* AccountVC.swift in Sources */,
 				7BE778522AF52F6300BE47FA /* Category+CoreDataClass.swift in Sources */,
+				7BF84B652BE9FDD300C5944C /* Enums.swift in Sources */,
+				7BF84B632BE9ECB700C5944C /* TableCell.swift in Sources */,
 				7BE778532AF52F6300BE47FA /* Category+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

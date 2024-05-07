@@ -12,21 +12,16 @@ protocol AccountCellDelegate {
     func pwTFTextChanged(to newPw: String, at indexPath: IndexPath)
 }
 
-
-
 class AccountCell: UITableViewCell {
     // MARK: Properties
     var delegate: AccountCellDelegate!
     var indexPath: IndexPath!
     
     // MARK: IBOutlet
-    
     @IBOutlet weak var idTextField: UITextField!
-    
     @IBOutlet weak var pwTextField: UITextField!
     
     // MARK: IBAction
-
     @IBAction func idTextFieldChanged(_ sender: UITextField) {
         delegate.idTFTextChanged(to: idTextField.text ?? "nil username", at: indexPath)
     }
@@ -35,9 +30,6 @@ class AccountCell: UITableViewCell {
     @IBAction func pwTextFieldChanged(_ sender: UITextField) {
         delegate.pwTFTextChanged(to: pwTextField.text ?? "nil password",at: indexPath)
     }
-    
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,5 +41,4 @@ class AccountCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

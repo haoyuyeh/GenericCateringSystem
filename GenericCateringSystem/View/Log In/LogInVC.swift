@@ -7,15 +7,6 @@
 
 import UIKit
 
-
-enum LogInState: String {
-    case emptyName
-    case emptyPassword
-    case wrongPassword
-    case success
-}
-
-
 class LogInVC: UIViewController {
     // MARK: IBOutlet
     @IBOutlet weak var deviceNameTF: UITextField!

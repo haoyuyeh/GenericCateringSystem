@@ -7,23 +7,9 @@
 
 import OSLog
 import UIKit
-import Foundation
-
-enum Mode:String {
-    case full
-    case takeOut
-}
-
-/// only one device can be cashier, the rest are all client
-enum Roll:String {
-    case cashier
-    case client
-}
 
 class ConfigVC: UIViewController {
     // MARK: IBOutlet
-    
-    
     @IBOutlet weak var editBtn: UIButton!
     
     @IBOutlet weak var modeBtn: UIButton!
@@ -87,17 +73,34 @@ class ConfigVC: UIViewController {
     }
     
     @IBAction func startBtnPressed(_ sender: UIButton) {
-        // segue to MenuVC
-        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
-        
-        let destVC = storyboard.instantiateViewController(identifier: "CasherTabC") as UITabBarController
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.selectedIndex = 0
-        
-        let menuVC = destVC.selectedViewController as! MenuVC
-        menuVC.currentDevice = currentDevice
+        // segue to MenuVC or OrderingVC(for customer)
+        if let roll = currentDevice?.roll {
+            switch roll {
+            case Roll.cashier.rawValue:
+                let storyboard = UIStoryboard(name: "Casher", bundle: nil)
+                
+                let destVC = storyboard.instantiateViewController(withIdentifier: "CasherTabC") as! UITabBarController
+                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                destVC.selectedIndex = 0
+                
+                let menuVC = destVC.selectedViewController as! MenuVC
+                menuVC.currentDevice = currentDevice
 
-        show(destVC, sender: sender)
+                show(destVC, sender: sender)
+            default:
+                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
+                
+                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                destVC.selectedIndex = 0
+                
+//                let menuVC = destVC.selectedViewController as! MenuVC
+//                menuVC.currentDevice = currentDevice
+
+                show(destVC, sender: sender)
+            }
+        }
+        
     }
 }
 

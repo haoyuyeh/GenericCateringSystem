@@ -3,6 +3,148 @@
 <plist version="1.0">
 <dict>
 	<key>top-level-items</key>
-	<array/>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>91</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>90</string>
+					<key>Timestamp</key>
+					<string>736755302.759039</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Log In/ConfigVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
+</string>
+				<key>leading</key>
+				<string>                show(destVC, sender: sender)
+            default:
+</string>
+				<key>trailing</key>
+				<string>                
+                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+</string>
+			</dict>
+			<key>title</key>
+			<string>review after finish CustomerVC</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>52</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>51</string>
+					<key>Timestamp</key>
+					<string>736766138.950402</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/EatInVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>            let outcome = viewModel.hasOngoingOrder(of: cell.uuid)
+</string>
+				<key>leading</key>
+				<string>        if cell.isOcuppied {
+            // should check order state before segue to table order details VC
+</string>
+				<key>trailing</key>
+				<string>            if outcome.result {
+                let storyboard = UIStoryboard(name: "EatIn", bundle: nil)
+                let destVC = storyboard.instantiateViewController(withIdentifier: "TableOrderDetailVC") as! TableOrderDetailVC
+</string>
+			</dict>
+			<key>title</key>
+			<string>segue to tableOrderDetailsVC after complet customer VC</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>75</string>
+					<key>StartingColumnNumber</key>
+					<string>66</string>
+					<key>StartingLineNumber</key>
+					<string>74</string>
+					<key>Timestamp</key>
+					<string>736769989.574064</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/TableOrderDetailVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>
+</string>
+				<key>leading</key>
+				<string>            if !text.isMatch(pattern: "^0\\.\\d+$") {
+                textField.text = nil
+                self.showAlert(alertTitle: "Warning", message: "")</string>
+				<key>trailing</key>
+				<string>            }
+        }else {
+            textField.text = nil
+</string>
+			</dict>
+			<key>title</key>
+			<string>not finish</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -17,7 +17,7 @@ class CategoryCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet{
-            if self.isSelected {
+            if isSelected {
                 self.backgroundColor = UIColor.systemYellow
             }else {
                 self.backgroundColor = UIColor.white
@@ -28,7 +28,7 @@ class CategoryCell: UICollectionViewCell {
     var uuid: UUID? = nil
     var isEnterDeleteMode: Bool {
         didSet {
-            if self.isEnterDeleteMode {
+            if isEnterDeleteMode {
                 isSelectedImg.isHidden = false
             }else {
                 isSelectedImg.isHidden = true
@@ -40,7 +40,7 @@ class CategoryCell: UICollectionViewCell {
     var cellIsChoosed: Bool {
         didSet {
             if isEnterDeleteMode {
-                if self.cellIsChoosed {
+                if cellIsChoosed {
                     isSelectedImg.image = UIImage(systemName: "checkmark.square")
                 }else {
                     isSelectedImg.image = UIImage(systemName: "square")
@@ -50,8 +50,8 @@ class CategoryCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        self.isEnterDeleteMode = false
-        self.cellIsChoosed = false
+        isEnterDeleteMode = false
+        cellIsChoosed = false
         super.init(coder: coder)
     }
 }

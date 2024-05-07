@@ -16,7 +16,7 @@ class OptionCell: UICollectionViewCell {
     var uuid: UUID? = nil
     var isEnterDeleteMode: Bool {
         didSet {
-            if self.isEnterDeleteMode {
+            if isEnterDeleteMode {
                 isSelectedImg.isHidden = false
             }else {
                 isSelectedImg.isHidden = true
@@ -28,7 +28,7 @@ class OptionCell: UICollectionViewCell {
     var cellIsChoosed: Bool {
         didSet {
             if isEnterDeleteMode {
-                if self.cellIsChoosed {
+                if cellIsChoosed {
                     isSelectedImg.image = UIImage(systemName: "checkmark.square")
                 }else {
                     isSelectedImg.image = UIImage(systemName: "square")
@@ -38,8 +38,8 @@ class OptionCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        self.isEnterDeleteMode = false
-        self.cellIsChoosed = false
+        isEnterDeleteMode = false
+        cellIsChoosed = false
         super.init(coder: coder)
     }
 

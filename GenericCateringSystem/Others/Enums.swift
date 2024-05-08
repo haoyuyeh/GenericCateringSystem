@@ -49,6 +49,10 @@ enum PickItemState {
     case endOfChoic
 }
 
+enum ItemSection {
+    case all
+}
+
 enum CategorySection {
     case all
 }

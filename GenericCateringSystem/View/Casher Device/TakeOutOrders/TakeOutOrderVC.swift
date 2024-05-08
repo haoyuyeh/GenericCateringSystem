@@ -10,8 +10,10 @@ import UIKit
 class TakeOutOrderVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "TakeOut", category: "TakeOutOrderVC")
+    
     private var viewModel = TakeOutOrderVCViewModel()
     var currentDevice: Device?
+    
     lazy var orderDataSource = configureOrderDataSource()
     
     override func viewDidLoad() {
@@ -20,6 +22,7 @@ class TakeOutOrderVC: UIViewController {
         orderTableView.dataSource = orderDataSource
         updateOrderSnapShot()
     }
+    
     // MARK: IBOutlet
     @IBOutlet weak var orderTableView: UITableView!
     
@@ -27,11 +30,11 @@ class TakeOutOrderVC: UIViewController {
     @IBAction func logOutBtnPressed(_ sender: UIButton) {
         // segue to LogInVC
         let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        
         let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        
         destVC.currentDevice = currentDevice
         
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         show(destVC, sender: sender)
     }
 }
@@ -41,10 +44,12 @@ extension TakeOutOrderVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // segue to TakeOutOrderDetailVC
         let storyboard = UIStoryboard(name: "TakeOut", bundle: nil)
-        
         let destVC = storyboard.instantiateViewController(withIdentifier: "TakeOutOrderDetailVC") as! TakeOutOrderDetailVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.currentContext
+        let cell = tableView.cellForRow(at: indexPath) as! OrderCell
         
+        destVC.order = cell.order
+        
+        destVC.modalPresentationStyle = UIModalPresentationStyle.currentContext
         show(destVC, sender: self)
     }
 }

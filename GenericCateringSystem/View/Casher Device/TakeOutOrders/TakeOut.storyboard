@@ -123,7 +123,7 @@
         <!--Take Out Order Details VC-->
         <scene sceneID="9I3-tJ-bgy">
             <objects>
-                <viewController id="PXB-MS-ZDx" userLabel="Take Out Order Details VC" customClass="TableOrderDetailVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PXB-MS-ZDx" userLabel="Take Out Order Details VC" customClass="TakeOutOrderDetailVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Pv-p3-lca">
                         <rect key="frame" x="0.0" y="0.0" width="704" height="780"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +149,7 @@
                                 <rect key="frame" x="10" y="117" width="694" height="585"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="che-wA-cgx" userLabel="Item Cell" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="che-wA-cgx" userLabel="Item Cell" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="694" height="34.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="che-wA-cgx" id="PAn-cV-KgK">
@@ -238,6 +238,12 @@
                             <constraint firstItem="sVq-VV-Qgj" firstAttribute="trailing" secondItem="SOh-6y-nxt" secondAttribute="trailing" id="xgF-UD-I58"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="itemTableView" destination="sVq-VV-Qgj" id="wuV-4p-fiH"/>
+                        <outlet property="number" destination="8Ch-5I-4GF" id="2Lt-bG-lpR"/>
+                        <outlet property="sum" destination="cxY-bO-mOD" id="i7C-BO-X3W"/>
+                        <outlet property="type" destination="rKD-4V-Ec4" id="nNy-0E-cd6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zlx-Xd-4E2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -17,7 +17,7 @@ protocol TableStateChangedDelegate {
 
 class EatInVC: UIViewController {
     // MARK: Properties
-    private let logger = Logger(subsystem: "Casher", category: "EatInVC")
+    private let logger = Logger(subsystem: "EatIn", category: "EatInVC")
     private var viewModel = EatInVCViewModel()
     var currentDevice: Device?
     var delegate: TableStateChangedDelegate?
@@ -26,6 +26,9 @@ class EatInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        logger.debug("enter: \(self.currentDevice)")
+        self.tabBarController?.delegate = self
+
         tableCollectionView.dataSource = tableDataSource
         updateTableSnapShot()
     }
@@ -108,5 +111,31 @@ extension EatInVC {
         
         tableDataSource.apply(snapShot, animatingDifferences: false)
         
+    }
+}
+
+// MARK: UITabBarControllerDelegate
+extension EatInVC: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        switch tabBarController.selectedIndex {
+        case 0:
+            let vc = viewController as! MenuVC
+            vc.currentDevice = currentDevice
+
+        case 1:
+            let vc = viewController as! EatInVC
+            vc.currentDevice = currentDevice
+
+        case 2:
+            let vc = viewController as! TakeOutOrderVC
+            vc.currentDevice = currentDevice
+
+        case 3:
+            let vc = viewController as! HistoricalOrderVC
+            vc.currentDevice = currentDevice
+
+        default:
+            logger.error("unrecognized view controller")
+        }
     }
 }

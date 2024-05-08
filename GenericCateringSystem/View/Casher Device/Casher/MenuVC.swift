@@ -93,6 +93,9 @@ class MenuVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        logger.debug("enter: \(self.currentDevice)")
+        
+        self.tabBarController?.delegate = self
         viewModel.delegate = self
         
         categoryCollectionView.dataSource = categoryDataSource
@@ -283,5 +286,31 @@ extension MenuVC {
         }
         
         optionDataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+// MARK: UITabBarControllerDelegate
+extension MenuVC: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        switch tabBarController.selectedIndex {
+        case 0:
+            let vc = viewController as! MenuVC
+            vc.currentDevice = currentDevice
+
+        case 1:
+            let vc = viewController as! EatInVC
+            vc.currentDevice = currentDevice
+
+        case 2:
+            let vc = viewController as! TakeOutOrderVC
+            vc.currentDevice = currentDevice
+
+        case 3:
+            let vc = viewController as! HistoricalOrderVC
+            vc.currentDevice = currentDevice
+
+        default:
+            logger.error("unrecognized view controller")
+        }
     }
 }

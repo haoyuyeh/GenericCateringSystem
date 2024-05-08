@@ -13,7 +13,7 @@ protocol CheckOutDelegate {
 
 class TableOrderDetailVC: UIViewController {
     // MARK: Properties
-    private let logger = Logger(subsystem: "Casher", category: "TableOrderDetailVC")
+    private let logger = Logger(subsystem: "EatIn", category: "TableOrderDetailVC")
     private var viewModel = TableOrderDetailVCViewModel()
     /// customer device uuid
     var uuid: UUID?

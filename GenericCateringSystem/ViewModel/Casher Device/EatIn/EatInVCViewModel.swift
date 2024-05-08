@@ -9,7 +9,7 @@ import OSLog
 
 class EatInVCViewModel {
     // MARK: Properties
-    private let logger = Logger(subsystem: "Casher", category: "EatInVCViewModel")
+    private let logger = Logger(subsystem: "EatIn", category: "EatInVCViewModel")
 }
 
 extension EatInVCViewModel {

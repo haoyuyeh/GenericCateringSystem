@@ -67,3 +67,8 @@ enum DeleteObjectType {
 enum TableSection {
     case all
 }
+
+// MARK: TakeOutOrderVC
+enum OrderSection {
+    case all
+}

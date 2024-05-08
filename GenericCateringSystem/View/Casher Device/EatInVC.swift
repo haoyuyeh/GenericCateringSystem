@@ -8,6 +8,8 @@ import OSLog
 import UIKit
 
 protocol TableStateChangedDelegate {
+    func occupied(at table: UUID)
+    func released(at table: UUID)
     func tableOccupied()
     func tableReleased()
 }
@@ -33,13 +35,21 @@ class EatInVC: UIViewController {
     
     // MARK: IBAction
     @IBAction func logOutBtnPressed(_ sender: UIButton) {
+        // segue to LogInVC
+        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
         
+        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.currentDevice = currentDevice
+        
+        show(destVC, sender: sender)
     }
 }
 // MARK: - CheckOutDelegate
 extension EatInVC: CheckOutDelegate {
-    func orderCompleted(of table: UUID) {
+    func orderCompleted(at table: UUID) {
         delegate?.tableReleased()
+//        delegate?.released(at: table)
     }
 }
 
@@ -53,8 +63,11 @@ extension EatInVC: UICollectionViewDelegate {
             if outcome.result {
                 let storyboard = UIStoryboard(name: "EatIn", bundle: nil)
                 let destVC = storyboard.instantiateViewController(withIdentifier: "TableOrderDetailVC") as! TableOrderDetailVC
+                
+                destVC.uuid = cell.uuid
                 destVC.currentOrder = outcome.order
                 destVC.delegate = self
+                
                 destVC.modalPresentationStyle = .formSheet
                 
                 show(destVC, sender: self)
@@ -63,6 +76,7 @@ extension EatInVC: UICollectionViewDelegate {
             }
         }else {
             delegate?.tableOccupied()
+//            delegate?.occupied(at: cell.uuid!)
         }
     }
 }
@@ -73,6 +87,7 @@ extension EatInVC {
         let dataSource = UICollectionViewDiffableDataSource<TableSection, Device>(collectionView: tableCollectionView){
             (collectionView, indexPath, device) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCell", for: indexPath) as! TableCell
+            
             cell.uuid = device.uuid
             cell.tableNumber.text = device.number
             cell.peopleServed.text = String(device.person)

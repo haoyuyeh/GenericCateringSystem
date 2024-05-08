@@ -127,8 +127,9 @@ extension MenuVC: UITableViewDataSource {
         cell.delegate = self
         cell.indexPath = indexPath
         
-        cell.itemNameLebel.text = viewModel.getItemName(at: indexPath.row)
-        cell.itemQuantityTF.text = String(viewModel.getItemQuantity(at: indexPath.row))
+        cell.name.text = viewModel.getItemName(at: indexPath.row)
+        cell.unitPrice.text = viewModel.getItemUnitPrice(at: indexPath.row)
+        cell.quantity.text = viewModel.getItemQuantity(at: indexPath.row)
         
         return cell
     }

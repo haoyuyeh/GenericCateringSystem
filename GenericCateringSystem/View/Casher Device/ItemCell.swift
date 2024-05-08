@@ -17,8 +17,9 @@ class ItemCell: UITableViewCell {
     var delegate: ItemQuantityDelegate?
     var indexPath: IndexPath?
     
-    @IBOutlet weak var itemNameLebel: UILabel!
-    @IBOutlet weak var itemQuantityTF: UITextField!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var unitPrice: UILabel!
+    @IBOutlet weak var quantity: UITextField!
     
     @IBAction func itemQuantityChanged(_ sender: UITextField) {
         if let text = sender.text {

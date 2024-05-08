@@ -5,7 +5,7 @@
 //  Created by Hao Yu Yeh on 2024/5/7.
 //
 
-// LogInVC
+// MARK: LogInVC
 enum LogInState: String {
     case emptyName
     case emptyPassword
@@ -13,7 +13,7 @@ enum LogInState: String {
     case success
 }
 
-//ConfigVC
+// MARK: ConfigVC
 enum Mode:String {
     case full
     case takeOut
@@ -25,7 +25,7 @@ enum Roll:String {
     case client
 }
 
-//MenuVC
+// MARK: MenuVC
 enum OrderType: Int {
     case eatIn
     case walkIn
@@ -57,13 +57,13 @@ enum OptionSection {
     case all
 }
 
-// MenuEditVC
+// MARK: MenuEditVC
 enum DeleteObjectType {
     case category
     case option
 }
 
-// EatInVC
+// MARK: EatInVC
 enum TableSection {
     case all
 }

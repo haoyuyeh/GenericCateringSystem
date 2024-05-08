@@ -59,13 +59,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>52</string>
+					<string>62</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>51</string>
+					<string>61</string>
 					<key>Timestamp</key>
-					<string>736766138.950402</string>
+					<string>736841324.744583</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -106,14 +106,116 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>75</string>
+					<string>78</string>
 					<key>StartingColumnNumber</key>
-					<string>66</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>74</string>
+					<string>77</string>
 					<key>Timestamp</key>
-					<string>736769989.574064</string>
+					<string>736841324.74461</string>
 				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/EatInVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>            delegate?.tableOccupied()
+</string>
+				<key>leading</key>
+				<string>            }
+        }else {
+</string>
+				<key>trailing</key>
+				<string>//            delegate?.occupied(at: cell.uuid!)
+        }
+    }
+</string>
+			</dict>
+			<key>title</key>
+			<string>possibly apply to all cells </string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>51</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>50</string>
+					<key>Timestamp</key>
+					<string>736841324.744602</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/EatInVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        delegate?.tableReleased()
+</string>
+				<key>leading</key>
+				<string>extension EatInVC: CheckOutDelegate {
+    func orderCompleted(at table: UUID) {
+</string>
+				<key>trailing</key>
+				<string>//        delegate?.released(at: table)
+    }
+}
+</string>
+			</dict>
+			<key>title</key>
+			<string>check</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/EatInVC.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>check work flow after customerVC</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
 				<key>rebasable-url</key>
 				<dict>
 					<key>base</key>
@@ -124,24 +226,11 @@
 						<string>GenericCateringSystem/View/Casher Device/TableOrderDetailVC.swift</string>
 					</dict>
 				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>
-</string>
-				<key>leading</key>
-				<string>            if !text.isMatch(pattern: "^0\\.\\d+$") {
-                textField.text = nil
-                self.showAlert(alertTitle: "Warning", message: "")</string>
-				<key>trailing</key>
-				<string>            }
-        }else {
-            textField.text = nil
-</string>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
 			</dict>
 			<key>title</key>
-			<string>not finish</string>
+			<string>check work flow after customerVC</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

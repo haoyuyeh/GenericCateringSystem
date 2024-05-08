@@ -17,6 +17,10 @@ extension Item {
     }
 
     @NSManaged public var name: String?
+    /**
+     the unit price of this item
+     unit price = sum( all options' unit price )
+     */
     @NSManaged public var price: Double
     @NSManaged public var quantity: Int16
     @NSManaged public var uuid: UUID?

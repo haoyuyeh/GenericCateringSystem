@@ -48,11 +48,18 @@ extension MenuVCViewModel {
         return currentOrderedItems[index].name ?? "nil"
     }
     
+    /// get unit price of item at index position from current order
+    /// - Parameter index:
+    /// - Returns:
+    func getItemUnitPrice(at index: Int) -> String {
+        return "$\(String(currentOrderedItems[index].price))"
+    }
+    
     /// get quantiy of item at index position from current order
     /// - Parameter index:
     /// - Returns: quantity of item
-    func getItemQuantity(at index: Int) -> Int {
-        return Int(currentOrderedItems[index].quantity)
+    func getItemQuantity(at index: Int) -> String {
+        return String(currentOrderedItems[index].quantity)
     }
     
     /// 1. check whether the new item exists in the order,
@@ -82,7 +89,7 @@ extension MenuVCViewModel {
             }
         }
         
-        delegate?.totalSumChanged(to: calculateTotalSum())
+        delegate?.totalSumChanged(to: updateTotalSum())
     }
     /// check whether the new item exists in the order,
     /// return result and index of item if there is any
@@ -107,7 +114,7 @@ extension MenuVCViewModel {
     func deleteItem(at index: Int) {
         let deletedItem = currentOrderedItems.remove(at: index)
         PersistenceService.shared.delete(object: deletedItem)
-        delegate?.totalSumChanged(to: calculateTotalSum())
+        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// 1. change the quantity of item at itemIndex position to newQuantity
@@ -117,7 +124,7 @@ extension MenuVCViewModel {
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
-        delegate?.totalSumChanged(to: calculateTotalSum())
+        delegate?.totalSumChanged(to: updateTotalSum())
     }
 }
 
@@ -232,7 +239,7 @@ extension MenuVCViewModel {
         PersistenceService.shared.saveContext()
     }
     
-    private func calculateTotalSum() -> Double {
+    private func updateTotalSum() -> Double {
         var sum = 0.0
         for item in currentOrderedItems {
             sum += item.price * Double(item.quantity)

@@ -17,6 +17,7 @@ extension Option {
     }
 
     @NSManaged public var name: String?
+    /// it's unit price of this option
     @NSManaged public var price: Double
     @NSManaged public var uuid: UUID?
     @NSManaged public var category: Category?

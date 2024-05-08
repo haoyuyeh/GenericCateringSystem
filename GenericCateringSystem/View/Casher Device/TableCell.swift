@@ -14,7 +14,7 @@ class TableCell: UICollectionViewCell {
     @IBOutlet weak var tableImg: UIImageView!
     
     // MARK: Properties
-    // uuid of device
+    // customer device uuid
     var uuid: UUID?
     var isOcuppied: Bool {
         didSet {
@@ -33,6 +33,18 @@ class TableCell: UICollectionViewCell {
 }
 // MARK: TableStateChangedDelegate
 extension TableCell: TableStateChangedDelegate {
+    func occupied(at table: UUID) {
+        if table.uuidString == self.uuid!.uuidString {
+            isOcuppied = true
+        }
+    }
+    
+    func released(at table: UUID) {
+        if table.uuidString == self.uuid!.uuidString {
+            isOcuppied = false
+        }
+    }
+    
     func tableOccupied() {
         isOcuppied = true
     }

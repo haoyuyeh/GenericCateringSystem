@@ -17,14 +17,13 @@ extension Order {
     }
 
     @NSManaged public var comments: String?
-    /**
-     possible state: ordering, preparing, etc
-     */
+    
+    /// possible state: ordering, preparing, etc
     @NSManaged public var currentState: Int16
     @NSManaged public var establishedDate: Date?
     // possibly useless
     @NSManaged public var isTakeOut: Bool
-    // order number: eat in order will use table number as order number
+    /// order number: eat in order will use table number as order number
     @NSManaged public var number: String?
     @NSManaged public var totalSum: Double
     /**

@@ -24,7 +24,7 @@ class TableOrderDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        config()
         itemTableView.dataSource = itemDataSource
         updateItemSnapShot()
     }
@@ -60,6 +60,27 @@ class TableOrderDetailVC: UIViewController {
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
         viewModel.checkOut(order: currentOrder!)
         delegate?.orderCompleted(at: uuid!)
+    }
+}
+
+// MARK: Helper
+extension TableOrderDetailVC {
+    func config() {
+        switch Int(currentOrder!.type) {
+        case OrderType.eatIn.rawValue:
+            orderTitle.text = "Table #\(currentOrder?.number ?? "nil")"
+        default:
+            orderTitle.text = "error order type"
+        }
+        totalSum.titleLabel?.text = "$\(String(currentOrder?.totalSum ?? 0))"
+        notes.text = currentOrder?.comments
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension TableOrderDetailVC: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.updateNotes(of: currentOrder!, to: textView.text)
     }
 }
 

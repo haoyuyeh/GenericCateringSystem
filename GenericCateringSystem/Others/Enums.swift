@@ -75,4 +75,7 @@ enum TableSection {
 // MARK: TakeOutOrderVC
 enum OrderSection {
     case all
+    case eatIn
+    case walkIn
+    case deliveryPlatform
 }

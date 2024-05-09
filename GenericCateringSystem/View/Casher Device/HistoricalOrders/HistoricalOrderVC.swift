@@ -10,26 +10,92 @@ import UIKit
 class HistoricalOrderVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "HistoricalOrders", category: "HistoricalOrderVC")
-//    private var viewModel =
+    private var viewModel = HistoricalOrderVCViewModel()
     var currentDevice: Device?
+    private var targetDate = Date()
+    
+    private lazy var historicalOrderDataSource = configureHistoricalOrderDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.delegate = self
-        // Do any additional setup after loading the view.
+        historicalOrderTableView.dataSource = historicalOrderDataSource
+        updateHistoricalOrderDataSource()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: IBOutlet
+    @IBOutlet weak var historicalOrderTableView: UITableView!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
+    
+    // MARK: IBAction
+    @IBAction func logOutBtnPressed(_ sender: UIButton) {
+        // segue to LogInVC
+        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
+        
+        destVC.currentDevice = currentDevice
+        
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        show(destVC, sender: sender)
     }
-    */
+    
+    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
+        targetDate = datePicker.date
+        updateHistoricalOrderDataSource()
+    }
+    
+}
 
+// MARK: UITableViewDelegate
+extension HistoricalOrderVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
+        // segue to HistoricalOrderDetailVC
+        let storyboard = UIStoryboard(name: "HistoricalOrders", bundle: nil)
+        let destVC = storyboard.instantiateViewController(withIdentifier: "HistoricalOrderDetailVC") as! HistoricalOrderDetailVC
+        
+        destVC.order = cell.order
+        
+        destVC.modalPresentationStyle = UIModalPresentationStyle.currentContext
+        show(destVC, sender: self)
+    }
+}
+
+// MARK: Historical Order Table View
+extension HistoricalOrderVC {
+    func configureHistoricalOrderDataSource() -> UITableViewDiffableDataSource<OrderSection, Order> {
+        let dataSource = UITableViewDiffableDataSource<OrderSection, Order>(tableView: historicalOrderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
+            
+            cell.indexPath = indexPath
+            cell.order = order
+            
+            switch Int(order.type) {
+            case OrderType.eatIn.rawValue:
+                cell.name.text = "Eat-in - Table #\(order.number ?? "nil")"
+            case OrderType.walkIn.rawValue:
+                cell.name.text = "Walk-in #\(order.number ?? "nil")"
+            default:
+                cell.name.text = "\(order.platformName ?? "nil") - \(order.number ?? "nil")"
+            }
+            cell.number.text = order.establishedDate?.toString(format: nil, dateStyle: .omitted, timeStyle: .standard)
+            
+            return cell
+        }
+        return dataSource
+    }
+    
+    func updateHistoricalOrderDataSource() {
+        var snapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>()
+        
+        snapShot.appendSections([.eatIn, .walkIn, .deliveryPlatform])
+        snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .eatIn), toSection: .eatIn)
+        snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .walkIn), toSection: .walkIn)
+        snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .deliveryPlatform), toSection: .deliveryPlatform)
+        
+        historicalOrderDataSource.apply(snapShot, animatingDifferences: false)
+    }
 }
 
 // MARK: UITabBarControllerDelegate

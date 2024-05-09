@@ -25,4 +25,13 @@ extension String {
             return false
         }
     }
+    
+    func toDate(format: String) -> Date? {
+        let formatter = DateFormatter()
+        
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = format
+
+        return formatter.date(from: self)
+    }
 }

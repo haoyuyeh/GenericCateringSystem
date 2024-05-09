@@ -9,16 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LogIn-->
-        <scene sceneID="0Co-lX-7Cp">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="LogIn" storyboardName="LogIn" referencedIdentifier="LogIn" id="6u2-x6-FR3" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="ert-to-iXo"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6Gq-02-DOI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1796" y="-457"/>
-        </scene>
         <!--HistoricalOrdersVC-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
@@ -35,7 +25,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="rectangle.portrait.and.arrow.forward" catalog="system"/>
                                         <connections>
-                                            <segue destination="6u2-x6-FR3" kind="show" id="6da-H7-pWZ"/>
+                                            <action selector="logOutBtnPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Uoo-uQ-Uh1"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -49,43 +39,43 @@
                             </view>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="JP6-zU-jAU">
                                 <rect key="frame" x="10" y="70.5" width="1170" height="72.5"/>
-                            </datePicker>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="w84-42-0o0">
-                                <rect key="frame" x="10" y="143" width="1170" height="72.5"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <date key="minimumDate" timeIntervalSinceReferenceDate="694195200">
+                                    <!--2022-12-31 16:00:00 +0000-->
+                                </date>
                                 <connections>
-                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="baj-kJ-INr"/>
+                                    <action selector="datePickerValueChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="FnW-ul-tWG"/>
                                 </connections>
-                            </searchBar>
+                            </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Ii6-el-m2O" userLabel="Historical Order Table View">
-                                <rect key="frame" x="10" y="215.5" width="1170" height="534.5"/>
+                                <rect key="frame" x="10" y="148" width="1170" height="602"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoricalOrderCell" textLabel="Yo8-U0-z4v" detailTextLabel="BcX-b1-2pp" style="IBUITableViewCellStyleSubtitle" id="Rjo-Jx-OXL" userLabel="Historical Order Cell">
-                                        <rect key="frame" x="0.0" y="50" width="1170" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoricalOrderCell" textLabel="Yo8-U0-z4v" detailTextLabel="BcX-b1-2pp" style="IBUITableViewCellStyleSubtitle" id="Rjo-Jx-OXL" userLabel="Order Cell" customClass="OrderCell" customModule="GenericCateringSystem" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="1170" height="57.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rjo-Jx-OXL" id="9gl-vp-OTe">
-                                            <rect key="frame" x="0.0" y="0.0" width="1170" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1170" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yo8-U0-z4v">
-                                                    <rect key="frame" x="16" y="6" width="25" height="14.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Uber" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="Yo8-U0-z4v">
+                                                    <rect key="frame" x="16" y="9" width="37.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcX-b1-2pp">
-                                                    <rect key="frame" x="16" y="22.5" width="44" height="14.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="BcX-b1-2pp">
+                                                    <rect key="frame" x="16" y="32.5" width="44" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="0Nu-Gz-mKy" kind="showDetail" id="7A1-PT-eBT"/>
+                                            <outlet property="name" destination="Yo8-U0-z4v" id="iV8-B9-mGp"/>
+                                            <outlet property="number" destination="BcX-b1-2pp" id="GCE-hP-3pK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -99,17 +89,13 @@
                             <constraint firstItem="mA5-lU-mHQ" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.05" id="7IT-9h-IzD"/>
                             <constraint firstItem="mA5-lU-mHQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ADt-yr-US8"/>
                             <constraint firstItem="Ii6-el-m2O" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="BXz-dM-Zmn"/>
-                            <constraint firstItem="w84-42-0o0" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.1" id="D9e-NO-Uck"/>
-                            <constraint firstItem="w84-42-0o0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="DI4-W0-KdQ"/>
                             <constraint firstItem="JP6-zU-jAU" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="JaY-Fh-58l"/>
-                            <constraint firstItem="Ii6-el-m2O" firstAttribute="top" secondItem="w84-42-0o0" secondAttribute="bottom" id="Jst-DS-xVK"/>
                             <constraint firstItem="Ii6-el-m2O" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="N6u-xg-97q"/>
                             <constraint firstItem="JP6-zU-jAU" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.1" id="NMM-JH-BM4"/>
+                            <constraint firstItem="Ii6-el-m2O" firstAttribute="top" secondItem="JP6-zU-jAU" secondAttribute="bottom" constant="5" id="SZ3-ig-tf2"/>
                             <constraint firstItem="mA5-lU-mHQ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="cNQ-9c-aiJ"/>
                             <constraint firstItem="JP6-zU-jAU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="crs-Qc-HNi"/>
-                            <constraint firstItem="w84-42-0o0" firstAttribute="top" secondItem="JP6-zU-jAU" secondAttribute="bottom" id="d3S-Iy-nrO"/>
                             <constraint firstItem="mA5-lU-mHQ" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="sI2-2A-hzs"/>
-                            <constraint firstItem="w84-42-0o0" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="sjb-F0-nIg"/>
                             <constraint firstItem="JP6-zU-jAU" firstAttribute="top" secondItem="mA5-lU-mHQ" secondAttribute="bottom" constant="10" id="wx8-QI-zoY"/>
                         </constraints>
                     </view>
@@ -117,6 +103,10 @@
                         <imageReference key="image" image="archivebox.fill" catalog="system" symbolScale="default"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="datePicker" destination="JP6-zU-jAU" id="fAX-8S-a4d"/>
+                        <outlet property="historicalOrderTableView" destination="Ii6-el-m2O" id="XUf-V8-6sp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -125,22 +115,22 @@
         <!--Historical Order Details VC-->
         <scene sceneID="dgh-YM-IdL">
             <objects>
-                <viewController id="0Nu-Gz-mKy" userLabel="Historical Order Details VC" sceneMemberID="viewController">
+                <viewController id="0Nu-Gz-mKy" userLabel="Historical Order Details VC" customClass="HistoricalOrderDetailVC" customModule="GenericCateringSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7rE-W3-wF5">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="780"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1180" height="820"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XiO-wH-EtT" userLabel="Order Name Stack View">
-                                <rect key="frame" x="10" y="0.0" width="694" height="117"/>
+                                <rect key="frame" x="10" y="24" width="1170" height="116.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uber" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o17-gI-z6w" userLabel="Title Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="694" height="58.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uber" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o17-gI-z6w">
+                                        <rect key="frame" x="0.0" y="0.0" width="1170" height="58"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238454748203" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCw-oj-XW9" userLabel="Subtitle Label">
-                                        <rect key="frame" x="0.0" y="58.5" width="694" height="58.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238454748203" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCw-oj-XW9">
+                                        <rect key="frame" x="0.0" y="58" width="1170" height="58.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -148,36 +138,37 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GH4-q8-HUa" userLabel="Item Table View">
-                                <rect key="frame" x="10" y="117" width="694" height="585"/>
+                                <rect key="frame" x="10" y="140.5" width="1170" height="582"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="tIl-92-EWI" userLabel="Item Cell">
-                                        <rect key="frame" x="0.0" y="50" width="694" height="35"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="tIl-92-EWI" userLabel="Item Cell" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="1170" height="34.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tIl-92-EWI" id="X8e-HI-IYw">
-                                            <rect key="frame" x="0.0" y="0.0" width="694" height="35"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1170" height="34.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXX" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4MH-5r-vCQ" userLabel="Item Name Label">
-                                                    <rect key="frame" x="5" y="0.0" width="416.5" height="35"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXX" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4MH-5r-vCQ">
+                                                    <rect key="frame" x="5" y="0.0" width="702" height="34.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-nH-aK4" userLabel="Price Stack View">
-                                                    <rect key="frame" x="416.5" y="0.0" width="277.5" height="35"/>
+                                                    <rect key="frame" x="702" y="0.0" width="468" height="34.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$30" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWc-ob-v8o" userLabel="Item Price Label">
-                                                            <rect key="frame" x="0.0" y="0.0" width="138.5" height="35"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$30" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWc-ob-v8o">
+                                                            <rect key="frame" x="0.0" y="0.0" width="234" height="34.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <color key="textColor" systemColor="systemRedColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ds-jP-tml">
-                                                            <rect key="frame" x="138.5" y="0.0" width="139" height="35"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" title="X1"/>
-                                                        </button>
+                                                        <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="3" borderStyle="roundedRect" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sVj-BF-3Ve">
+                                                            <rect key="frame" x="234" y="0.0" width="234" height="34.5"/>
+                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
@@ -192,21 +183,29 @@
                                                 <constraint firstItem="H7l-nH-aK4" firstAttribute="top" secondItem="X8e-HI-IYw" secondAttribute="top" id="zwO-qV-Zd8"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="4MH-5r-vCQ" id="NbM-QV-B2C"/>
+                                            <outlet property="quantity" destination="sVj-BF-3Ve" id="3mK-I2-U1H"/>
+                                            <outlet property="unitPrice" destination="fWc-ob-v8o" id="8l6-Bu-FIW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
+                                <connections>
+                                    <outlet property="delegate" destination="0Nu-Gz-mKy" id="WYM-bV-xGa"/>
+                                </connections>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XnW-1h-sNR" userLabel="Total Sum Stack View">
-                                <rect key="frame" x="10" y="702" width="694" height="78"/>
+                                <rect key="frame" x="10" y="722.5" width="1170" height="77.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLn-Te-snp" userLabel="Total Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="347" height="78"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="585" height="77.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ns-oF-H1V" userLabel="Sum Label">
-                                        <rect key="frame" x="347" y="0.0" width="347" height="78"/>
+                                        <rect key="frame" x="585" y="0.0" width="585" height="77.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <color key="textColor" systemColor="systemRedColor"/>
                                         <nil key="highlightedColor"/>
@@ -231,6 +230,12 @@
                             <constraint firstItem="GH4-q8-HUa" firstAttribute="trailing" secondItem="nu4-fo-7IW" secondAttribute="trailing" id="wpr-Dr-G4e"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="itemTableView" destination="GH4-q8-HUa" id="oCM-wc-bo6"/>
+                        <outlet property="name" destination="o17-gI-z6w" id="pTh-OO-Mok"/>
+                        <outlet property="number" destination="oCw-oj-XW9" id="dn0-q9-7q9"/>
+                        <outlet property="sum" destination="7Ns-oF-H1V" id="5eq-Ip-9eu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4qi-jR-wcL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

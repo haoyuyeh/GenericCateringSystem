@@ -1,17 +1,15 @@
 //
-//  TakeOutOrderDetailVC.swift
+//  HistoricalOrderDetailVC.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2024/5/8.
+//  Created by Hao Yu Yeh on 2024/5/9.
 //
-import OSLog
+
 import UIKit
 
-class TakeOutOrderDetailVC: UIViewController {
+class HistoricalOrderDetailVC: UIViewController {
     // MARK: Properties
-    private let logger = Logger(subsystem: "TakeOut", category: "TakeOutOrderDetailVC")
-    
-    private var viewModel = TakeOutOrderDetailVCViewModel()
+    private var viewModel = HistoricalOrderDetailVCViewModel()
     var order: Order?
     
     private lazy var itemDataSource = configureItemDataSource()
@@ -24,7 +22,8 @@ class TakeOutOrderDetailVC: UIViewController {
     }
     
     // MARK: IBOutlet
-    @IBOutlet weak var type: UILabel!
+    
+    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var number: UILabel!
     @IBOutlet weak var sum: UILabel!
     
@@ -32,30 +31,31 @@ class TakeOutOrderDetailVC: UIViewController {
 }
 
 // MARK: Helper
-extension TakeOutOrderDetailVC {
+extension HistoricalOrderDetailVC {
     func config() {
         switch Int(order!.type) {
         case OrderType.eatIn.rawValue:
-            type.text = "Eat-in"
+            name.text = "Eat-in"
         case OrderType.walkIn.rawValue:
-            type.text = "Walk-in"
+            name.text = "Walk-in"
         default:
-            type.text = "\(order?.platformName ?? "nil")"
+            name.text = "\(order?.platformName ?? "nil")"
         }
         number.text = order?.number
         sum.text = "$\(String(order?.totalSum ?? 0))"
     }
 }
 
-// MARK: Item Table View
-extension TakeOutOrderDetailVC {
+
+
+// MARK: UITableViewDelegate
+extension HistoricalOrderDetailVC {
     func configureItemDataSource() -> UITableViewDiffableDataSource<ItemSection, Item> {
         let dataSource = UITableViewDiffableDataSource<ItemSection, Item>(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
             
             cell.name.text = item.name
-            cell.unitPrice.text = "$\(item.price)"
+            cell.unitPrice.text = "$\(String(item.price))"
             cell.quantity.text = String(item.quantity)
             
             return cell

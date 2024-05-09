@@ -25,6 +25,10 @@ extension TableOrderDetailVCViewModel {
         PersistenceService.shared.saveContext()
     }
     
+    func updateNotes(of order: Order, to notes: String) {
+        order.comments = notes
+    }
+    
     private func updateTotalSum() -> Double {
         var sum = 0.0
         for item in currentOrderedItems {

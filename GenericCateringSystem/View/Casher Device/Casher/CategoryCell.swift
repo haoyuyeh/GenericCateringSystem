@@ -7,6 +7,7 @@
 
 import UIKit
 import OSLog
+import CoreData
 
 class CategoryCell: UICollectionViewCell {
     private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
@@ -56,6 +57,16 @@ class CategoryCell: UICollectionViewCell {
     }
 }
 
+// MARK: CellConfig
+extension CategoryCell: CellConfig {
+    func configure(target: NSManagedObject) {
+        let target = target as! Category
+        
+        name.text = target.name
+    }
+}
+
+// MARK: CategoryDeleteModeDelegate
 extension CategoryCell: CategoryDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value

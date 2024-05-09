@@ -6,13 +6,9 @@
 //
 
 import UIKit
-
-protocol ItemQuantityDelegate {
-    func itemQuantityChanged(to num: Int, of index: IndexPath)
-}
+import CoreData
 
 class ItemCell: UITableViewCell {
-
     
     var delegate: ItemQuantityDelegate?
     var indexPath: IndexPath?
@@ -32,15 +28,15 @@ class ItemCell: UITableViewCell {
         delegate?.itemQuantityChanged(to: Int(sender.text!)!,
                                       of: indexPath!)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+}
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+// MARK: CellConfig
+extension ItemCell: CellConfig {
+    func configure(target: NSManagedObject) {
+        let target = target as! Item
+        
+        name.text = target.name
+        unitPrice.text = "$\(String(target.price))"
+        quantity.text = "\(String(target.quantity))"
     }
 }

@@ -14,6 +14,8 @@ class HistoricalOrderVC: UIViewController {
     var currentDevice: Device?
     private var targetDate = Date()
     
+    typealias HistoricalOrderDataSource = UITableViewDiffableDataSource<OrderSection, Order>
+    typealias HistoricalOrderSnapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>
     private lazy var historicalOrderDataSource = configureHistoricalOrderDataSource()
     
     override func viewDidLoad() {
@@ -64,13 +66,12 @@ extension HistoricalOrderVC: UITableViewDelegate {
 
 // MARK: Historical Order Table View
 extension HistoricalOrderVC {
-    func configureHistoricalOrderDataSource() -> UITableViewDiffableDataSource<OrderSection, Order> {
-        let dataSource = UITableViewDiffableDataSource<OrderSection, Order>(tableView: historicalOrderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
+    func configureHistoricalOrderDataSource() -> HistoricalOrderDataSource {
+        let dataSource = HistoricalOrderDataSource(tableView: historicalOrderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
             
             cell.indexPath = indexPath
             cell.order = order
-            
             switch Int(order.type) {
             case OrderType.eatIn.rawValue:
                 cell.name.text = "Eat-in - Table #\(order.number ?? "nil")"
@@ -87,7 +88,7 @@ extension HistoricalOrderVC {
     }
     
     func updateHistoricalOrderDataSource() {
-        var snapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>()
+        var snapShot = HistoricalOrderSnapShot()
         
         snapShot.appendSections([.eatIn, .walkIn, .deliveryPlatform])
         snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .eatIn), toSection: .eatIn)

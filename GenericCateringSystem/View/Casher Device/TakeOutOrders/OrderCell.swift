@@ -5,13 +5,8 @@
 //  Created by Hao Yu Yeh on 2024/5/8.
 //
 import OSLog
+import CoreData
 import UIKit
-
-protocol OrderStatusChangedDelegate {
-    func statusChanged(to state: OrderState, of order: Order, at indexPath: IndexPath)
-}
-
-
 
 class OrderCell: UITableViewCell {
     // MARK: Properties
@@ -62,21 +57,26 @@ class OrderCell: UITableViewCell {
         }
     }
     
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     required init?(coder: NSCoder) {
         status = OrderState.preparing
         super.init(coder: coder)
+    }
+}
+
+// MARK: CellConfig
+extension OrderCell: CellConfig {
+    func configure(target: NSManagedObject) {
+        let target = target as! Order
+        
+        order = target
+        switch order!.type {
+        case 1:
+            name.text = "Walk-in"
+        case 2:
+            name.text = order!.platformName
+        default:
+            logger.error("error order type: \(self.order!.type)")
+        }
+        number.text = order!.number
     }
 }

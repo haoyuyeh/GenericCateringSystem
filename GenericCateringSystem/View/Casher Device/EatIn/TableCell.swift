@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TableCell: UICollectionViewCell {
     // MARK: IBOutlet
@@ -31,6 +32,19 @@ class TableCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 }
+
+// MARK: TableStateChangedDelegate
+extension TableCell: CellConfig {
+    func configure(target: NSManagedObject) {
+        let target = target as! Device
+        tableNumber.text = target.number
+        peopleServed.text = String(target.person)
+        
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 1
+    }
+}
+
 // MARK: TableStateChangedDelegate
 extension TableCell: TableStateChangedDelegate {
     func occupied(at table: UUID) {

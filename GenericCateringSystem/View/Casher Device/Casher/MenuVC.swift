@@ -20,9 +20,27 @@ class MenuVC: UIViewController {
     private var selectedCategory: UUID?
     private var selectedOption: UUID?
     
-    lazy var categoryDataSource = configureCategoryDataSource()
-    lazy var optionDataSource = configureOptionDataSource()
+    typealias OrderDataSource = UITableViewDiffableDataSource<ItemSection, Item>
+    typealias OrdrSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
+    private lazy var itemDataSource = configureOrderDataSource()
     
+    typealias CategoryDataSource = UICollectionViewDiffableDataSource<CategorySection, Category>
+    typealias CategorySnapShot = NSDiffableDataSourceSnapshot<CategorySection, Category>
+    private lazy var categoryDataSource = configureCategoryDataSource()
+    
+    typealias OptionDataSource = UICollectionViewDiffableDataSource<OptionSection, Option>
+    typealias OptionSnapShot = NSDiffableDataSourceSnapshot<OptionSection, Option>
+    private lazy var optionDataSource = configureOptionDataSource()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        config()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        viewModel.discardAll()
+    }
     
     // MARK: IBOutlet
     @IBOutlet weak var orderTypeControler: UISegmentedControl!
@@ -90,20 +108,7 @@ class MenuVC: UIViewController {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        logger.debug("enter: \(self.currentDevice)")
-        
-        self.tabBarController?.delegate = self
-        viewModel.delegate = self
-        
-        categoryCollectionView.dataSource = categoryDataSource
-        updateCategorySnapshot()
-        
-        optionCollectionView.dataSource = optionDataSource
-        updateOptionSnapshot()
-    }
+    
 }
 
 // MARK: UITextFieldDelegate
@@ -118,23 +123,28 @@ extension MenuVC: UITextFieldDelegate {
     }
 }
 
-// MARK: UITableViewDataSource
-extension MenuVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getCurrentOrderedItemCounts()
+// MARK: Order Table View
+extension MenuVC {
+    func configureOrderDataSource() -> OrderDataSource {
+        let dataSource = OrderDataSource(tableView: orderTableView) { (tableView, indexPath, item) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
+            
+            cell.delegate = self
+            cell.indexPath = indexPath
+            cell.configure(target: item)
+            
+            return cell
+        }
+        return dataSource
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
+    func updateOrderSnapShot(animatingDifferences value: Bool = false) {
+        var snapshot = OrdrSnapShot()
         
-        cell.delegate = self
-        cell.indexPath = indexPath
+        snapshot.appendSections([.all])
+        snapshot.appendItems(viewModel.getAllItems(of: currentOrder), toSection: .all)
         
-        cell.name.text = viewModel.getItemName(at: indexPath.row)
-        cell.unitPrice.text = viewModel.getItemUnitPrice(at: indexPath.row)
-        cell.quantity.text = viewModel.getItemQuantity(at: indexPath.row)
-        
-        return cell
+        itemDataSource.apply(snapshot, animatingDifferences: value)
     }
 }
 
@@ -168,6 +178,20 @@ extension MenuVC: TotalSumDelegate {
 
 // MARK: Helpler
 extension MenuVC {
+    func config() {
+        self.tabBarController?.delegate = self
+        viewModel.delegate = self
+        
+        orderTableView.dataSource = itemDataSource
+        updateOrderSnapShot()
+        
+        categoryCollectionView.dataSource = categoryDataSource
+        updateCategorySnapshot()
+        
+        optionCollectionView.dataSource = optionDataSource
+        updateOptionSnapshot()
+    }
+    
     /// called when the order completed
     func reset() {
         viewModel.discardAll()
@@ -179,11 +203,13 @@ extension MenuVC {
         orderNumberTF.text = nil
         orderDescriptionTF.text = nil
         sumLabel.text = "0"
-        orderTableView.reloadData()
+//        orderTableView.reloadData()
         
         if orderTypeControler.selectedSegmentIndex == 1 {
             orderNumberTF.text = viewModel.getWalkInOrderNumber()
         }
+        
+        updateOrderSnapShot()
         updateCategorySnapshot()
         updateOptionSnapshot()
     }
@@ -199,7 +225,8 @@ extension MenuVC {
         pickItemState = .enterCategory
         selectedOption = nil
         
-        orderTableView.reloadData()
+        updateOrderSnapShot()
+//        orderTableView.reloadData()
     }
 }
 
@@ -231,49 +258,51 @@ extension MenuVC: UICollectionViewDelegate {
 
 // MARK: Category CollectionView
 extension MenuVC {
-    func configureCategoryDataSource() -> UICollectionViewDiffableDataSource<CategorySection, Category> {
-        let dataSource = UICollectionViewDiffableDataSource<CategorySection, Category>(collectionView: categoryCollectionView) {
+    func configureCategoryDataSource() -> CategoryDataSource {
+        let dataSource = CategoryDataSource(collectionView: categoryCollectionView) {
             (collectionView, indexPath, category) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-            cell.name.text = category.name
+            
             cell.uuid = category.uuid
+            cell.configure(target: category)
             
             return cell
         }
         return dataSource
     }
     
-    func updateCategorySnapshot(animatingChange: Bool = false) {
+    func updateCategorySnapshot(animatingDifferences value: Bool = false) {
         
         // Create a snapshot and populate the data
-        var snapshot = NSDiffableDataSourceSnapshot<CategorySection, Category>()
+        var snapshot = CategorySnapShot()
         snapshot.appendSections([.all])
         snapshot.appendItems(viewModel.getAllCategory(), toSection: .all)
         
-        categoryDataSource.apply(snapshot, animatingDifferences: false)
+        categoryDataSource.apply(snapshot, animatingDifferences: value)
     }
 }
 
 // MARK: Option CollectionView
 extension MenuVC {
-    func configureOptionDataSource() -> UICollectionViewDiffableDataSource<OptionSection, Option> {
-        let dataSource = UICollectionViewDiffableDataSource<OptionSection, Option>(collectionView: optionCollectionView) {
+    func configureOptionDataSource() -> OptionDataSource {
+        let dataSource = OptionDataSource(collectionView: optionCollectionView) {
             (collectionView, indexPath, option) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
-            cell.name.text = option.name
-            cell.unitPrice.text = String(option.price)  
+            
             cell.uuid = option.uuid
+            cell.configure(target: option)
+            
             return cell
         }
         return dataSource
     }
     
-    func updateOptionSnapshot(animatingChange: Bool = false) {
+    func updateOptionSnapshot(animatingDifferences value: Bool = false) {
         
         // Create a snapshot and populate the data
-        var snapshot = NSDiffableDataSourceSnapshot<OptionSection, Option>()
+        var snapshot = OptionSnapShot()
         snapshot.appendSections([.all])
         
         switch pickItemState {
@@ -285,7 +314,7 @@ extension MenuVC {
             break
         }
         
-        optionDataSource.apply(snapshot, animatingDifferences: false)
+        optionDataSource.apply(snapshot, animatingDifferences: value)
     }
 }
 

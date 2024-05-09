@@ -14,6 +14,8 @@ class TakeOutOrderDetailVC: UIViewController {
     private var viewModel = TakeOutOrderDetailVCViewModel()
     var order: Order?
     
+    typealias ItemDataSource = UITableViewDiffableDataSource<ItemSection, Item>
+    typealias ItemSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
     private lazy var itemDataSource = configureItemDataSource()
     
     override func viewDidLoad() {
@@ -49,14 +51,12 @@ extension TakeOutOrderDetailVC {
 
 // MARK: Item Table View
 extension TakeOutOrderDetailVC {
-    func configureItemDataSource() -> UITableViewDiffableDataSource<ItemSection, Item> {
-        let dataSource = UITableViewDiffableDataSource<ItemSection, Item>(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
+    func configureItemDataSource() -> ItemDataSource {
+        let dataSource = ItemDataSource(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
             
-            cell.name.text = item.name
-            cell.unitPrice.text = "$\(item.price)"
-            cell.quantity.text = String(item.quantity)
+            cell.configure(target: item)
             
             return cell
         }
@@ -64,7 +64,7 @@ extension TakeOutOrderDetailVC {
     }
     
     func updateItemSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>()
+        var snapShot = ItemSnapShot()
         
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllItems(of: order!), toSection: .all)

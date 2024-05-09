@@ -10,6 +10,7 @@
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
 		7B51548D2BEC8C8100B1787A /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548C2BEC8C8100B1787A /* Date+Ext.swift */; };
+		7B51548F2BECC39500B1787A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548E2BECC39500B1787A /* Protocols.swift */; };
 		7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */; };
 		7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4452AE105A200CDA322 /* AppDelegate.swift */; };
 		7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */; };
@@ -68,6 +69,7 @@
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
 		7B51548C2BEC8C8100B1787A /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		7B51548E2BECC39500B1787A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		7BA0E4422AE105A200CDA322 /* GenericCateringSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenericCateringSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0E4452AE105A200CDA322 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				7BA0E4472AE105A200CDA322 /* SceneDelegate.swift */,
 				7B73927F2AE38E3C00E3A968 /* PersistenceService.swift */,
 				7BF84B642BE9FDD300C5944C /* Enums.swift */,
+				7B51548E2BECC39500B1787A /* Protocols.swift */,
 				7BF120712BDA4277002E18E8 /* Helper.swift */,
 				7BE7785C2AF6321F00BE47FA /* Extensions */,
 			);
@@ -459,6 +462,7 @@
 				7BF1205C2BD4B635002E18E8 /* CategoryCell.swift in Sources */,
 				7BE778242AF48B1200BE47FA /* LogInVCViewModel.swift in Sources */,
 				7BF84B792BEB573F00C5944C /* TakeOutOrderDetailVCViewModel.swift in Sources */,
+				7B51548F2BECC39500B1787A /* Protocols.swift in Sources */,
 				7B7392802AE38E3C00E3A968 /* PersistenceService.swift in Sources */,
 				7BE778622AF763F800BE47FA /* MenuVC.swift in Sources */,
 				7BF120722BDA4277002E18E8 /* Helper.swift in Sources */,

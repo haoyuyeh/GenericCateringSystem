@@ -7,10 +7,6 @@
 import OSLog
 import UIKit
 
-protocol CheckOutDelegate {
-    func orderCompleted(at table: UUID)
-}
-
 class TableOrderDetailVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "EatIn", category: "TableOrderDetailVC")
@@ -20,7 +16,9 @@ class TableOrderDetailVC: UIViewController {
     var currentOrder: Order?
     var delegate: CheckOutDelegate?
     
-    lazy var itemDataSource = configureItemDataSource()
+    typealias ItemDataSource = UITableViewDiffableDataSource<TableSection, Item>
+    typealias ItemSnapShot = NSDiffableDataSourceSnapshot<TableSection, Item>
+    private lazy var itemDataSource = configureItemDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,28 +108,25 @@ extension TableOrderDetailVC: UITextFieldDelegate {
 
 // MARK: Item Table View
 extension TableOrderDetailVC {
-    func configureItemDataSource() -> UITableViewDiffableDataSource<TableSection, Item> {
-        let dataSource = UITableViewDiffableDataSource<TableSection, Item>(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
+    func configureItemDataSource() -> ItemDataSource {
+        let dataSource = ItemDataSource(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
             
             cell.delegate = self
             cell.indexPath = indexPath
-            
-            cell.name.text = self.viewModel.getItemName(at: indexPath.row)
-            cell.unitPrice.text = self.viewModel.getItemUnitPrice(at: indexPath.row)
-            cell.quantity.text = self.viewModel.getItemQuantity(at: indexPath.row)
+            cell.configure(target: item)
             
             return cell
         }
         return dataSource
     }
     
-    func updateItemSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<TableSection, Item>()
+    func updateItemSnapShot(animatingDifferences value:Bool = false) {
+        var snapShot = ItemSnapShot()
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllItems(of: currentOrder!), toSection: .all)
         
-        itemDataSource.apply(snapShot, animatingDifferences: false)
+        itemDataSource.apply(snapShot, animatingDifferences: value)
     }
 }
 

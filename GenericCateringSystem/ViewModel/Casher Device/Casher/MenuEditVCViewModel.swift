@@ -54,7 +54,7 @@ extension MenuEditVCViewModel {
             case .enterCategory:
                 // get all options which do not have parent and under this category
                 let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
+                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ && parent == nil", category))
             default:
                 let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
                 return option[0].children?.allObjects as! [Option]
@@ -92,7 +92,6 @@ extension MenuEditVCViewModel {
         for target in targets {
             let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
             PersistenceService.shared.delete(object: option)
-            logger.debug("option number in database: \(Helper.shared.fetchOption(predicate: NSPredicate(value: true)))")
         }
     }
 }

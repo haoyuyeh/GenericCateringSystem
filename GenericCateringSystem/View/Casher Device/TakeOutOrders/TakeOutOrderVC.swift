@@ -14,7 +14,9 @@ class TakeOutOrderVC: UIViewController {
     private var viewModel = TakeOutOrderVCViewModel()
     var currentDevice: Device?
     
-    lazy var orderDataSource = configureOrderDataSource()
+    typealias OrderDataSource = UITableViewDiffableDataSource<OrderSection, Order>
+    typealias OrderSnapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>
+    private lazy var orderDataSource = configureOrderDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,24 +58,14 @@ extension TakeOutOrderVC: UITableViewDelegate {
 
 // MARK: Order Table View
 extension TakeOutOrderVC {
-    func configureOrderDataSource() -> UITableViewDiffableDataSource<OrderSection, Order> {
-        let dataSource = UITableViewDiffableDataSource<OrderSection, Order>(tableView: orderTableView) { [unowned self] (tableView, indexPath, order) -> UITableViewCell? in
+    func configureOrderDataSource() -> OrderDataSource {
+        let dataSource = OrderDataSource(tableView: orderTableView) { [unowned self] (tableView, indexPath, order) -> UITableViewCell? in
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
             
             cell.indexPath = indexPath
-            cell.order = order
             cell.delegate = self
-            
-            switch order.type {
-            case 1:
-                cell.name.text = "Walk-in"
-            case 2:
-                cell.name.text = order.platformName
-            default:
-                logger.error("error order type: \(order.type)")
-            }
-            cell.number.text = order.number
+            cell.configure(target: order)
             
             return cell
         }
@@ -81,7 +73,7 @@ extension TakeOutOrderVC {
     }
     
     func updateOrderSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>()
+        var snapShot = OrderSnapShot()
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllTakeOutOrders(), toSection: .all)
         

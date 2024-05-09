@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class OptionCell: UICollectionViewCell {
     
@@ -44,7 +45,17 @@ class OptionCell: UICollectionViewCell {
     }
 
 }
+// MARK: CellConfig
+extension OptionCell: CellConfig {
+    func configure(target: NSManagedObject) {
+        let target = target as! Option
+        
+        name.text = target.name
+        unitPrice.text = "$\(String(target.price))"
+    }
+}
 
+// MARK: OptionDeleteModeDelegate
 extension OptionCell: OptionDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value

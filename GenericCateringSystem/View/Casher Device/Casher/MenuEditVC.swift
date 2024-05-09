@@ -8,15 +8,6 @@
 import OSLog
 import UIKit
 
-/// Tell the category cell how to display itself
-protocol CategoryDeleteModeDelegate {
-    func isEnterDeleteMode(value: Bool)
-}
-/// Tell the option cell how to display itself
-protocol OptionDeleteModeDelegate {
-    func isEnterDeleteMode(value: Bool)
-}
-
 class MenuEditVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "Cashier", category: "MenuEditVC")
@@ -30,8 +21,13 @@ class MenuEditVC: UIViewController {
     private var categoryDelegate: CategoryDeleteModeDelegate?
     private var optionDelegate: OptionDeleteModeDelegate?
     
-    lazy var categoryDataSource = configureCategoryDataSource()
-    lazy var optionDataSource = configureOptionDataSource()
+    typealias CategoryDataSource = UICollectionViewDiffableDataSource<CategorySection, Category>
+    typealias CategorySnapShot = NSDiffableDataSourceSnapshot<CategorySection, Category>
+    private lazy var categoryDataSource = configureCategoryDataSource()
+    
+    typealias OptionDataSource = UICollectionViewDiffableDataSource<OptionSection, Option>
+    typealias OptionSnapShot = NSDiffableDataSourceSnapshot<OptionSection, Option>
+    private lazy var optionDataSource = configureOptionDataSource()
     
     // MARK: IBOutlet
     @IBOutlet weak var addCategoryBtn: UIButton!
@@ -341,12 +337,13 @@ extension MenuEditVC {
 
 // MARK: Category CollectionView
 extension MenuEditVC {
-    func configureCategoryDataSource() -> UICollectionViewDiffableDataSource<CategorySection, Category> {
-        let dataSource = UICollectionViewDiffableDataSource<CategorySection, Category>(collectionView: categoryCollectionView) { (collectionView, indexPath, category) -> UICollectionViewCell? in
+    func configureCategoryDataSource() -> CategoryDataSource {
+        let dataSource = CategoryDataSource(collectionView: categoryCollectionView) { (collectionView, indexPath, category) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-            cell.name.text = category.name
+            
             cell.uuid = category.uuid
+            cell.configure(target: category)
             self.categoryDelegate = cell
             self.categoryDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
             
@@ -355,28 +352,27 @@ extension MenuEditVC {
         return dataSource
     }
     
-    func updateCategorySnapshot(animatingChange: Bool = false) {
+    func updateCategorySnapshot(animatingDifferences value: Bool = false) {
         
         // Create a snapshot and populate the data
-        var snapshot = NSDiffableDataSourceSnapshot<CategorySection, Category>()
+        var snapshot = CategorySnapShot()
         snapshot.appendSections([.all])
         snapshot.appendItems(viewModel.getAllCategory(), toSection: .all)
         
-        categoryDataSource.apply(snapshot, animatingDifferences: false)
+        categoryDataSource.apply(snapshot, animatingDifferences: value)
     }
 }
 
 // MARK: Option CollectionView
 extension MenuEditVC {
-    func configureOptionDataSource() -> UICollectionViewDiffableDataSource<OptionSection, Option> {
-        let dataSource = UICollectionViewDiffableDataSource<OptionSection, Option>(collectionView: optionCollectionView) {
+    func configureOptionDataSource() -> OptionDataSource {
+        let dataSource = OptionDataSource(collectionView: optionCollectionView) {
             (collectionView, indexPath, option) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
-            cell.name.text = option.name
-            cell.uuid = option.uuid
-            cell.unitPrice.text = String(option.price)
             
+            cell.uuid = option.uuid
+            cell.configure(target: option)
             self.optionDelegate = cell
             self.optionDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
             
@@ -385,10 +381,10 @@ extension MenuEditVC {
         return dataSource
     }
     
-    func updateOptionSnapshot(animatingChange: Bool = false) {
+    func updateOptionSnapshot(animatingDifferences value: Bool = false) {
         
         // Create a snapshot and populate the data
-        var snapshot = NSDiffableDataSourceSnapshot<OptionSection, Option>()
+        var snapshot = OptionSnapShot()
         snapshot.appendSections([.all])
         
         switch pickItemState {
@@ -400,6 +396,6 @@ extension MenuEditVC {
             break
         }
         
-        optionDataSource.apply(snapshot, animatingDifferences: false)
+        optionDataSource.apply(snapshot, animatingDifferences: value)
     }
 }

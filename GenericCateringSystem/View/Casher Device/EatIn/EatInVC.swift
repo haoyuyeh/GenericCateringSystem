@@ -7,14 +7,6 @@
 import OSLog
 import UIKit
 
-protocol TableStateChangedDelegate {
-    func occupied(at table: UUID)
-    func released(at table: UUID)
-    func tableOccupied()
-    func tableReleased()
-}
-
-
 class EatInVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "EatIn", category: "EatInVC")
@@ -22,7 +14,9 @@ class EatInVC: UIViewController {
     var currentDevice: Device?
     var delegate: TableStateChangedDelegate?
     
-    lazy var tableDataSource = configureTableDataSource()
+    typealias TableDataSource = UICollectionViewDiffableDataSource<TableSection, Device>
+    typealias TableSnapShot = NSDiffableDataSourceSnapshot<TableSection, Device>
+    private lazy var tableDataSource = configureTableDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,30 +80,26 @@ extension EatInVC: UICollectionViewDelegate {
 
 // MARK: - Table Collection View
 extension EatInVC {
-    func configureTableDataSource() -> UICollectionViewDiffableDataSource<TableSection, Device> {
-        let dataSource = UICollectionViewDiffableDataSource<TableSection, Device>(collectionView: tableCollectionView){
+    func configureTableDataSource() -> TableDataSource {
+        let dataSource = TableDataSource(collectionView: tableCollectionView){
             (collectionView, indexPath, device) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCell", for: indexPath) as! TableCell
             
             cell.uuid = device.uuid
-            cell.tableNumber.text = device.number
-            cell.peopleServed.text = String(device.person)
+            cell.configure(target: device)
             self.delegate = cell
-            
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
             
             return cell
         }
         return dataSource
     }
     
-    func updateTableSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<TableSection, Device>()
+    func updateTableSnapShot(animatingDifferences value:Bool = false) {
+        var snapShot = TableSnapShot()
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllTable(), toSection: .all)
         
-        tableDataSource.apply(snapShot, animatingDifferences: false)
+        tableDataSource.apply(snapShot, animatingDifferences: value)
         
     }
 }

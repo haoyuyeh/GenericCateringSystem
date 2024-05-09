@@ -35,31 +35,12 @@ extension MenuVCViewModel {
 
 // MARK: Ordered Item TableView
 extension MenuVCViewModel {
-    /// get counts of current ordered items
-    /// - Returns: Int
-    func getCurrentOrderedItemCounts() -> Int {
-        return currentOrderedItems.count
-    }
-    
-    /// get name of item at index position from current order
-    /// - Parameter index:
-    /// - Returns: item name
-    func getItemName(at index: Int) -> String {
-        return currentOrderedItems[index].name ?? "nil"
-    }
-    
-    /// get unit price of item at index position from current order
-    /// - Parameter index:
-    /// - Returns:
-    func getItemUnitPrice(at index: Int) -> String {
-        return "$\(String(currentOrderedItems[index].price))"
-    }
-    
-    /// get quantiy of item at index position from current order
-    /// - Parameter index:
-    /// - Returns: quantity of item
-    func getItemQuantity(at index: Int) -> String {
-        return String(currentOrderedItems[index].quantity)
+    func getAllItems(of order: Order?) -> [Item] {
+        if let order = order {
+            return order.items?.allObjects as! [Item]
+        }else {
+            return []
+        }
     }
     
     /// 1. check whether the new item exists in the order,
@@ -91,6 +72,7 @@ extension MenuVCViewModel {
         
         delegate?.totalSumChanged(to: updateTotalSum())
     }
+    
     /// check whether the new item exists in the order,
     /// return result and index of item if there is any
     /// - Parameter newItem:
@@ -177,6 +159,7 @@ extension MenuVCViewModel {
             return true
         }
     }
+    
     /// This function will retrieve all sub-options of given option or root options of given category
     /// - Parameters:
     ///   - targetUUID:

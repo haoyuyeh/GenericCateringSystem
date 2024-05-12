@@ -10,7 +10,17 @@ import CoreData
 
 // MARK: Common
 protocol CellConfig {
-    func configure(target: NSManagedObject)
+    func configure<T>(with target: NSManagedObject, of cellType: T.Type)
+}
+
+protocol ShowMsgDelegate {
+    func show(msg: String)
+}
+
+// MARK: AccountCell
+protocol AccountCellDelegate {
+    func idTFTextChanged(to newName: String, at indexPath: IndexPath)
+    func pwTFTextChanged(to newPw: String, at indexPath: IndexPath)
 }
 
 // MARK: MenuEditVC

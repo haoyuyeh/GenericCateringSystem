@@ -18,56 +18,62 @@ class EatInVC: UIViewController {
     typealias TableSnapShot = NSDiffableDataSourceSnapshot<TableSection, Device>
     private lazy var tableDataSource = configureTableDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        logger.debug("enter: \(self.currentDevice)")
+    override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.delegate = self
-
+        
         tableCollectionView.dataSource = tableDataSource
         updateTableSnapShot()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "logOut":
+            let destVC = segue.destination as! LogInVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            destVC.currentDevice = currentDevice
+            
+        default:
+            logger.error("unknown segue")
+            
+        }
     }
     
     // MARK: IBOutlet
     @IBOutlet weak var tableCollectionView: UICollectionView!
     
-    // MARK: IBAction
-    @IBAction func logOutBtnPressed(_ sender: UIButton) {
-        // segue to LogInVC
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+    @IBSegueAction func showTableDetail(_ coder: NSCoder, sender: Any?) -> TableOrderDetailVC {
+        let sender = sender as! TableCell
+        logger.debug("\(sender)")
+        let outcome = viewModel.hasOngoingOrder(of: sender.uuid)
+        let destVC = TableOrderDetailVC()
         
-        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = currentDevice
+        destVC.uuid = sender.uuid
+        destVC.currentOrder = outcome.order
+        destVC.delegate = self
         
-        show(destVC, sender: sender)
+        return destVC
     }
 }
 // MARK: - CheckOutDelegate
 extension EatInVC: CheckOutDelegate {
     func orderCompleted(at table: UUID) {
         delegate?.tableReleased()
-//        delegate?.released(at: table)
+        //        delegate?.released(at: table)
     }
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - CheckOutDelegate
 extension EatInVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TableCell
+        
         if cell.isOcuppied {
             // should check order state before segue to table order details VC
             let outcome = viewModel.hasOngoingOrder(of: cell.uuid)
+        
             if outcome.result {
-                let storyboard = UIStoryboard(name: "EatIn", bundle: nil)
-                let destVC = storyboard.instantiateViewController(withIdentifier: "TableOrderDetailVC") as! TableOrderDetailVC
-                
-                destVC.uuid = cell.uuid
-                destVC.currentOrder = outcome.order
-                destVC.delegate = self
-                
-                destVC.modalPresentationStyle = .formSheet
-                
-                show(destVC, sender: self)
+                performSegue(withIdentifier: "showTableDetail", sender: cell)
             }else {
                 self.showAlert(alertTitle: "Warning", message: "Not Order Yet")
             }
@@ -86,7 +92,7 @@ extension EatInVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCell", for: indexPath) as! TableCell
             
             cell.uuid = device.uuid
-            cell.configure(target: device)
+            cell.configure(with: device, of: type(of: self))
             self.delegate = cell
             
             return cell
@@ -99,8 +105,9 @@ extension EatInVC {
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllTable(), toSection: .all)
         
-        tableDataSource.apply(snapShot, animatingDifferences: value)
-        
+        DispatchQueue.main.async { [unowned self] in
+            tableDataSource.apply(snapShot, animatingDifferences: value)
+        }
     }
 }
 
@@ -111,19 +118,18 @@ extension EatInVC: UITabBarControllerDelegate {
         case 0:
             let vc = viewController as! MenuVC
             vc.currentDevice = currentDevice
-
+            
         case 1:
             let vc = viewController as! EatInVC
             vc.currentDevice = currentDevice
-
+            
         case 2:
             let vc = viewController as! TakeOutOrderVC
             vc.currentDevice = currentDevice
-
         case 3:
             let vc = viewController as! HistoricalOrderVC
             vc.currentDevice = currentDevice
-
+            
         default:
             logger.error("unrecognized view controller")
         }

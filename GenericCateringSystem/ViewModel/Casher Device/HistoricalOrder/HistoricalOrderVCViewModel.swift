@@ -19,8 +19,7 @@ extension HistoricalOrderVCViewModel {
         
         let p0 = NSPredicate(format: "establishedDate >= %@ && establishedDate < %@", argumentArray: [startDate, endDate])
         let p1 = NSPredicate(format: "type == %d", type.rawValue)
-        let p2 = NSPredicate(format: "currentState == %d || currentState == %d", argumentArray: [OrderState.paid, OrderState.orderDelivered])
-        let p = NSCompoundPredicate(type: .and, subpredicates: [p0, p1, p2])
+        let p = NSCompoundPredicate(type: .and, subpredicates: [p0, p1])
         
         return Helper.shared.fetchOrder(predicate: p)
     }

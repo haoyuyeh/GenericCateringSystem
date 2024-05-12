@@ -32,14 +32,32 @@ class MenuVC: UIViewController {
     typealias OptionSnapShot = NSDiffableDataSourceSnapshot<OptionSection, Option>
     private lazy var optionDataSource = configureOptionDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewIsAppearing(_ animated: Bool) {
         config()
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         viewModel.discardAll()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "logOut":
+            let destVC = segue.destination as! LogInVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            destVC.currentDevice = currentDevice
+        case "editMenu":
+            let destVC = segue.destination as! MenuEditVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            destVC.currentDevice = currentDevice
+            
+        default:
+            logger.error("unknown segue")
+
+        }
     }
     
     // MARK: IBOutlet
@@ -60,7 +78,9 @@ class MenuVC: UIViewController {
     @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
         currentOrder = nil
         viewModel.discardAll()
-        orderTableView.reloadData()
+        DispatchQueue.main.async { [unowned self] in
+            orderTableView.reloadData()
+        }
         switch sender.selectedSegmentIndex {
             // delivery platform
         case 0:
@@ -86,28 +106,18 @@ class MenuVC: UIViewController {
         reset()
     }
     
-    @IBAction func logOutBtnPressed(_ sender: UIButton) {
-        // segue to LogInVC
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+    /// check if there are any unfinished orders,
+    /// if so, change the currentState of those orders to OrderState.orderNotFinished
+    /// - Parameter sender:
+    @IBAction func closedBtnPressed(_ sender: UIButton) {
+        let indicator = Helper.shared.activityIndicator(style: .large, center: self.view.center)
         
-        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = currentDevice
-        
-        show(destVC, sender: sender)
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
+        viewModel.reviewTodayOrders()
+        indicator.stopAnimating()
+        self.showAlert(alertTitle: "Notice", message: "You can close App now!")
     }
-    
-    @IBAction func editBtnPressed(_ sender: UIButton) {
-        // segue to MenuEditVC
-        let storyBoard = UIStoryboard(name: "Casher", bundle: nil)
-        let destVC = storyBoard.instantiateViewController(withIdentifier: "MenuEditVC") as! MenuEditVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = currentDevice
-        
-        show(destVC, sender: self)
-    }
-    
-    
     
 }
 
@@ -131,7 +141,7 @@ extension MenuVC {
             
             cell.delegate = self
             cell.indexPath = indexPath
-            cell.configure(target: item)
+            cell.configure(with: item, of: type(of: self))
             
             return cell
         }
@@ -203,7 +213,6 @@ extension MenuVC {
         orderNumberTF.text = nil
         orderDescriptionTF.text = nil
         sumLabel.text = "0"
-//        orderTableView.reloadData()
         
         if orderTypeControler.selectedSegmentIndex == 1 {
             orderNumberTF.text = viewModel.getWalkInOrderNumber()
@@ -226,7 +235,6 @@ extension MenuVC {
         selectedOption = nil
         
         updateOrderSnapShot()
-//        orderTableView.reloadData()
     }
 }
 
@@ -265,7 +273,7 @@ extension MenuVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             
             cell.uuid = category.uuid
-            cell.configure(target: category)
+            cell.configure(with: category, of: type(of: self))
             
             return cell
         }
@@ -279,7 +287,9 @@ extension MenuVC {
         snapshot.appendSections([.all])
         snapshot.appendItems(viewModel.getAllCategory(), toSection: .all)
         
-        categoryDataSource.apply(snapshot, animatingDifferences: value)
+        DispatchQueue.main.async { [unowned self] in
+            categoryDataSource.apply(snapshot, animatingDifferences: value)
+        }
     }
 }
 
@@ -292,7 +302,7 @@ extension MenuVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             
             cell.uuid = option.uuid
-            cell.configure(target: option)
+            cell.configure(with: option, of: type(of: self))
             
             return cell
         }
@@ -313,8 +323,9 @@ extension MenuVC {
         default:
             break
         }
-        
-        optionDataSource.apply(snapshot, animatingDifferences: value)
+        DispatchQueue.main.async { [unowned self] in
+            optionDataSource.apply(snapshot, animatingDifferences: value)
+        }
     }
 }
 

@@ -6,11 +6,7 @@
 //
 
 import UIKit
-
-protocol AccountCellDelegate {
-    func idTFTextChanged(to newName: String, at indexPath: IndexPath)
-    func pwTFTextChanged(to newPw: String, at indexPath: IndexPath)
-}
+import CoreData
 
 class AccountCell: UITableViewCell {
     // MARK: Properties
@@ -22,23 +18,20 @@ class AccountCell: UITableViewCell {
     @IBOutlet weak var pwTextField: UITextField!
     
     // MARK: IBAction
-    @IBAction func idTextFieldChanged(_ sender: UITextField) {
+    @IBAction func idTFEndChange(_ sender: UITextField) {
         delegate.idTFTextChanged(to: idTextField.text ?? "nil username", at: indexPath)
     }
     
-    
-    @IBAction func pwTextFieldChanged(_ sender: UITextField) {
+    @IBAction func pwTFEndChange(_ sender: UITextField) {
         delegate.pwTFTextChanged(to: pwTextField.text ?? "nil password",at: indexPath)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+}
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+extension AccountCell: CellConfig {
+    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+        let target = target as! Device
+        
+        idTextField.text = target.name
+        pwTextField.text = target.password
     }
 }

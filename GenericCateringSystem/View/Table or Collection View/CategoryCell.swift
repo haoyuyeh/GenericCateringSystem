@@ -1,20 +1,20 @@
 //
-//  OptionCell.swift
+//  CategoryCell.swift
 //  GenericCateringSystem
 //
 //  Created by Hao Yu Yeh on 2024/4/21.
 //
 
 import UIKit
+import OSLog
 import CoreData
 
-class OptionCell: UICollectionViewCell {
-    
-    @IBOutlet weak var isSelectedImg: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var unitPrice: UILabel!
-    
+class CategoryCell: UICollectionViewCell {
+    // MARK: Properties
+
+    private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
     var uuid: UUID? = nil
+    
     var isEnterDeleteMode: Bool {
         didSet {
             if isEnterDeleteMode {
@@ -38,25 +38,42 @@ class OptionCell: UICollectionViewCell {
         }
     }
     
+    override var isSelected: Bool {
+        didSet{
+            if isSelected {
+                self.backgroundColor = UIColor.systemYellow
+            }else {
+                self.backgroundColor = UIColor.white
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         isEnterDeleteMode = false
         cellIsChoosed = false
         super.init(coder: coder)
     }
-
+    // MARK: IBOutlet
+    /// use to mark whether this cell will be delete or not
+    @IBOutlet weak var isSelectedImg: UIImageView!
+    @IBOutlet weak var name: UILabel!
 }
+
 // MARK: CellConfig
-extension OptionCell: CellConfig {
-    func configure(target: NSManagedObject) {
-        let target = target as! Option
+extension CategoryCell: CellConfig {
+    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+        let target = target as! Category
+        
+        if cellType.self == MenuEditVC.self {
+            isSelectedImg.isHidden = false
+        }
         
         name.text = target.name
-        unitPrice.text = "$\(String(target.price))"
     }
 }
 
-// MARK: OptionDeleteModeDelegate
-extension OptionCell: OptionDeleteModeDelegate {
+// MARK: CategoryDeleteModeDelegate
+extension CategoryCell: CategoryDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value
     }

@@ -28,15 +28,32 @@ class ConfigVC: UIViewController {
     private var viewModel = ConfigVCViewModel()
     var currentDevice: Device?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    override func viewIsAppearing(_ animated: Bool) {
         preSetUP()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         PersistenceService.shared.saveContext()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "logOut":
+            let destVC = segue.destination as! LogInVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            destVC.currentDevice = currentDevice
+        case "manageAccount":
+            let destVC = segue.destination as! AccountVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            destVC.currentDevice = currentDevice
+            
+        default:
+            logger.error("unknown segue")
+        }
+    }
+    
     
     // MARK: IBAction
     
@@ -48,28 +65,6 @@ class ConfigVC: UIViewController {
     @IBAction func personServedTFChanged(_ sender: UITextField) {
         // use number pad as input, no need to check for numbers only
         currentDevice?.person = Int16(personServedTF.text ?? "0") ?? 0
-    }
-    
-    
-    @IBAction func logOutBtnPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        
-        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = currentDevice
-        
-        show(destVC, sender: sender)
-    }
-    
-    
-    @IBAction func editBtnPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        
-        let destVC = storyboard.instantiateViewController(identifier: "AccountVC") as AccountVC
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        destVC.currentDevice = currentDevice
-        
-        show(destVC, sender: sender)
     }
     
     @IBAction func startBtnPressed(_ sender: UIButton) {

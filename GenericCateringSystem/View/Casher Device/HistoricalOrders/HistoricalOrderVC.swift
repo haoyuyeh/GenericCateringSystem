@@ -14,15 +14,35 @@ class HistoricalOrderVC: UIViewController {
     var currentDevice: Device?
     private var targetDate = Date()
     
-    typealias HistoricalOrderDataSource = UITableViewDiffableDataSource<OrderSection, Order>
-    typealias HistoricalOrderSnapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>
+    typealias HistoricalOrderDataSource = UITableViewDiffableDataSource<OrdersSection, Order>
+    typealias HistoricalOrderSnapShot = NSDiffableDataSourceSnapshot<OrdersSection, Order>
     private lazy var historicalOrderDataSource = configureHistoricalOrderDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewIsAppearing(_ animated: Bool) {
+        datePicker.contentHorizontalAlignment = .fill
+        datePicker.contentVerticalAlignment = .fill
         self.tabBarController?.delegate = self
         historicalOrderTableView.dataSource = historicalOrderDataSource
         updateHistoricalOrderDataSource()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "logOut":
+            // segue to LogInVC
+            let destVC = segue.destination as! LogInVC
+            
+            destVC.currentDevice = currentDevice
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        case "showOrderDetail":
+            let destVC = segue.destination as! HistoricalOrderDetailVC
+            let cell = sender as! OrderCell
+            
+            destVC.order = cell.order
+            
+        default:
+            logger.error("unknown segue")
+        }
     }
     
     // MARK: IBOutlet
@@ -31,37 +51,11 @@ class HistoricalOrderVC: UIViewController {
     
     
     // MARK: IBAction
-    @IBAction func logOutBtnPressed(_ sender: UIButton) {
-        // segue to LogInVC
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        
-        destVC.currentDevice = currentDevice
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        show(destVC, sender: sender)
-    }
-    
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         targetDate = datePicker.date
         updateHistoricalOrderDataSource()
     }
     
-}
-
-// MARK: UITableViewDelegate
-extension HistoricalOrderVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
-        // segue to HistoricalOrderDetailVC
-        let storyboard = UIStoryboard(name: "HistoricalOrders", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "HistoricalOrderDetailVC") as! HistoricalOrderDetailVC
-        
-        destVC.order = cell.order
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.currentContext
-        show(destVC, sender: self)
-    }
 }
 
 // MARK: Historical Order Table View
@@ -95,7 +89,9 @@ extension HistoricalOrderVC {
         snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .walkIn), toSection: .walkIn)
         snapShot.appendItems(viewModel.getAllHistoricalOrders(on: targetDate, for: .deliveryPlatform), toSection: .deliveryPlatform)
         
-        historicalOrderDataSource.apply(snapShot, animatingDifferences: false)
+        DispatchQueue.main.async { [unowned self] in
+            historicalOrderDataSource.apply(snapShot, animatingDifferences: false)
+        }
     }
 }
 

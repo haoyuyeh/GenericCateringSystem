@@ -32,8 +32,14 @@ class ItemCell: UITableViewCell {
 
 // MARK: CellConfig
 extension ItemCell: CellConfig {
-    func configure(target: NSManagedObject) {
+    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
         let target = target as! Item
+
+        if cellType.self == MenuVC.self || cellType.self == TableOrderDetailVC.self {
+            quantity.isEnabled = true
+        }else {
+            quantity.isEnabled = false
+        }
         
         name.text = target.name
         unitPrice.text = "$\(String(target.price))"

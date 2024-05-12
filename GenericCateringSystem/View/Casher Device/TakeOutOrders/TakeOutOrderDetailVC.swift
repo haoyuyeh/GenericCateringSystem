@@ -18,8 +18,7 @@ class TakeOutOrderDetailVC: UIViewController {
     typealias ItemSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
     private lazy var itemDataSource = configureItemDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
         config()
         itemTableView.dataSource = itemDataSource
         updateItemSnapShot()
@@ -36,6 +35,8 @@ class TakeOutOrderDetailVC: UIViewController {
 // MARK: Helper
 extension TakeOutOrderDetailVC {
     func config() {
+//        logger.debug("5")
+//        logger.debug("\(self.order)")
         switch Int(order!.type) {
         case OrderType.eatIn.rawValue:
             type.text = "Eat-in"
@@ -56,7 +57,7 @@ extension TakeOutOrderDetailVC {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
             
-            cell.configure(target: item)
+            cell.configure(with: item, of: Swift.type(of: self))
             
             return cell
         }
@@ -69,6 +70,8 @@ extension TakeOutOrderDetailVC {
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllItems(of: order!), toSection: .all)
         
-        itemDataSource.apply(snapShot, animatingDifferences: false)
+        DispatchQueue.main.async { [unowned self] in
+            itemDataSource.apply(snapShot, animatingDifferences: false)
+        }
     }
 }

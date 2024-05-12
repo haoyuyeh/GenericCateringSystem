@@ -7,6 +7,7 @@
 
 import OSLog
 import CoreData
+import UIKit
 
 class Helper {
     // MARK: Properties
@@ -78,5 +79,31 @@ extension Helper {
             return "0"
         }
     }
+    
+    /// checking if the name were existed in the database
+    ///
+    /// - Parameter id: log in ID
+    /// - Returns: if exist, return true
+    func isIDExist(checking id: String) -> Bool {
+        let predicate = NSPredicate(format: "name == %@", id)
+        
+        if Helper.shared.fetchDevice(predicate: predicate) == [] {
+            return false
+        }else {
+            return true
+        }
+    }
 }
 
+// MARK: Properties
+extension Helper {
+    func activityIndicator(style: UIActivityIndicatorView.Style, center: CGPoint? = nil) -> UIActivityIndicatorView {
+        let activityIndicator = UIActivityIndicatorView(style: style)
+        
+        if let center = center {
+            activityIndicator.center = center
+        }
+        
+        return activityIndicator
+    }
+}

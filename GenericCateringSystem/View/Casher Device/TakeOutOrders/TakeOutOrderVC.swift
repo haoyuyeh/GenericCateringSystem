@@ -14,70 +14,104 @@ class TakeOutOrderVC: UIViewController {
     private var viewModel = TakeOutOrderVCViewModel()
     var currentDevice: Device?
     
-    typealias OrderDataSource = UITableViewDiffableDataSource<OrderSection, Order>
-    typealias OrderSnapShot = NSDiffableDataSourceSnapshot<OrderSection, Order>
+    typealias OrderDataSource = UITableViewDiffableDataSource<OrdersSection, Order>
+    typealias OrderSnapShot = NSDiffableDataSourceSnapshot<OrdersSection, Order>
     private lazy var orderDataSource = configureOrderDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.delegate = self
+        orderTableView.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.reuseIdentifier)
         orderTableView.dataSource = orderDataSource
         updateOrderSnapShot()
+        DispatchQueue.main.async { [unowned self] in
+            orderTableView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "logOut":
+            // segue to LogInVC
+            let destVC = segue.destination as! LogInVC
+            
+            destVC.currentDevice = currentDevice
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            
+        case "showTAOrderDetail":
+            if let sender = sender as? OrderCell {
+                let destVC = segue.destination as! TakeOutOrderDetailVC
+                
+                destVC.order = sender.order
+            }else {
+                logger.error("showTAOrderDetail: sender is not OrderCell")
+            }
+        default:
+            logger.error("unknown segue")
+        }
     }
     
     // MARK: IBOutlet
     @IBOutlet weak var orderTableView: UITableView!
-    
-    // MARK: IBAction
-    @IBAction func logOutBtnPressed(_ sender: UIButton) {
-        // segue to LogInVC
-        let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "LogIn") as! LogInVC
-        
-        destVC.currentDevice = currentDevice
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        show(destVC, sender: sender)
-    }
 }
 
-// MARK: UITableViewDelegate
-extension TakeOutOrderVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // segue to TakeOutOrderDetailVC
-        let storyboard = UIStoryboard(name: "TakeOut", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "TakeOutOrderDetailVC") as! TakeOutOrderDetailVC
-        let cell = tableView.cellForRow(at: indexPath) as! OrderCell
-        
-        destVC.order = cell.order
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.currentContext
-        show(destVC, sender: self)
-    }
-}
-
-// MARK: Order Table View
+// MARK: Order Table Vie
 extension TakeOutOrderVC {
     func configureOrderDataSource() -> OrderDataSource {
-        let dataSource = OrderDataSource(tableView: orderTableView) { [unowned self] (tableView, indexPath, order) -> UITableViewCell? in
-            
+        let dataSource = OrderDataSource(tableView: orderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
             
             cell.indexPath = indexPath
             cell.delegate = self
-            cell.configure(target: order)
+            cell.configure(with: order, of: type(of: self))
             
             return cell
         }
         return dataSource
     }
     
-    func updateOrderSnapShot() {
+    func updateOrderSnapShot(animatingDifferences value: Bool = false) {
         var snapShot = OrderSnapShot()
-        snapShot.appendSections([.all])
-        snapShot.appendItems(viewModel.getAllTakeOutOrders(), toSection: .all)
         
-        orderDataSource.apply(snapShot, animatingDifferences: false)
+        snapShot.appendSections([.walkIn, .deliveryPlatform])
+        snapShot.appendItems(viewModel.getAllTakeOutOrders(with: .walkIn), toSection: .walkIn)
+        snapShot.appendItems(viewModel.getAllTakeOutOrders(with: .deliveryPlatform), toSection: .deliveryPlatform)
+        
+        DispatchQueue.main.async { [unowned self] in
+            orderDataSource.apply(snapShot, animatingDifferences: value)
+        }
+    }
+}
+
+// MARK: UITableViewDelegate
+extension TakeOutOrderVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: SectionHeader.reuseIdentifier) as? SectionHeader
+        else { return nil }
+        
+        switch section {
+        case 0:
+            header.title.text = "Walk-In"
+            
+            return header
+            
+        case 1:
+            header.title.text = "Delivery Platform"
+            return header
+            
+        default:
+            return nil
+        }
     }
 }
 
@@ -85,8 +119,9 @@ extension TakeOutOrderVC {
 extension TakeOutOrderVC: OrderStatusChangedDelegate {
     func statusChanged(to state: OrderState, of order: Order, at indexPath: IndexPath) {
         viewModel.updateOrderState(to: state, of: order)
-        if state == OrderState.orderDelivered {
-            orderTableView.deleteRows(at: [indexPath], with: .fade)
+        updateOrderSnapShot()
+        DispatchQueue.main.async { [unowned self] in
+            orderTableView.reloadData()
         }
     }
 }

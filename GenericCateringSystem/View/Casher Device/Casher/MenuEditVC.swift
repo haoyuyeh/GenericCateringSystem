@@ -29,6 +29,37 @@ class MenuEditVC: UIViewController {
     typealias OptionSnapShot = NSDiffableDataSourceSnapshot<OptionSection, Option>
     private lazy var optionDataSource = configureOptionDataSource()
     
+    override func viewIsAppearing(_ animated: Bool) {
+        categoryCollectionView.dataSource = categoryDataSource
+        updateCategorySnapshot()
+        optionCollectionView.dataSource = optionDataSource
+        updateOptionSnapshot()
+        config()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "ok":
+            viewModel.saveAll()
+            
+        case "cancel":
+            viewModel.discardAll()
+            
+        default:
+            logger.error("unknown segue")
+            
+            return
+        }
+        
+        let destVC = segue.destination as! UITabBarController
+        
+        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        destVC.selectedIndex = 0
+        
+        let menuVC = destVC.selectedViewController as! MenuVC
+        menuVC.currentDevice = currentDevice
+    }
+    
     // MARK: IBOutlet
     @IBOutlet weak var addCategoryBtn: UIButton!
     @IBOutlet weak var deleteCategoryBtn: UIButton!
@@ -81,36 +112,6 @@ class MenuEditVC: UIViewController {
     /// discard all changes and return to edit mode
     /// - Parameter sender:
     @IBAction func deleteCancelBtnPressed(_ sender: UIButton) {
-        config()
-    }
-    
-    
-    /// save all data and segue to MenuVC
-    /// - Parameter sender:
-    @IBAction func OKBtnPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "MenuVC") as! MenuVC
-        destVC.currentDevice = currentDevice
-        viewModel.saveAll()
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        show(destVC, sender: self)
-    }
-    
-    /// discard all changes and segue to MenuVC
-    /// - Parameter sender:
-    @IBAction func CancelBtnPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Casher", bundle: nil)
-        let destVC = storyboard.instantiateViewController(withIdentifier: "MenuVC") as! MenuVC
-        destVC.currentDevice = currentDevice
-        viewModel.discardAll()
-        
-        destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        show(destVC, sender: self)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         config()
     }
 }
@@ -197,7 +198,6 @@ extension MenuEditVC {
         
         categoryCollectionView.allowsMultipleSelection = false
         categoryCollectionView.isUserInteractionEnabled = true
-        categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
         // enter delete mode will enable multiple selection, therefore, it should clear all selections
         if let selected = categoryCollectionView.indexPathsForSelectedItems {
             selected.forEach{
@@ -205,21 +205,23 @@ extension MenuEditVC {
                 cell.cellIsChoosed = false
                 self.categoryCollectionView.deselectItem(at: $0, animated: false)}
         }
-        updateCategorySnapshot()
+        categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+
         // reloadData will refresh all data relate to the collection view, such as indexPathsForSelectedItems
         // therefore, if there are some operations relate to the cell, they should be put before reloadData
-        categoryCollectionView.reloadData()
+        DispatchQueue.main.async { [unowned self] in
+            categoryCollectionView.reloadData()
+        }
         
         optionCollectionView.allowsMultipleSelection = false
         optionCollectionView.isUserInteractionEnabled = true
-        optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
         if let selected = optionCollectionView.indexPathsForSelectedItems {
             selected.forEach{
                 let cell = self.optionCollectionView.cellForItem(at: $0) as! OptionCell
                 cell.cellIsChoosed = false
                 self.optionCollectionView.deselectItem(at: $0, animated: false)}
         }
-        updateOptionSnapshot()
+        optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
     }
     
     
@@ -290,12 +292,16 @@ extension MenuEditVC {
         deleteCancelBtn.isHidden = false
         
         categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        categoryCollectionView.reloadData()
         updateCategorySnapshot()
+        DispatchQueue.main.async { [unowned self] in
+            categoryCollectionView.reloadData()
+        }
         
         optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        optionCollectionView.reloadData()
         updateOptionSnapshot()
+        DispatchQueue.main.async { [unowned self] in
+            optionCollectionView.reloadData()
+        }
         
         switch objectType {
         case .category:
@@ -343,7 +349,7 @@ extension MenuEditVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             
             cell.uuid = category.uuid
-            cell.configure(target: category)
+            cell.configure(with: category, of: type(of: self))
             self.categoryDelegate = cell
             self.categoryDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
             
@@ -359,7 +365,9 @@ extension MenuEditVC {
         snapshot.appendSections([.all])
         snapshot.appendItems(viewModel.getAllCategory(), toSection: .all)
         
-        categoryDataSource.apply(snapshot, animatingDifferences: value)
+        DispatchQueue.main.async { [unowned self] in
+            categoryDataSource.apply(snapshot, animatingDifferences: value)
+        }
     }
 }
 
@@ -372,7 +380,7 @@ extension MenuEditVC {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             
             cell.uuid = option.uuid
-            cell.configure(target: option)
+            cell.configure(with: option, of: type(of: self))
             self.optionDelegate = cell
             self.optionDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
             
@@ -396,6 +404,8 @@ extension MenuEditVC {
             break
         }
         
-        optionDataSource.apply(snapshot, animatingDifferences: value)
+        DispatchQueue.main.async { [unowned self] in
+            optionDataSource.apply(snapshot, animatingDifferences: value)
+        }
     }
 }

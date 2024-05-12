@@ -8,13 +8,22 @@
 import UIKit
 
 class AccountVC: UIViewController {
-    // MARK: IBOutlet
-
-    @IBOutlet weak var tableView: UITableView!
-    
     // MARK: Property
     var viewModel = AccountVCViewModel()
     var currentDevice: Device?
+    
+    typealias AccountDataSource = UITableViewDiffableDataSource<AccountSection, Device>
+    typealias AccountSnapShot = NSDiffableDataSourceSnapshot<AccountSection, Device>
+    private lazy var accountDataSource = configureAccountDataSource()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewModel.delegate = self
+        tableView.dataSource = accountDataSource
+        updateAccountSnapShot()
+    }
+    
+    // MARK: IBOutlet
+    @IBOutlet weak var tableView: UITableView!
     
     // MARK: IBAction
     @IBAction func doneBtnPressed(_ sender: UIButton) {
@@ -30,40 +39,30 @@ class AccountVC: UIViewController {
     }
 }
 
-// MARK: UITableViewDataSource
-extension AccountVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getAccountCount()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
-        cell.delegate = viewModel
-        cell.indexPath = indexPath
-        cell.idTextField.text = viewModel.getAccount(at: indexPath.row).name
-        cell.pwTextField.text = viewModel.getAccount(at: indexPath.row).password
-        
-        return cell
-    }
-}
-
-// MARK: UITableViewDelegate
-extension AccountVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        guard (viewModel.getAccount(at: indexPath.row).roll)! == Roll.client.rawValue else {
-            self.showAlert(alertTitle: "Warning", message: "The admin account cannot be deleted!!!")
-            return
+// MARK: Account Table View
+extension AccountVC {
+    func configureAccountDataSource() -> AccountDataSource {
+        let dataSource = AccountDataSource(tableView: tableView) { [unowned self] (tableView, indexPath, device) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
+            
+            cell.delegate = viewModel
+            cell.indexPath = indexPath
+            cell.configure(with: device, of: type(of: self))
+            
+            return cell
         }
+        return dataSource
+    }
+    
+    func updateAccountSnapShot(animatingDifferences value: Bool = false) {
+        var snapShot = AccountSnapShot()
         
-        tableView.beginUpdates()
-        viewModel.deleteAccount(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.endUpdates()
+        snapShot.appendSections([.all])
+        snapShot.appendItems(viewModel.getAllAccount(), toSection: .all)
+        
+        DispatchQueue.main.async { [unowned self] in
+            accountDataSource.apply(snapShot, animatingDifferences: value)
+        }
     }
 }
 
@@ -76,5 +75,13 @@ extension AccountVC: UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+}
+
+
+extension AccountVC: ShowMsgDelegate {
+    func show(msg: String) {
+        tableView.reloadData()
+        self.showAlert(alertTitle: "Warning", message: msg)
     }
 }

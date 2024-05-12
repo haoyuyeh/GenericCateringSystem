@@ -16,8 +16,7 @@ class HistoricalOrderDetailVC: UIViewController {
     typealias ItemSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
     private lazy var itemDataSource = configureItemDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewIsAppearing(_ animated: Bool) {
         config()
         itemTableView.dataSource = itemDataSource
         updateItemSnapShot()
@@ -54,9 +53,10 @@ extension HistoricalOrderDetailVC {
 extension HistoricalOrderDetailVC {
     func configureItemDataSource() -> ItemDataSource {
         let dataSource = ItemDataSource(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
             
-            cell.configure(target: item)
+            cell.configure(with: item, of: type(of: self))
             
             return cell
         }
@@ -69,6 +69,8 @@ extension HistoricalOrderDetailVC {
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllItems(of: order!), toSection: .all)
         
-        itemDataSource.apply(snapShot, animatingDifferences: false)
+        DispatchQueue.main.async { [unowned self] in
+            itemDataSource.apply(snapShot, animatingDifferences: false)
+        }
     }
 }

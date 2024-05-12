@@ -20,8 +20,7 @@ class TableOrderDetailVC: UIViewController {
     typealias ItemSnapShot = NSDiffableDataSourceSnapshot<TableSection, Item>
     private lazy var itemDataSource = configureItemDataSource()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewIsAppearing(_ animated: Bool) {
         config()
         itemTableView.dataSource = itemDataSource
         updateItemSnapShot()
@@ -114,7 +113,7 @@ extension TableOrderDetailVC {
             
             cell.delegate = self
             cell.indexPath = indexPath
-            cell.configure(target: item)
+            cell.configure(with: item, of: type(of: self))
             
             return cell
         }
@@ -126,7 +125,9 @@ extension TableOrderDetailVC {
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getAllItems(of: currentOrder!), toSection: .all)
         
-        itemDataSource.apply(snapShot, animatingDifferences: value)
+        DispatchQueue.main.async { [unowned self] in
+            itemDataSource.apply(snapShot, animatingDifferences: value)
+        }
     }
 }
 

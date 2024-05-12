@@ -1,31 +1,15 @@
 //
-//  CategoryCell.swift
+//  OptionCell.swift
 //  GenericCateringSystem
 //
 //  Created by Hao Yu Yeh on 2024/4/21.
 //
 
 import UIKit
-import OSLog
 import CoreData
 
-class CategoryCell: UICollectionViewCell {
-    private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
-    
-    /// use to mark whether this cell will be delete or not
-    @IBOutlet weak var isSelectedImg: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    
-    override var isSelected: Bool {
-        didSet{
-            if isSelected {
-                self.backgroundColor = UIColor.systemYellow
-            }else {
-                self.backgroundColor = UIColor.white
-            }
-        }
-    }
-    
+class OptionCell: UICollectionViewCell {
+    // MARK: Properties
     var uuid: UUID? = nil
     var isEnterDeleteMode: Bool {
         didSet {
@@ -55,19 +39,28 @@ class CategoryCell: UICollectionViewCell {
         cellIsChoosed = false
         super.init(coder: coder)
     }
+    
+    // MARK: IBOutlet
+    @IBOutlet weak var isSelectedImg: UIImageView!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var unitPrice: UILabel!
 }
-
 // MARK: CellConfig
-extension CategoryCell: CellConfig {
-    func configure(target: NSManagedObject) {
-        let target = target as! Category
+extension OptionCell: CellConfig {
+    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+        let target = target as! Option
+        
+        if cellType.self == MenuEditVC.self {
+            isSelectedImg.isHidden = false
+        }
         
         name.text = target.name
+        unitPrice.text = "$\(String(target.price))"
     }
 }
 
-// MARK: CategoryDeleteModeDelegate
-extension CategoryCell: CategoryDeleteModeDelegate {
+// MARK: OptionDeleteModeDelegate
+extension OptionCell: OptionDeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value
     }

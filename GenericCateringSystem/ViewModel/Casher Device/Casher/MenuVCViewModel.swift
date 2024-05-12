@@ -125,7 +125,7 @@ extension MenuVCViewModel {
         order.platformName = pName
         order.number = num
         order.comments = note
-        
+        logger.debug("state:\(String(order.currentState)), date:\(order.establishedDate!.toString(format: nil)), istakeout:\(order.isTakeOut), number:\(order.number ?? "nil"), type:\(String(order.type)), plateform:\(order.platformName ?? "nil")")
         PersistenceService.shared.saveContext()
     }
 }
@@ -221,6 +221,29 @@ extension MenuVCViewModel {
     func saveAll() {
         PersistenceService.shared.saveContext()
     }
+    
+    /// set today's unfinished orders to OrderState.orderNotFinished
+    func reviewTodayOrders() {
+        let today = Date()
+        let startDate = Calendar.current.startOfDay(for: today)
+        let endDate = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!
+        
+        let p = NSPredicate(format: "establishedDate >= %@ && establishedDate < %@", argumentArray: [startDate, endDate])
+                
+        var orders = Helper.shared.fetchOrder(predicate: p)
+       
+        orders.forEach { order in
+            switch Int(order.currentState) {
+            case OrderState.eating.rawValue, OrderState.ordering.rawValue, OrderState.preparing.rawValue, OrderState.waitingPickUp.rawValue:
+                
+                order.currentState = Int16(OrderState.orderNotFinished.rawValue)
+                
+            default:
+                break
+            }
+        }
+    }
+    
     
     private func updateTotalSum() -> Double {
         var sum = 0.0

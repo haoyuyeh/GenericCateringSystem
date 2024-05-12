@@ -13,19 +13,6 @@ class LogInVCViewModel {
 }
 // MARK: Helper functions
 extension LogInVCViewModel {
-    /// checking if the name were existed in the database
-    ///
-    /// - Parameter id: log in ID
-    /// - Returns: if exist, return true
-    func isIDExist(checking id: String) -> Bool {
-        let predicate = NSPredicate(format: "name == %@", id)
-        
-        if Helper.shared.fetchDevice(predicate: predicate) == [] {
-            return false
-        }else {
-            return true
-        }
-    }
     
     /// credential validation to decide whether it can be logged into the system
     /// - Parameters:

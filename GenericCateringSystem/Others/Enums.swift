@@ -5,6 +5,33 @@
 //  Created by Hao Yu Yeh on 2024/5/7.
 //
 
+// MARK: Cell Section
+enum AccountSection {
+    case all
+}
+
+enum ItemSection {
+    case all
+}
+
+enum CategorySection {
+    case all
+}
+
+enum OptionSection {
+    case all
+}
+
+enum TableSection {
+    case all
+}
+
+enum OrdersSection {
+    case eatIn
+    case walkIn
+    case deliveryPlatform
+}
+
 // MARK: LogInVC
 enum LogInState: String {
     case emptyName
@@ -41,6 +68,8 @@ enum OrderState: Int {
     case preparing
     case waitingPickUp
     case orderDelivered
+    
+    case orderNotFinished
 }
 
 enum PickItemState {
@@ -49,33 +78,9 @@ enum PickItemState {
     case endOfChoic
 }
 
-enum ItemSection {
-    case all
-}
-
-enum CategorySection {
-    case all
-}
-
-enum OptionSection {
-    case all
-}
-
 // MARK: MenuEditVC
 enum DeleteObjectType {
     case category
     case option
 }
 
-// MARK: EatInVC
-enum TableSection {
-    case all
-}
-
-// MARK: TakeOutOrderVC
-enum OrderSection {
-    case all
-    case eatIn
-    case walkIn
-    case deliveryPlatform
-}

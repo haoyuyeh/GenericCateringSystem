@@ -16,11 +16,6 @@ class LogInVC: UIViewController {
     private var viewModel = LogInVCViewModel()
     var currentDevice: Device?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
     // MARK: IBAction
     @IBAction func logInBtnPressed(_ sender: UIButton) {
         // validate the name/password
@@ -79,7 +74,7 @@ extension LogInVC {
         
         // check if the name/password exists in the database
         // exist: validate and react based on the result
-        if viewModel.isIDExist(checking: deviceNameTF.text!) {
+        if Helper.shared.isIDExist(checking: deviceNameTF.text!) {
             let result = viewModel.credentialValidate(ID: deviceNameTF.text!, PW: passwordTF.text!)
             
             if result.state == .success {

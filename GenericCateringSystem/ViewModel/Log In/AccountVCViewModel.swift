@@ -10,6 +10,7 @@ import CoreData
 class AccountVCViewModel {
     // MARK: Property
     var accounts: [Device] = []
+    var delegate: ShowMsgDelegate?
     
     init() {
         fetchAccounts()
@@ -22,12 +23,8 @@ extension AccountVCViewModel {
         accounts = Helper.shared.fetchDevice(predicate: NSPredicate(value: true))
     }
     
-    func getAccountCount() -> Int {
-        return accounts.count
-    }
-    
-    func getAccount(at index: Int) -> Device {
-        return accounts[index]
+    func getAllAccount() -> [Device] {
+        return accounts
     }
     
     func deleteAccount(at index: Int) {
@@ -44,6 +41,16 @@ extension AccountVCViewModel {
 // MARK: AccountCellDelegate
 extension AccountVCViewModel: AccountCellDelegate {
     func idTFTextChanged(to newName: String, at indexPath: IndexPath) {
+        guard newName.isMatch(pattern: "^[\\w\\s-]+$") else {
+            delegate?.show(msg: "name can't be all whitespace or nil!!")
+            return
+        }
+        
+        guard !Helper.shared.isIDExist(checking: newName) else {
+            delegate?.show(msg: "Duplicate account name!!!")
+            return
+        }
+        
         accounts[indexPath.row].name = newName
     }
     

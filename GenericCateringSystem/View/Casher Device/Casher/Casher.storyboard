@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad10_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -319,24 +319,13 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIc-hj-1xf">
-                                                <rect key="frame" x="51" y="0.0" width="99" height="34.5"/>
+                                                <rect key="frame" x="51" y="0.0" width="206" height="34.5"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" image="chart.bar.xaxis" catalog="system" title="Today">
                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <segue destination="a1x-Xm-HOD" kind="presentation" identifier="showSales" id="Kcg-gY-MEm"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a96-yl-IhX">
-                                                <rect key="frame" x="150" y="0.0" width="107" height="34.5"/>
-                                                <color key="tintColor" systemColor="systemRedColor"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Closed">
-                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="closedBtnPressed:" destination="dba-XM-T09" eventType="touchUpInside" id="Gbk-jF-a6Z"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -358,14 +347,14 @@
                                     <constraint firstItem="eWF-K2-jGn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CHW-hY-dwT" secondAttribute="trailing" id="ziK-r5-aYq"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="cTi-1Z-rA2" userLabel="Order Details Stack View">
-                                <rect key="frame" x="5" y="36.5" width="211" height="146"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cTi-1Z-rA2" userLabel="Order Details Stack View">
+                                <rect key="frame" x="5" y="36.5" width="211" height="219"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dce-hq-o0w" userLabel="Order Type Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="211" height="78"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="211" height="109.5"/>
                                         <subviews>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YLM-IK-KlZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="211" height="35"/>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YLM-IK-KlZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="211" height="31"/>
                                                 <segments>
                                                     <segment title="Platform"/>
                                                     <segment title="Walk-in"/>
@@ -376,7 +365,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Delivery Platform Name" adjustsFontForContentSizeCategory="YES" minimumFontSize="9" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZGn-yf-fzh">
-                                                <rect key="frame" x="0.0" y="44" width="211" height="34"/>
+                                                <rect key="frame" x="0.0" y="40" width="211" height="29.5"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
@@ -384,53 +373,54 @@
                                                     <outlet property="delegate" destination="dba-XM-T09" id="jKf-6Y-v7j"/>
                                                 </connections>
                                             </textField>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Yhn-xO-5uS" userLabel="Order number Stack View">
-                                        <rect key="frame" x="0.0" y="78" width="211" height="34"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-y8-493">
-                                                <rect key="frame" x="0.0" y="0.0" width="11" height="34"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Order Number" adjustsFontForContentSizeCategory="YES" minimumFontSize="9" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="L6R-hj-AtW">
-                                                <rect key="frame" x="21" y="0.0" width="190" height="34"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="dba-XM-T09" id="wF0-Tk-sWv"/>
-                                                </connections>
-                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Yhn-xO-5uS" userLabel="Order number Stack View">
+                                                <rect key="frame" x="0.0" y="79.5" width="211" height="30"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-y8-493">
+                                                        <rect key="frame" x="0.0" y="0.0" width="11" height="30"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Order Number" adjustsFontForContentSizeCategory="YES" minimumFontSize="9" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="L6R-hj-AtW">
+                                                        <rect key="frame" x="21" y="0.0" width="190" height="30"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="dba-XM-T09" id="wF0-Tk-sWv"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="tc0-QT-fx6" userLabel="Order Others Stack View">
-                                        <rect key="frame" x="0.0" y="112" width="211" height="34"/>
+                                        <rect key="frame" x="0.0" y="109.5" width="211" height="109.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2Z-hj-x5R">
-                                                <rect key="frame" x="0.0" y="0.0" width="92" height="34"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2Z-hj-x5R">
+                                                <rect key="frame" x="0.0" y="0.0" width="52.5" height="109.5"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" adjustsFontForContentSizeCategory="YES" minimumFontSize="9" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aS8-Rw-ofF">
-                                                <rect key="frame" x="102" y="0.0" width="109" height="34"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lf5-zA-udp">
+                                                <rect key="frame" x="62.5" y="0.0" width="148.5" height="109.5"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" keyboardType="alphabet"/>
                                                 <connections>
-                                                    <outlet property="delegate" destination="dba-XM-T09" id="ObO-Lm-50B"/>
+                                                    <outlet property="delegate" destination="dba-XM-T09" id="ypq-uU-VI2"/>
                                                 </connections>
-                                            </textField>
+                                            </textView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Tj-e2-fUX" userLabel="Ordered Items Table View">
-                                <rect key="frame" x="5" y="187.5" width="211" height="464.5"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Tj-e2-fUX" userLabel="Ordered Items Table View">
+                                <rect key="frame" x="5" y="260.5" width="211" height="391.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="Biq-fv-URx" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
@@ -480,7 +470,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="name" destination="Z3G-JJ-Igc" id="QVC-Uu-f1a"/>
+                                            <outlet property="name" destination="Z3G-JJ-Igc" id="i6T-PR-KwV"/>
                                             <outlet property="quantity" destination="ZXc-5n-Tfr" id="137-Ke-H2i"/>
                                             <outlet property="unitPrice" destination="4eC-R1-81Y" id="9BW-X6-ozT"/>
                                         </connections>
@@ -502,10 +492,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGU-GM-8rr" userLabel="Sum Label">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGU-GM-8rr" userLabel="Sum Label">
                                                 <rect key="frame" x="110.5" y="0.0" width="100.5" height="23"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" systemColor="systemRedColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -605,7 +595,7 @@
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <connections>
-                                            <outlet property="name" destination="BZc-11-Nel" id="c2s-YI-aPE"/>
+                                            <outlet property="name" destination="BZc-11-Nel" id="9VC-GD-0q4"/>
                                             <outlet property="unitPrice" destination="hLr-gA-rAD" id="WwZ-bv-kqC"/>
                                         </connections>
                                     </collectionViewCell>
@@ -634,8 +624,8 @@
                             <constraint firstItem="g8S-X1-btR" firstAttribute="top" secondItem="0Tj-e2-fUX" secondAttribute="bottom" constant="5" id="SA5-Nw-3Gb"/>
                             <constraint firstItem="R3b-nJ-wM0" firstAttribute="leading" secondItem="0Tj-e2-fUX" secondAttribute="trailing" constant="5" id="WMw-JN-JXK"/>
                             <constraint firstItem="F4C-hm-R8D" firstAttribute="leading" secondItem="uDa-Lh-feF" secondAttribute="leading" id="Ysa-YI-fQx"/>
-                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="height" secondItem="uDa-Lh-feF" secondAttribute="height" multiplier="0.2" id="fXY-7P-na8"/>
-                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="top" secondItem="F4C-hm-R8D" secondAttribute="bottom" id="gfo-WB-4m1"/>
+                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="top" secondItem="F4C-hm-R8D" secondAttribute="bottom" id="bc7-Km-hv2"/>
+                            <constraint firstItem="cTi-1Z-rA2" firstAttribute="height" secondItem="uDa-Lh-feF" secondAttribute="height" multiplier="0.3" id="fXY-7P-na8"/>
                             <constraint firstItem="SFN-qa-QTW" firstAttribute="leading" secondItem="cTi-1Z-rA2" secondAttribute="trailing" constant="5" id="lcI-rF-pEX"/>
                             <constraint firstItem="g8S-X1-btR" firstAttribute="height" secondItem="uDa-Lh-feF" secondAttribute="height" multiplier="0.1" id="pN3-Zm-M9r"/>
                             <constraint firstItem="g8S-X1-btR" firstAttribute="leading" secondItem="uDa-Lh-feF" secondAttribute="leading" constant="5" id="sIZ-KT-CfJ"/>
@@ -650,8 +640,8 @@
                     <connections>
                         <outlet property="categoryCollectionView" destination="SFN-qa-QTW" id="iLO-Rp-hwF"/>
                         <outlet property="deliveryPlatformNameTF" destination="ZGn-yf-fzh" id="7AI-HG-d43"/>
+                        <outlet property="notes" destination="lf5-zA-udp" id="8Le-42-wOB"/>
                         <outlet property="optionCollectionView" destination="R3b-nJ-wM0" id="tJ2-Bp-Ruc"/>
-                        <outlet property="orderDescriptionTF" destination="aS8-Rw-ofF" id="TVS-35-Xlk"/>
                         <outlet property="orderNumberTF" destination="L6R-hj-AtW" id="oZr-bI-Dk8"/>
                         <outlet property="orderTableView" destination="0Tj-e2-fUX" id="eRd-Jw-8Sk"/>
                         <outlet property="orderTypeControler" destination="YLM-IK-KlZ" id="xDP-y6-Dqc"/>
@@ -736,6 +726,9 @@
         <image name="square.and.pencil" catalog="system" width="128" height="121"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

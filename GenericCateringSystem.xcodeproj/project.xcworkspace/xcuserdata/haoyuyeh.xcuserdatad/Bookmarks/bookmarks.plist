@@ -140,6 +140,53 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>58</string>
+					<key>StartingColumnNumber</key>
+					<string>40</string>
+					<key>StartingLineNumber</key>
+					<string>57</string>
+					<key>Timestamp</key>
+					<string>737294724.108003</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Table or Collection View/OptionCell.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>
+</string>
+				<key>leading</key>
+				<string>            isSelectedImg.isHidden = false
+        }
+        name.text = target.name</string>
+				<key>trailing</key>
+				<string>        unitPrice.text = "$\(String(target.price))"
+    }
+}
+</string>
+			</dict>
+			<key>title</key>
+			<string>check  all core data's optional value</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>

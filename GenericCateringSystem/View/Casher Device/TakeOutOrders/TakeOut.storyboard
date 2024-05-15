@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad10_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -98,7 +98,7 @@
                                         <connections>
                                             <outlet property="name" destination="jPD-1j-d77" id="uDN-69-eue"/>
                                             <outlet property="number" destination="gbr-Vw-YH4" id="Ykk-wO-yaa"/>
-                                            <outlet property="statusBtn" destination="Epp-og-4t2" id="xue-Wl-evG"/>
+                                            <outlet property="statusBtn" destination="Epp-og-4t2" id="l4V-Z2-ghl"/>
                                             <segue destination="PXB-MS-ZDx" kind="presentation" identifier="showTAOrderDetail" id="Gu2-K6-Lkv"/>
                                         </connections>
                                     </tableViewCell>

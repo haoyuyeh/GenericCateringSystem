@@ -23,7 +23,7 @@ extension TakeOutOrderVCViewModel {
         let p1 = NSPredicate(format: "type == %d", type.rawValue)
         let p2 = NSPredicate(format: "currentState == %d || currentState == %d", argumentArray: [OrderState.preparing.rawValue, OrderState.waitingPickUp.rawValue])
         let comP = NSCompoundPredicate(type: .and, subpredicates: [p0, p1, p2])
-        var orders = Helper.shared.fetchOrder(predicate: comP)
+        let orders = Helper.shared.fetchOrder(predicate: comP)
 
         switch type {
         case .walkIn:

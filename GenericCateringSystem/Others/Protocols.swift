@@ -17,43 +17,44 @@ protocol ShowMsgDelegate {
     func show(msg: String)
 }
 
-// MARK: AccountCell
-protocol AccountCellDelegate {
-    func idTFTextChanged(to newName: String, at indexPath: IndexPath)
-    func pwTFTextChanged(to newPw: String, at indexPath: IndexPath)
+protocol TextFieldChangedDelegate {
+    func noteChanged(to notes: String, of order: Order)
+    func idChanged(to newName: String, at indexPath: IndexPath)
+    func pwChanged(to newPw: String, at indexPath: IndexPath)
+    func itemQuantityChanged(to num: Int, of index: IndexPath)
+}
+
+extension TextFieldChangedDelegate {
+    func noteChanged(to notes: String, of order: Order) {}
+    func idChanged(to newName: String, at indexPath: IndexPath) {}
+    func pwChanged(to newPw: String, at indexPath: IndexPath) {}
+    func itemQuantityChanged(to num: Int, of index: IndexPath) {}
 }
 
 // MARK: MenuEditVC
-/// Tell the category cell how to display itself
-protocol CategoryDeleteModeDelegate {
-    func isEnterDeleteMode(value: Bool)
-}
-/// Tell the option cell how to display itself
-protocol OptionDeleteModeDelegate {
+protocol DeleteModeDelegate {
     func isEnterDeleteMode(value: Bool)
 }
 
 // MARK: EatInVC
-protocol TableStateChangedDelegate {
+protocol EatInTableDelegate {
+    func orderCompleted(at table: UUID)
     func occupied(at table: UUID)
     func released(at table: UUID)
     func tableOccupied()
     func tableReleased()
 }
-
-// MARK: TableOrderDetailVC
-protocol CheckOutDelegate {
-    func orderCompleted(at table: UUID)
+extension EatInTableDelegate {
+    func orderCompleted(at table: UUID) {}
+    func occupied(at table: UUID) {}
+    func released(at table: UUID) {}
+    func tableOccupied() {}
+    func tableReleased() {}
 }
 
 // MARK: OrderCell
-protocol OrderStatusChangedDelegate {
-    func statusChanged(to state: OrderState, of order: Order, at indexPath: IndexPath)
-}
-
-// MARK: ItemCell
-protocol ItemQuantityDelegate {
-    func itemQuantityChanged(to num: Int, of index: IndexPath)
+protocol OrderChangedDelegate {
+    func statusChanged(to state: OrderState, of order: Order)
 }
 
 

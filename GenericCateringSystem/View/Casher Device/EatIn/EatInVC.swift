@@ -12,7 +12,7 @@ class EatInVC: UIViewController {
     private let logger = Logger(subsystem: "EatIn", category: "EatInVC")
     private var viewModel = EatInVCViewModel()
     var currentDevice: Device?
-    var delegate: TableStateChangedDelegate?
+    var delegate: EatInTableDelegate?
     
     typealias TableDataSource = UICollectionViewDiffableDataSource<TableSection, Device>
     typealias TableSnapShot = NSDiffableDataSourceSnapshot<TableSection, Device>
@@ -23,6 +23,9 @@ class EatInVC: UIViewController {
         
         tableCollectionView.dataSource = tableDataSource
         updateTableSnapShot()
+        DispatchQueue.main.async { [unowned self] in
+            tableCollectionView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,7 +59,7 @@ class EatInVC: UIViewController {
     }
 }
 // MARK: - CheckOutDelegate
-extension EatInVC: CheckOutDelegate {
+extension EatInVC: EatInTableDelegate {
     func orderCompleted(at table: UUID) {
         delegate?.tableReleased()
         //        delegate?.released(at: table)

@@ -18,8 +18,6 @@ class HistoricalOrderDetailVC: UIViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         config()
-        itemTableView.dataSource = itemDataSource
-        updateItemSnapShot()
     }
     
     // MARK: IBOutlet
@@ -27,6 +25,7 @@ class HistoricalOrderDetailVC: UIViewController {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var number: UILabel!
     @IBOutlet weak var sum: UILabel!
+    @IBOutlet weak var notes: UITextView!
     
     @IBOutlet weak var itemTableView: UITableView!
 }
@@ -44,12 +43,49 @@ extension HistoricalOrderDetailVC {
         }
         number.text = order?.number
         sum.text = "$\(String(order?.totalSum ?? 0))"
+        
+        switch Int(order!.currentState) {
+        case OrderState.orderNotFinished.rawValue:
+            notes.isEditable = true
+            if let notes = order?.comments {
+                self.notes.textColor = UIColor.black
+                self.notes.text = notes
+            }else {
+                self.notes.textColor = UIColor.lightGray
+                self.notes.text = "Enter the reasons why the order didn't finish."
+            }
+        default:
+            notes.isEditable = false
+            notes.text = order?.comments ?? ""
+        }
+        
+        
+        
+        
+        itemTableView.dataSource = itemDataSource
+        updateItemSnapShot()
     }
 }
 
+extension HistoricalOrderDetailVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = UIColor.lightGray
+            textView.text = "Enter the reasons why the order didn't finish."
+        }else {
+            viewModel.updateNotes(to: textView.text, of: order!)
+        }
+    }
+}
 
-
-// MARK: UITableViewDelegate
+// MARK: Item Table View
 extension HistoricalOrderDetailVC {
     func configureItemDataSource() -> ItemDataSource {
         let dataSource = ItemDataSource(tableView: itemTableView) { (tableView, indexPath, item) -> UITableViewCell? in

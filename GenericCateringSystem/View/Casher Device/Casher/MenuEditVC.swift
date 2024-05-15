@@ -18,8 +18,8 @@ class MenuEditVC: UIViewController {
     private var selectedCategory: UUID?
     private var selectedOption: UUID?
     
-    private var categoryDelegate: CategoryDeleteModeDelegate?
-    private var optionDelegate: OptionDeleteModeDelegate?
+    private var categoryDelegate: DeleteModeDelegate?
+    private var optionDelegate: DeleteModeDelegate?
     
     typealias CategoryDataSource = UICollectionViewDiffableDataSource<CategorySection, Category>
     typealias CategorySnapShot = NSDiffableDataSourceSnapshot<CategorySection, Category>
@@ -31,8 +31,8 @@ class MenuEditVC: UIViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         categoryCollectionView.dataSource = categoryDataSource
-        updateCategorySnapshot()
         optionCollectionView.dataSource = optionDataSource
+        updateCategorySnapshot()
         updateOptionSnapshot()
         config()
     }
@@ -292,14 +292,14 @@ extension MenuEditVC {
         deleteCancelBtn.isHidden = false
         
         categoryDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        updateCategorySnapshot()
         DispatchQueue.main.async { [unowned self] in
+            updateCategorySnapshot()
             categoryCollectionView.reloadData()
         }
         
         optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
-        updateOptionSnapshot()
         DispatchQueue.main.async { [unowned self] in
+            updateOptionSnapshot()
             optionCollectionView.reloadData()
         }
         

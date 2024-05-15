@@ -46,7 +46,7 @@ extension TableCell: CellConfig {
 }
 
 // MARK: TableStateChangedDelegate
-extension TableCell: TableStateChangedDelegate {
+extension TableCell: EatInTableDelegate {
     func occupied(at table: UUID) {
         if table.uuidString == self.uuid!.uuidString {
             isOcuppied = true

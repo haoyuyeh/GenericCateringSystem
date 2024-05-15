@@ -54,7 +54,6 @@ extension MenuVCViewModel {
     func addNewItem(currentOrder order: Order, selectedOption option: UUID) {
         let newItem = Item(context: PersistenceService.shared.persistentContainer.viewContext)
         newItem.uuid = UUID()
-        newItem.orderedBy = order
         // use option to trace back the correct item name and price
         (newItem.name, newItem.price) = getNameAndUnitPrice(of: option)
         newItem.quantity = 1
@@ -64,6 +63,7 @@ extension MenuVCViewModel {
             currentOrderedItems[isExisted.itemIndex!].quantity += newItem.quantity
             PersistenceService.shared.delete(object: newItem)
         }else {
+            newItem.orderedBy = order
             currentOrderedItems.append(newItem)
             currentOrderedItems = currentOrderedItems.sorted{
                 $0.name! < $1.name!
@@ -83,7 +83,6 @@ extension MenuVCViewModel {
             item.name == newItem.name
         }){
             // if exists, return result and item index
-            logger.debug("item is existed at \(existedItemIndex)")
             return (true, existedItemIndex)
         } else{
             return (false, nil)
@@ -94,8 +93,10 @@ extension MenuVCViewModel {
     /// 2. update total sum of the order
     /// - Parameter index:
     func deleteItem(at index: Int) {
+        
         let deletedItem = currentOrderedItems.remove(at: index)
         PersistenceService.shared.delete(object: deletedItem)
+        saveAll()
         delegate?.totalSumChanged(to: updateTotalSum())
     }
     
@@ -125,8 +126,7 @@ extension MenuVCViewModel {
         order.platformName = pName
         order.number = num
         order.comments = note
-        logger.debug("state:\(String(order.currentState)), date:\(order.establishedDate!.toString(format: nil)), istakeout:\(order.isTakeOut), number:\(order.number ?? "nil"), type:\(String(order.type)), plateform:\(order.platformName ?? "nil")")
-        PersistenceService.shared.saveContext()
+        saveAll()
     }
 }
 
@@ -143,7 +143,6 @@ extension MenuVCViewModel {
     func hasChildrenOption(of targetUUID: UUID?) -> Bool {
         if let uuid = targetUUID {
             let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-//            logger.debug("\(option)")
             let children = option.children?.allObjects as! [Option]
             if children.isEmpty {
                 return false
@@ -181,11 +180,35 @@ extension MenuVCViewModel {
         }
     }
     
+    
+}
+
+// MARK: Helper Functions
+extension MenuVCViewModel {
+    func addNewOrder() -> Order {
+        let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
+        currentOrder.uuid = UUID()
+        currentOrder.establishedDate = Date()
+        currentOrder.currentState = Int16(OrderState.ordering.rawValue)
+        currentOrder.isTakeOut = true
+        
+        return currentOrder
+    }
+    
+    func discardAll() {
+        currentOrderedItems = []
+        PersistenceService.shared.resetContext()
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
+    }
+
     /// the data structure of option is link-list like
     /// therefore, use the targetUUID to retrieve the whole name and price of the picked item
     /// - Parameter targetUUID:
     /// - Returns:
-    func getNameAndUnitPrice(of targetUUID: UUID?) -> (name:String, unitPrice:Double) {
+    private func getNameAndUnitPrice(of targetUUID: UUID?) -> (name:String, unitPrice:Double) {
         if let uuid = targetUUID {
             let options = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
             if options != [] {
@@ -198,62 +221,6 @@ extension MenuVCViewModel {
             logger.error("uuid is nil")
             return ("nil", 0.0)
         }
-    }
-    
-    func addNewOrder() -> Order {
-        let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
-        currentOrder.uuid = UUID()
-        currentOrder.establishedDate = Date()
-        currentOrder.currentState = Int16(OrderState.ordering.rawValue)
-        currentOrder.isTakeOut = true
-        
-        return currentOrder
-    }
-}
-
-// MARK: Helper Functions
-extension MenuVCViewModel {
-    func discardAll() {
-        currentOrderedItems = []
-        PersistenceService.shared.resetContext()
-    }
-    
-    func saveAll() {
-        PersistenceService.shared.saveContext()
-    }
-    
-    /// set today's unfinished orders to OrderState.orderNotFinished
-    func reviewTodayOrders() {
-        let today = Date()
-        let startDate = Calendar.current.startOfDay(for: today)
-        let endDate = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!
-        
-        let p = NSPredicate(format: "establishedDate >= %@ && establishedDate < %@", argumentArray: [startDate, endDate])
-                
-        var orders = Helper.shared.fetchOrder(predicate: p)
-       
-        orders.forEach { order in
-            switch Int(order.currentState) {
-            case OrderState.eating.rawValue, OrderState.ordering.rawValue, OrderState.preparing.rawValue, OrderState.waitingPickUp.rawValue:
-                
-                order.currentState = Int16(OrderState.orderNotFinished.rawValue)
-                
-            default:
-                break
-            }
-        }
-    }
-    
-    
-    private func updateTotalSum() -> Double {
-        var sum = 0.0
-        for item in currentOrderedItems {
-            sum += item.price * Double(item.quantity)
-        }
-        // update to core data
-        currentOrderedItems[0].orderedBy?.totalSum = sum
-        
-        return sum
     }
     
     /// use the end node to back track the whole name and price
@@ -287,5 +254,20 @@ extension MenuVCViewModel {
             count += 1
         }
         return (name, totalPrice)
+    }
+    
+    private func updateTotalSum() -> Double {
+        guard currentOrderedItems != [] else {
+            return 0.0
+        }
+        
+        var sum = 0.0
+        for item in currentOrderedItems {
+            sum += item.price * Double(item.quantity)
+        }
+        // update to core data
+        currentOrderedItems[0].orderedBy?.totalSum = sum
+        
+        return sum
     }
 }

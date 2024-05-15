@@ -4,12 +4,14 @@
 //
 //  Created by Hao Yu Yeh on 2024/4/21.
 //
-
+import OSLog
 import UIKit
 import CoreData
 
 class OptionCell: UICollectionViewCell {
     // MARK: Properties
+    private let logger = Logger(subsystem: "MenuVC", category: "OptionCell")
+    
     var uuid: UUID? = nil
     var isEnterDeleteMode: Bool {
         didSet {
@@ -53,14 +55,13 @@ extension OptionCell: CellConfig {
         if cellType.self == MenuEditVC.self {
             isSelectedImg.isHidden = false
         }
-        
         name.text = target.name
         unitPrice.text = "$\(String(target.price))"
     }
 }
 
 // MARK: OptionDeleteModeDelegate
-extension OptionCell: OptionDeleteModeDelegate {
+extension OptionCell: DeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value
     }

@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad10_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -82,13 +82,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="js0-GW-0hK" firstAttribute="bottom" secondItem="9gl-vp-OTe" secondAttribute="bottom" id="9cs-Mr-eMU"/>
                                                 <constraint firstItem="eiF-Ww-Eef" firstAttribute="bottom" secondItem="9gl-vp-OTe" secondAttribute="bottom" id="CK8-hj-j31"/>
-                                                <constraint firstItem="js0-GW-0hK" firstAttribute="trailing" secondItem="9gl-vp-OTe" secondAttribute="trailing" constant="-20" id="F7W-Ku-DSc"/>
-                                                <constraint firstItem="js0-GW-0hK" firstAttribute="top" secondItem="9gl-vp-OTe" secondAttribute="top" id="Hlj-g5-meX"/>
+                                                <constraint firstItem="js0-GW-0hK" firstAttribute="trailing" secondItem="9gl-vp-OTe" secondAttribute="trailing" constant="-20" id="Ihk-qn-cIG"/>
+                                                <constraint firstItem="js0-GW-0hK" firstAttribute="bottom" secondItem="9gl-vp-OTe" secondAttribute="bottom" id="MG5-gU-OaY"/>
+                                                <constraint firstItem="js0-GW-0hK" firstAttribute="top" secondItem="9gl-vp-OTe" secondAttribute="top" id="SfL-US-0on"/>
                                                 <constraint firstItem="eiF-Ww-Eef" firstAttribute="leading" secondItem="9gl-vp-OTe" secondAttribute="leading" constant="5" id="WFj-1j-sjk"/>
-                                                <constraint firstItem="eiF-Ww-Eef" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="js0-GW-0hK" secondAttribute="leading" id="XhK-P3-5p8"/>
                                                 <constraint firstItem="eiF-Ww-Eef" firstAttribute="top" secondItem="9gl-vp-OTe" secondAttribute="top" id="kTW-Z7-3IU"/>
+                                                <constraint firstItem="eiF-Ww-Eef" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="js0-GW-0hK" secondAttribute="leading" id="ltA-Kb-bZq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -152,16 +152,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XiO-wH-EtT" userLabel="Order Name Stack View">
-                                <rect key="frame" x="10" y="0.0" width="694" height="117"/>
+                                <rect key="frame" x="10" y="0.0" width="694" height="78"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uber" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o17-gI-z6w">
-                                        <rect key="frame" x="0.0" y="0.0" width="694" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="694" height="39"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238454748203" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCw-oj-XW9">
-                                        <rect key="frame" x="0.0" y="58.5" width="694" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="39" width="694" height="39"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -169,7 +169,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GH4-q8-HUa" userLabel="Item Table View">
-                                <rect key="frame" x="10" y="117" width="694" height="585"/>
+                                <rect key="frame" x="10" y="78" width="694" height="546"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" id="tIl-92-EWI" userLabel="Item Cell" customClass="ItemCell" customModule="GenericCateringSystem" customModuleProvider="target">
@@ -226,44 +226,57 @@
                                     <outlet property="delegate" destination="0Nu-Gz-mKy" id="WYM-bV-xGa"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XnW-1h-sNR" userLabel="Total Sum Stack View">
-                                <rect key="frame" x="10" y="702" width="694" height="78"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DGu-vM-ZL2">
+                                <rect key="frame" x="0.0" y="624" width="704" height="156"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLn-Te-snp" userLabel="Total Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="347" height="78"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ns-oF-H1V" userLabel="Sum Label">
-                                        <rect key="frame" x="347" y="0.0" width="347" height="78"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                        <color key="textColor" systemColor="systemRedColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="notes" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S3j-AH-FSZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="704" height="75.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" keyboardType="alphabet" enablesReturnKeyAutomatically="YES"/>
+                                    </textView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XnW-1h-sNR" userLabel="Total Sum Stack View">
+                                        <rect key="frame" x="0.0" y="80.5" width="704" height="75.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLn-Te-snp" userLabel="Total Label">
+                                                <rect key="frame" x="0.0" y="0.0" width="352" height="75.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ns-oF-H1V" userLabel="Sum Label">
+                                                <rect key="frame" x="352" y="0.0" width="352" height="75.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <color key="textColor" systemColor="systemRedColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nu4-fo-7IW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="DGu-vM-ZL2" firstAttribute="bottom" secondItem="nu4-fo-7IW" secondAttribute="bottom" id="4E1-I3-5uI"/>
+                            <constraint firstItem="DGu-vM-ZL2" firstAttribute="height" secondItem="nu4-fo-7IW" secondAttribute="height" multiplier="0.2" id="BZp-kR-Lm0"/>
                             <constraint firstItem="XiO-wH-EtT" firstAttribute="top" secondItem="nu4-fo-7IW" secondAttribute="top" id="GAo-Cf-Oyw"/>
-                            <constraint firstItem="XiO-wH-EtT" firstAttribute="height" secondItem="nu4-fo-7IW" secondAttribute="height" multiplier="0.15" id="JNL-A0-Bgc"/>
+                            <constraint firstItem="DGu-vM-ZL2" firstAttribute="top" secondItem="GH4-q8-HUa" secondAttribute="bottom" id="GfD-Lk-Bgs"/>
+                            <constraint firstItem="XiO-wH-EtT" firstAttribute="height" secondItem="nu4-fo-7IW" secondAttribute="height" multiplier="0.1" id="JNL-A0-Bgc"/>
                             <constraint firstItem="GH4-q8-HUa" firstAttribute="leading" secondItem="nu4-fo-7IW" secondAttribute="leading" constant="10" id="L0h-zz-1eA"/>
-                            <constraint firstItem="XnW-1h-sNR" firstAttribute="height" secondItem="nu4-fo-7IW" secondAttribute="height" multiplier="0.1" id="Mof-lc-RA8"/>
-                            <constraint firstItem="XnW-1h-sNR" firstAttribute="trailing" secondItem="nu4-fo-7IW" secondAttribute="trailing" id="OUx-p8-2eO"/>
-                            <constraint firstItem="XnW-1h-sNR" firstAttribute="leading" secondItem="nu4-fo-7IW" secondAttribute="leading" constant="10" id="PwG-hR-vYs"/>
+                            <constraint firstItem="DGu-vM-ZL2" firstAttribute="trailing" secondItem="nu4-fo-7IW" secondAttribute="trailing" id="QFK-a3-gAf"/>
                             <constraint firstItem="GH4-q8-HUa" firstAttribute="top" secondItem="XiO-wH-EtT" secondAttribute="bottom" id="kha-AG-wOt"/>
+                            <constraint firstItem="DGu-vM-ZL2" firstAttribute="leading" secondItem="nu4-fo-7IW" secondAttribute="leading" id="nEg-MO-GaU"/>
                             <constraint firstItem="XiO-wH-EtT" firstAttribute="trailing" secondItem="nu4-fo-7IW" secondAttribute="trailing" id="tgw-TL-i1F"/>
                             <constraint firstItem="XiO-wH-EtT" firstAttribute="leading" secondItem="nu4-fo-7IW" secondAttribute="leading" constant="10" id="vir-YF-ZnP"/>
-                            <constraint firstItem="XnW-1h-sNR" firstAttribute="bottom" secondItem="nu4-fo-7IW" secondAttribute="bottom" id="vrI-VB-0Jc"/>
-                            <constraint firstItem="XnW-1h-sNR" firstAttribute="top" secondItem="GH4-q8-HUa" secondAttribute="bottom" id="wVQ-bB-0NR"/>
                             <constraint firstItem="GH4-q8-HUa" firstAttribute="trailing" secondItem="nu4-fo-7IW" secondAttribute="trailing" id="wpr-Dr-G4e"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="itemTableView" destination="GH4-q8-HUa" id="oCM-wc-bo6"/>
                         <outlet property="name" destination="o17-gI-z6w" id="pTh-OO-Mok"/>
+                        <outlet property="notes" destination="S3j-AH-FSZ" id="o7G-km-5HD"/>
                         <outlet property="number" destination="oCw-oj-XW9" id="dn0-q9-7q9"/>
                         <outlet property="sum" destination="7Ns-oF-H1V" id="5eq-Ip-9eu"/>
                     </connections>

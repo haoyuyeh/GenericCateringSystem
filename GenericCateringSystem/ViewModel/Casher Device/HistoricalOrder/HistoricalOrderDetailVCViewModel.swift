@@ -16,4 +16,9 @@ extension HistoricalOrderDetailVCViewModel {
     func getAllItems(of order: Order) -> [Item] {
         return order.items?.allObjects as! [Item]
     }
+    
+    func updateNotes(to notes: String, of order: Order) {
+        order.comments = notes
+        PersistenceService.shared.saveContext()
+    }
 }

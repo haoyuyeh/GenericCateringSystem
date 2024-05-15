@@ -14,7 +14,7 @@ class TableOrderDetailVC: UIViewController {
     /// customer device uuid
     var uuid: UUID?
     var currentOrder: Order?
-    var delegate: CheckOutDelegate?
+    var delegate: EatInTableDelegate?
     
     typealias ItemDataSource = UITableViewDiffableDataSource<TableSection, Item>
     typealias ItemSnapShot = NSDiffableDataSourceSnapshot<TableSection, Item>
@@ -146,7 +146,7 @@ extension TableOrderDetailVC: UITableViewDelegate {
 }
 
 // MARK: ItemQuantityDelegate
-extension TableOrderDetailVC: ItemQuantityDelegate {
+extension TableOrderDetailVC: TextFieldChangedDelegate {
     func itemQuantityChanged(to num: Int, of index: IndexPath) {
         viewModel.changeQuantity(of: index.row, to: num)
     }

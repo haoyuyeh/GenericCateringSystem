@@ -8,38 +8,37 @@ import OSLog
 import CoreData
 import UIKit
 
+
+
 class OrderCell: UITableViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "TakeOut", category: "OrderCell")
 
-    /// cell's index path
-    var indexPath: IndexPath?
     var order: Order?
-    var delegate: OrderStatusChangedDelegate?
+    var orderDelegate: OrderChangedDelegate?
     
     // MARK: IBOutlet
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var number: UILabel!
-
+    
     @IBOutlet weak var statusBtn: UIButton!
     @IBOutlet weak var status: UILabel!
     
+    // MARK: IBAction
     @IBAction func statusBtnPressed(_ sender: UIButton) {
         switch Int(order!.currentState) {
         case OrderState.preparing.rawValue:
             sender.titleLabel?.text = "WaitingPickUp"
             sender.imageView?.image = UIImage(systemName: "box.truck.badge.clock")
-            delegate?.statusChanged(to: .waitingPickUp, of: order!, at: indexPath!)
+            orderDelegate?.statusChanged(to: .waitingPickUp, of: order!)
         case OrderState.waitingPickUp.rawValue:
-            delegate?.statusChanged(to: .orderDelivered, of: order!, at: indexPath!)
+            orderDelegate?.statusChanged(to: .orderDelivered, of: order!)
             
         default:
             logger.error("order's status error. status = \(self.order!.currentState)")
         }
-        
     }
-    
 }
 
 // MARK: CellConfig
@@ -61,9 +60,10 @@ extension OrderCell: CellConfig {
         case OrderState.preparing.rawValue:
             statusBtn.titleLabel?.text = "Preparing"
             statusBtn.imageView?.image = UIImage(systemName: "frying.pan")
+            
         case OrderState.waitingPickUp.rawValue:
             statusBtn.titleLabel?.text = "WaitingPickUp"
-            statusBtn.imageView?.image = UIImage(systemName: "box.truck.badge.clock")
+            statusBtn.imageView?.image = UIImage(systemName: "truck.box.badge.clock")
             
         default:
             logger.error("wrong order current state")
@@ -74,37 +74,62 @@ extension OrderCell: CellConfig {
             name.text = "Walk-in"
             
         case OrderType.deliveryPlatform.rawValue:
-            name.text = order!.platformName
+            name.text = target.platformName
             
         default:
-            logger.error("error order type: \(self.order!.type)")
+            logger.error("error order type: \(target.type)")
         }
         
         number.text = target.number
     }
     
     private func configHistoricalOrder(with target: Order) {
-        
         switch Int(target.type) {
         case OrderType.eatIn.rawValue:
-            name.text = "Eat-in"
-
+            name.text = "Eat-in - Table #\(target.number ?? "nil")"
+            
         case OrderType.walkIn.rawValue:
-            name.text = "Walk-in"
+            name.text = "Walk-in #\(target.number ?? "nil")"
             
         case OrderType.deliveryPlatform.rawValue:
-            name.text = order!.platformName
-            
+            name.text = "\(target.platformName ?? "nil") - \(target.number ?? "nil")"
+
         default:
-            logger.error("error order type: \(self.order!.type)")
+            logger.error("error order type: \(target.type)")
+
         }
+        number.text = target.establishedDate?.toString(format: nil, dateStyle: .omitted, timeStyle: .standard)
         
-        number.text = target.number
         
-        if Int(order!.currentState) == OrderState.orderNotFinished.rawValue {
+        
+        
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        
+        switch Int(target.currentState) {
+        case OrderState.eating.rawValue, OrderState.ordering.rawValue, OrderState.preparing.rawValue, OrderState.waitingPickUp.rawValue:
+            guard let date = target.establishedDate else {
+                logger.error("\(target): establishedDate is nil")
+                status.text = "Establied date not exist!"
+                status.textColor = UIColor.systemBrown
+                return
+            }
+            if  date  >= startOfToday {
+                status.text = "Ongoing Orders"
+                status.textColor = UIColor.systemYellow
+            }else {
+                target.currentState = Int16(OrderState.orderNotFinished.rawValue)
+                PersistenceService.shared.saveContext()
+                status.text = "Not Finished"
+                status.textColor = UIColor.systemRed
+            }
+            
+        case OrderState.orderNotFinished.rawValue:
             status.text = "Not Finished"
-        }else {
-            status.isHidden = true
+            status.textColor = UIColor.systemRed
+
+        default:
+            status.text = "Completed"
+            status.textColor = UIColor.systemGreen
         }
     }
 }

@@ -21,6 +21,10 @@ extension HistoricalOrderVCViewModel {
         let p1 = NSPredicate(format: "type == %d", type.rawValue)
         let p = NSCompoundPredicate(type: .and, subpredicates: [p0, p1])
         
-        return Helper.shared.fetchOrder(predicate: p)
+        
+        let orders = Helper.shared.fetchOrder(predicate: p)
+        return orders
     }
+    
+    
 }

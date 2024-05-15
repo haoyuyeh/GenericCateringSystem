@@ -62,8 +62,9 @@ class PersistenceService {
         }
     }
     
+    /// discard all unsaved changes
     func resetContext() {
-        PersistenceService.shared.persistentContainer.viewContext.reset()
+        PersistenceService.shared.persistentContainer.viewContext.rollback()
     }
     
     func delete(object: NSManagedObject) {

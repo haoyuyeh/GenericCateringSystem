@@ -10,7 +10,7 @@ import CoreData
 
 class ItemCell: UITableViewCell {
     
-    var delegate: ItemQuantityDelegate?
+    var delegate: TextFieldChangedDelegate?
     var indexPath: IndexPath?
     
     @IBOutlet weak var name: UILabel!

@@ -20,8 +20,6 @@ class TakeOutOrderDetailVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         config()
-        itemTableView.dataSource = itemDataSource
-        updateItemSnapShot()
     }
     
     // MARK: IBOutlet
@@ -35,8 +33,6 @@ class TakeOutOrderDetailVC: UIViewController {
 // MARK: Helper
 extension TakeOutOrderDetailVC {
     func config() {
-//        logger.debug("5")
-//        logger.debug("\(self.order)")
         switch Int(order!.type) {
         case OrderType.eatIn.rawValue:
             type.text = "Eat-in"
@@ -47,6 +43,9 @@ extension TakeOutOrderDetailVC {
         }
         number.text = order?.number
         sum.text = "$\(String(order?.totalSum ?? 0))"
+        
+        itemTableView.dataSource = itemDataSource
+        updateItemSnapShot()
     }
 }
 

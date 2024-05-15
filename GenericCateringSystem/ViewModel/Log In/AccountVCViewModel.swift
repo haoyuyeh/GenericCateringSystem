@@ -39,8 +39,8 @@ extension AccountVCViewModel {
 }
 
 // MARK: AccountCellDelegate
-extension AccountVCViewModel: AccountCellDelegate {
-    func idTFTextChanged(to newName: String, at indexPath: IndexPath) {
+extension AccountVCViewModel: TextFieldChangedDelegate {
+    func idChanged(to newName: String, at indexPath: IndexPath) {
         guard newName.isMatch(pattern: "^[\\w\\s-]+$") else {
             delegate?.show(msg: "name can't be all whitespace or nil!!")
             return
@@ -54,7 +54,7 @@ extension AccountVCViewModel: AccountCellDelegate {
         accounts[indexPath.row].name = newName
     }
     
-    func pwTFTextChanged(to newPw: String, at indexPath: IndexPath) {
+    func pwChanged(to newPw: String, at indexPath: IndexPath) {
         accounts[indexPath.row].password = newPw
     }
 }

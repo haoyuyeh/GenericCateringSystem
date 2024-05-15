@@ -34,10 +34,10 @@ class MenuVC: UIViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         config()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        
         viewModel.discardAll()
     }
     
@@ -56,7 +56,7 @@ class MenuVC: UIViewController {
             
         default:
             logger.error("unknown segue")
-
+            
         }
     }
     
@@ -64,7 +64,7 @@ class MenuVC: UIViewController {
     @IBOutlet weak var orderTypeControler: UISegmentedControl!
     @IBOutlet weak var deliveryPlatformNameTF: UITextField!
     @IBOutlet weak var orderNumberTF: UITextField!
-    @IBOutlet weak var orderDescriptionTF: UITextField!
+    @IBOutlet weak var notes: UITextView!
     
     @IBOutlet weak var orderTableView: UITableView!
     
@@ -76,11 +76,8 @@ class MenuVC: UIViewController {
     // MARK: IBAction
     
     @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
-        currentOrder = nil
-        viewModel.discardAll()
-        DispatchQueue.main.async { [unowned self] in
-            orderTableView.reloadData()
-        }
+        reset()
+        
         switch sender.selectedSegmentIndex {
             // delivery platform
         case 0:
@@ -96,30 +93,34 @@ class MenuVC: UIViewController {
     }
     
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
-        guard currentOrder != nil else {
+        guard let order = currentOrder else {
             self.showAlert(alertTitle: "Warning", message: "Not have an order!!!")
             return
         }
         
         // complet order and reset for next order
-        viewModel.completOrder(currentOrder: currentOrder!, type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform.rawValue: OrderType.walkIn.rawValue, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: orderDescriptionTF.text ?? "nil")
+        viewModel.completOrder(currentOrder: order, type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform.rawValue: OrderType.walkIn.rawValue, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: notes.text)
         reset()
     }
-    
-    /// check if there are any unfinished orders,
-    /// if so, change the currentState of those orders to OrderState.orderNotFinished
-    /// - Parameter sender:
-    @IBAction func closedBtnPressed(_ sender: UIButton) {
-        let indicator = Helper.shared.activityIndicator(style: .large, center: self.view.center)
-        
-        self.view.addSubview(indicator)
-        indicator.startAnimating()
-        viewModel.reviewTodayOrders()
-        indicator.stopAnimating()
-        self.showAlert(alertTitle: "Notice", message: "You can close App now!")
+}
+
+// MARK: UITextFieldDelegate
+extension MenuVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            notes.textColor = UIColor.lightGray
+            notes.text = "Enter notes here."
+        }
+    }
 }
+
 
 // MARK: UITextFieldDelegate
 extension MenuVC: UITextFieldDelegate {
@@ -152,7 +153,9 @@ extension MenuVC {
         var snapshot = OrdrSnapShot()
         
         snapshot.appendSections([.all])
-        snapshot.appendItems(viewModel.getAllItems(of: currentOrder), toSection: .all)
+        snapshot.appendItems(viewModel.getAllItems(of: currentOrder).sorted{
+            $0.name! < $1.name!
+        }, toSection: .all)
         
         itemDataSource.apply(snapshot, animatingDifferences: value)
     }
@@ -160,20 +163,24 @@ extension MenuVC {
 
 // MARK: UITableViewDelegate
 extension MenuVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        tableView.beginUpdates()
-        viewModel.deleteItem(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.endUpdates()
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, handler in
+            viewModel.deleteItem(at: indexPath.row)
+            
+            DispatchQueue.main.async { [unowned self] in
+                updateOrderSnapShot(animatingDifferences: true)
+                orderTableView.reloadData()
+            }
+        }
+        deleteAction.backgroundColor = .red
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 }
 
 // MARK: ItemQuantityDelegate
-extension MenuVC: ItemQuantityDelegate {
+extension MenuVC: TextFieldChangedDelegate {
     func itemQuantityChanged(to num: Int, of index: IndexPath) {
         viewModel.changeQuantity(of: index.row, to: num)
     }
@@ -182,7 +189,7 @@ extension MenuVC: ItemQuantityDelegate {
 // MARK: TotalSumDelegate
 extension MenuVC: TotalSumDelegate {
     func totalSumChanged(to sum: Double) {
-        sumLabel.text = String(sum)
+        sumLabel.text = String("$\(sum)")
     }
 }
 
@@ -192,14 +199,26 @@ extension MenuVC {
         self.tabBarController?.delegate = self
         viewModel.delegate = self
         
+        if currentOrder != nil && currentOrder?.comments != nil {
+            notes.textColor = UIColor.black
+            notes.text = currentOrder?.comments
+        }else {
+            notes.textColor = UIColor.lightGray
+            notes.text = "Enter notes here."
+        }
+        
         orderTableView.dataSource = itemDataSource
-        updateOrderSnapShot()
-        
         categoryCollectionView.dataSource = categoryDataSource
-        updateCategorySnapshot()
-        
         optionCollectionView.dataSource = optionDataSource
+        updateOrderSnapShot()
+        updateCategorySnapshot()
         updateOptionSnapshot()
+        
+        DispatchQueue.main.async { [unowned self] in
+            orderTableView.reloadData()
+            categoryCollectionView.reloadData()
+            optionCollectionView.reloadData()
+        }
     }
     
     /// called when the order completed
@@ -211,16 +230,23 @@ extension MenuVC {
         selectedOption = nil
         deliveryPlatformNameTF.text = nil
         orderNumberTF.text = nil
-        orderDescriptionTF.text = nil
-        sumLabel.text = "0"
+        notes.textColor = UIColor.lightGray
+        notes.text = "Enter notes here."
+        sumLabel.text = "$0"
         
         if orderTypeControler.selectedSegmentIndex == 1 {
             orderNumberTF.text = viewModel.getWalkInOrderNumber()
         }
         
-        updateOrderSnapShot()
-        updateCategorySnapshot()
-        updateOptionSnapshot()
+        DispatchQueue.main.async { [unowned self] in
+            updateOrderSnapShot()
+            updateCategorySnapshot()
+            updateOptionSnapshot()
+            
+            orderTableView.reloadData()
+            categoryCollectionView.reloadData()
+            optionCollectionView.reloadData()
+        }
     }
     
     /// Adding choosed item into current order,
@@ -234,7 +260,10 @@ extension MenuVC {
         pickItemState = .enterCategory
         selectedOption = nil
         
-        updateOrderSnapShot()
+        DispatchQueue.main.async { [unowned self] in
+            updateOrderSnapShot()
+            orderTableView.reloadData()
+        }
     }
 }
 
@@ -332,23 +361,25 @@ extension MenuVC {
 // MARK: UITabBarControllerDelegate
 extension MenuVC: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        reset()
+        
         switch tabBarController.selectedIndex {
         case 0:
             let vc = viewController as! MenuVC
             vc.currentDevice = currentDevice
-
+            
         case 1:
             let vc = viewController as! EatInVC
             vc.currentDevice = currentDevice
-
+            
         case 2:
             let vc = viewController as! TakeOutOrderVC
             vc.currentDevice = currentDevice
-
+            
         case 3:
             let vc = viewController as! HistoricalOrderVC
             vc.currentDevice = currentDevice
-
+            
         default:
             logger.error("unrecognized view controller")
         }

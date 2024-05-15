@@ -10,7 +10,7 @@ import CoreData
 
 class AccountCell: UITableViewCell {
     // MARK: Properties
-    var delegate: AccountCellDelegate!
+    var delegate: TextFieldChangedDelegate!
     var indexPath: IndexPath!
     
     // MARK: IBOutlet
@@ -19,11 +19,11 @@ class AccountCell: UITableViewCell {
     
     // MARK: IBAction
     @IBAction func idTFEndChange(_ sender: UITextField) {
-        delegate.idTFTextChanged(to: idTextField.text ?? "nil username", at: indexPath)
+        delegate.idChanged(to: idTextField.text ?? "nil username", at: indexPath)
     }
     
     @IBAction func pwTFEndChange(_ sender: UITextField) {
-        delegate.pwTFTextChanged(to: pwTextField.text ?? "nil password",at: indexPath)
+        delegate.pwChanged(to: pwTextField.text ?? "nil password",at: indexPath)
     }
 }
 

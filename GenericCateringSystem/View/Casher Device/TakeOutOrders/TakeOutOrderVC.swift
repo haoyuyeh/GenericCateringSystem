@@ -23,6 +23,7 @@ class TakeOutOrderVC: UIViewController {
         orderTableView.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.reuseIdentifier)
         orderTableView.dataSource = orderDataSource
         updateOrderSnapShot()
+
         DispatchQueue.main.async { [unowned self] in
             orderTableView.reloadData()
         }
@@ -61,8 +62,7 @@ extension TakeOutOrderVC {
         let dataSource = OrderDataSource(tableView: orderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
             
-            cell.indexPath = indexPath
-            cell.delegate = self
+            cell.orderDelegate = self
             cell.configure(with: order, of: type(of: self))
             
             return cell
@@ -115,12 +115,12 @@ extension TakeOutOrderVC: UITableViewDelegate {
     }
 }
 
-// MARK: OrderStatusChangedDelegate
-extension TakeOutOrderVC: OrderStatusChangedDelegate {
-    func statusChanged(to state: OrderState, of order: Order, at indexPath: IndexPath) {
+// MARK: OrderChangedDelegate
+extension TakeOutOrderVC: OrderChangedDelegate {
+    func statusChanged(to state: OrderState, of order: Order) {
         viewModel.updateOrderState(to: state, of: order)
-        updateOrderSnapShot()
         DispatchQueue.main.async { [unowned self] in
+            updateOrderSnapShot()
             orderTableView.reloadData()
         }
     }

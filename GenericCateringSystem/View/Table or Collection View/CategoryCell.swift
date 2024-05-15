@@ -73,7 +73,7 @@ extension CategoryCell: CellConfig {
 }
 
 // MARK: CategoryDeleteModeDelegate
-extension CategoryCell: CategoryDeleteModeDelegate {
+extension CategoryCell: DeleteModeDelegate {
     func isEnterDeleteMode(value: Bool) {
         isEnterDeleteMode = value
     }

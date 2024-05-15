@@ -16,7 +16,7 @@ class SectionHeader: UITableViewHeaderFooterView {
     let stackView = UIStackView()
 
     lazy var icon: UIImageView = {
-       let img = UIImageView(image: UIImage(systemName: "box.truck.badge.clock"))
+       let img = UIImageView(image: UIImage(systemName: "truck.box.badge.clock"))
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
     }()

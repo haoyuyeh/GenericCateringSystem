@@ -22,8 +22,12 @@ class HistoricalOrderVC: UIViewController {
         datePicker.contentHorizontalAlignment = .fill
         datePicker.contentVerticalAlignment = .fill
         self.tabBarController?.delegate = self
+        historicalOrderTableView.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.reuseIdentifier)
         historicalOrderTableView.dataSource = historicalOrderDataSource
         updateHistoricalOrderDataSource()
+        DispatchQueue.main.async { [unowned self] in
+            historicalOrderTableView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -58,24 +62,48 @@ class HistoricalOrderVC: UIViewController {
     
 }
 
+// MARK: UITableViewDelegate
+extension HistoricalOrderVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: SectionHeader.reuseIdentifier) as? SectionHeader
+        else { return nil }
+        
+        switch section {
+        case 0:
+            header.title.text = "Eat-In"
+            
+            return header
+        case 1:
+            header.title.text = "Walk-In"
+            
+            return header
+        case 2:
+            header.title.text = "Delivery Platform"
+            return header
+            
+        default:
+            return nil
+        }
+    }
+}
+
 // MARK: Historical Order Table View
 extension HistoricalOrderVC {
     func configureHistoricalOrderDataSource() -> HistoricalOrderDataSource {
         let dataSource = HistoricalOrderDataSource(tableView: historicalOrderTableView) { (tableView, indexPath, order) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! OrderCell
             
-            cell.indexPath = indexPath
-            cell.order = order
-            switch Int(order.type) {
-            case OrderType.eatIn.rawValue:
-                cell.name.text = "Eat-in - Table #\(order.number ?? "nil")"
-            case OrderType.walkIn.rawValue:
-                cell.name.text = "Walk-in #\(order.number ?? "nil")"
-            default:
-                cell.name.text = "\(order.platformName ?? "nil") - \(order.number ?? "nil")"
-            }
-            cell.number.text = order.establishedDate?.toString(format: nil, dateStyle: .omitted, timeStyle: .standard)
-            
+            cell.configure(with: order, of: type(of: self))
             return cell
         }
         return dataSource

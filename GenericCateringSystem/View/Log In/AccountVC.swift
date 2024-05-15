@@ -20,6 +20,9 @@ class AccountVC: UIViewController {
         viewModel.delegate = self
         tableView.dataSource = accountDataSource
         updateAccountSnapShot()
+        DispatchQueue.main.async { [unowned self] in
+            tableView.reloadData()
+        }
     }
     
     // MARK: IBOutlet
@@ -36,6 +39,24 @@ class AccountVC: UIViewController {
         destVC.currentDevice = currentDevice
         
         show(destVC, sender: sender)
+    }
+}
+
+// MARK: UITableViewDelegate
+extension AccountVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, handler in
+            viewModel.deleteAccount(at: indexPath.row)
+            
+            DispatchQueue.main.async { [unowned self] in
+                updateAccountSnapShot(animatingDifferences: true)
+                tableView.reloadData()
+            }
+        }
+        deleteAction.backgroundColor = .red
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 }
 

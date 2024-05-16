@@ -4,7 +4,7 @@
 //
 //  Created by Hao Yu Yeh on 2023/11/5.
 //
-
+import SwiftUI
 import OSLog
 import UIKit
 
@@ -53,10 +53,10 @@ class MenuVC: UIViewController {
             
             destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             destVC.currentDevice = currentDevice
-            
+        case "showSales":
+            break
         default:
-            logger.error("unknown segue")
-            
+            logger.error("unknown segue:\(segue.identifier ?? "nil")")
         }
     }
     
@@ -72,6 +72,14 @@ class MenuVC: UIViewController {
     
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var optionCollectionView: UICollectionView!
+    
+    // MARK: IBAction
+
+    
+    @IBSegueAction func showSalesView(_ coder: NSCoder) -> UIViewController? {
+        UIHostingController(coder: coder, rootView: SalesView())
+    }
+    
     
     // MARK: IBAction
     

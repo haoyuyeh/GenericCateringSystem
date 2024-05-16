@@ -84,5 +84,83 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5246DD6-09A7-4634-9D13-25F1A0549F58"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GenericCateringSystem/View/Casher Device/Casher/SalesView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9181807B-316D-4FB2-9EFA-45FD6AB18986"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GenericCateringSystem/View/Casher Device/Casher/SalesView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "9181807B-316D-4FB2-9EFA-45FD6AB18986 - 77681a0d769fd496"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Charts.BuilderConditional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;GenericCateringSystem.SalesData&gt;, Foundation.UUID, &lt;&lt;opaque return type of Charts.ChartContent.foregroundStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Charts.Plottable&gt;(by: Charts.PlottableValue&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;GenericCateringSystem.SalesData&gt;, Foundation.UUID, &lt;&lt;opaque return type of Charts.ChartContent.foregroundStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Charts.Plottable&gt;(by: Charts.PlottableValue&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0&gt;&gt; in GenericCateringSystem.BarChartView.body.getter : some"
+                  moduleName = "GenericCateringSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haoyuyeh/Downloads/Software%20Develop%20Relate/Code/App%20Dev/GenericCateringSystem/GenericCateringSystem/View/Casher%20Device/Casher/SalesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153">
+               </Location>
+               <Location
+                  uuid = "9181807B-316D-4FB2-9EFA-45FD6AB18986 - 61e9c849ddfb4ca6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (GenericCateringSystem.SalesData) -&gt; &lt;&lt;opaque return type of Charts.ChartContent.foregroundStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Charts.Plottable&gt;(by: Charts.PlottableValue&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; Charts.BuilderConditional&lt;SwiftUI.ForEach&lt;Swift.Array&lt;GenericCateringSystem.SalesData&gt;, Foundation.UUID, &lt;&lt;opaque return type of Charts.ChartContent.foregroundStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Charts.Plottable&gt;(by: Charts.PlottableValue&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0&gt;, SwiftUI.ForEach&lt;Swift.Array&lt;GenericCateringSystem.SalesData&gt;, Foundation.UUID, &lt;&lt;opaque return type of Charts.ChartContent.foregroundStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Charts.Plottable&gt;(by: Charts.PlottableValue&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0&gt;&gt; in GenericCateringSystem.BarChartView.body.getter : some"
+                  moduleName = "GenericCateringSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haoyuyeh/Downloads/Software%20Develop%20Relate/Code/App%20Dev/GenericCateringSystem/GenericCateringSystem/View/Casher%20Device/Casher/SalesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "155"
+                  endingLineNumber = "155">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC6E073D-E686-4FF0-A07A-C44379678376"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GenericCateringSystem/View/Casher Device/Casher/SalesView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

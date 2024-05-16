@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
+		7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA452BF5A67B00B9B02E /* SalesView.swift */; };
+		7B45EA482BF604F500B9B02E /* SalesViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA472BF604F500B9B02E /* SalesViewViewModel.swift */; };
 		7B51548D2BEC8C8100B1787A /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548C2BEC8C8100B1787A /* Date+Ext.swift */; };
 		7B51548F2BECC39500B1787A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548E2BECC39500B1787A /* Protocols.swift */; };
 		7B5154922BEDEF7200B1787A /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5154912BEDEF7200B1787A /* SectionHeader.swift */; };
@@ -24,7 +26,6 @@
 		7BA0E4692AE175C400CDA322 /* EatIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E4682AE175C400CDA322 /* EatIn.storyboard */; };
 		7BA0E46B2AE1762E00CDA322 /* TakeOut.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */; };
 		7BA0E46D2AE1768400CDA322 /* HistoricalOrders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */; };
-		7BC8EF1E2BF0649F0066B946 /* SalesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC8EF1D2BF0649F0066B946 /* SalesVC.swift */; };
 		7BE778242AF48B1200BE47FA /* LogInVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778232AF48B1200BE47FA /* LogInVCViewModel.swift */; };
 		7BE778272AF4986700BE47FA /* Viewcontroller+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE778262AF4986700BE47FA /* Viewcontroller+Ext.swift */; };
 		7BE7782B2AF4E47100BE47FA /* ConfigVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7782A2AF4E47100BE47FA /* ConfigVCViewModel.swift */; };
@@ -70,6 +71,8 @@
 /* Begin PBXFileReference section */
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
+		7B45EA452BF5A67B00B9B02E /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
+		7B45EA472BF604F500B9B02E /* SalesViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewViewModel.swift; sourceTree = "<group>"; };
 		7B51548C2BEC8C8100B1787A /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7B51548E2BECC39500B1787A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		7B5154912BEDEF7200B1787A /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
@@ -87,7 +90,6 @@
 		7BA0E4682AE175C400CDA322 /* EatIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EatIn.storyboard; sourceTree = "<group>"; };
 		7BA0E46A2AE1762E00CDA322 /* TakeOut.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TakeOut.storyboard; sourceTree = "<group>"; };
 		7BA0E46C2AE1768400CDA322 /* HistoricalOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoricalOrders.storyboard; sourceTree = "<group>"; };
-		7BC8EF1D2BF0649F0066B946 /* SalesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesVC.swift; sourceTree = "<group>"; };
 		7BE778222AF3CD1700BE47FA /* GenericCateringSystem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GenericCateringSystem.entitlements; sourceTree = "<group>"; };
 		7BE778232AF48B1200BE47FA /* LogInVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVCViewModel.swift; sourceTree = "<group>"; };
 		7BE778262AF4986700BE47FA /* Viewcontroller+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Viewcontroller+Ext.swift"; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			children = (
 				7BE778632AF7652D00BE47FA /* MenuVCViewModel.swift */,
 				7BF1206F2BDA1B1A002E18E8 /* MenuEditVCViewModel.swift */,
+				7B45EA472BF604F500B9B02E /* SalesViewViewModel.swift */,
 			);
 			path = Casher;
 			sourceTree = "<group>";
@@ -341,7 +344,7 @@
 				7BA0E4642AE16A5300CDA322 /* Casher.storyboard */,
 				7BE778612AF763F800BE47FA /* MenuVC.swift */,
 				7BF1206D2BDA1AEB002E18E8 /* MenuEditVC.swift */,
-				7BC8EF1D2BF0649F0066B946 /* SalesVC.swift */,
+				7B45EA452BF5A67B00B9B02E /* SalesView.swift */,
 			);
 			path = Casher;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				7BF120772BDB72B1002E18E8 /* Option+CoreDataClass.swift in Sources */,
 				7BF84B802BEC5D9600C5944C /* HistoricalOrderDetailVCViewModel.swift in Sources */,
 				7BF120782BDB72B1002E18E8 /* Option+CoreDataProperties.swift in Sources */,
+				7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */,
 				7BF84B6F2BEB55ED00C5944C /* TakeOutOrderDetailVC.swift in Sources */,
 				7B51548D2BEC8C8100B1787A /* Date+Ext.swift in Sources */,
 				7BF84B692BEA247800C5944C /* TableOrderDetailVCViewModel.swift in Sources */,
@@ -484,6 +488,7 @@
 				7BA0E44A2AE105A200CDA322 /* LogInVC.swift in Sources */,
 				7BE7782B2AF4E47100BE47FA /* ConfigVCViewModel.swift in Sources */,
 				7BA0E4502AE105A200CDA322 /* GenericCateringSystem.xcdatamodeld in Sources */,
+				7B45EA482BF604F500B9B02E /* SalesViewViewModel.swift in Sources */,
 				7BA0E4462AE105A200CDA322 /* AppDelegate.swift in Sources */,
 				7BE778272AF4986700BE47FA /* Viewcontroller+Ext.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
@@ -498,7 +503,6 @@
 				7BE778572AF52F6300BE47FA /* Item+CoreDataProperties.swift in Sources */,
 				7BF84B7E2BEC5D5400C5944C /* HistoricalOrderDetailVC.swift in Sources */,
 				7BF84B772BEB56FD00C5944C /* TakeOutOrderVCViewModel.swift in Sources */,
-				7BC8EF1E2BF0649F0066B946 /* SalesVC.swift in Sources */,
 				7BE778642AF7652D00BE47FA /* MenuVCViewModel.swift in Sources */,
 				7BF1206B2BD8F719002E18E8 /* Order+CoreDataClass.swift in Sources */,
 				7BF1206C2BD8F719002E18E8 /* Order+CoreDataProperties.swift in Sources */,

@@ -84,3 +84,9 @@ enum DeleteObjectType {
     case option
 }
 
+enum SalesInterval {
+    case today
+    case weekly
+    case monthly
+    case interval
+}

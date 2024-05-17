@@ -22,31 +22,76 @@ class SalesData: Identifiable {
     }
 }
 
-
-
+struct YellowGroupBoxStyle: GroupBoxStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.content
+            .padding(.top, 30)
+            .padding(20)
+            .background(Color(hue: 0.10, saturation: 0.10, brightness: 0.98))
+            .cornerRadius(20)
+    }
+}
 
 struct SalesView: View {
     // MARK: Properties
-    @State var title: String = ""
+    @State var title: String = "Today's Sales"
     @State var salesInterval: SalesInterval = .today
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
     
-    private var viewModel = SalesViewViewModel()
-    
+    @Environment(\.dismiss) var dismiss
+        
     var body: some View {
-        VStack {
-            Text(title)
-                .font(.largeTitle)
+        GeometryReader { view in
+            let graphWidth = view.size.width * 0.9
+            let graphHeight = view.size.height * 0.4
             
-            TimeIntervalSelectionView(timeIntervalStr: $title, salesInterval: $salesInterval, startDate: $startDate, endDate: $endDate)
             
-            BarChartView(salesInterval: $salesInterval, startDate: $startDate, endDate: $endDate, barChartData: viewModel.getBarChartData(for: salesInterval, startDate: startDate, endDate: endDate))
-            
-            Spacer()
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                    }
+                    Spacer()
+                    TimeIntervalView(timeIntervalStr: $title, salesInterval: $salesInterval, startDate: $startDate, endDate: $endDate)
+                }
+                
+                Text(title)
+                    .font(.largeTitle)
+                
+                GroupBox {
+                    HStack {
+                        Spacer()
+                        BarChartView(salesInterval: $salesInterval, startDate: $startDate, endDate: $endDate, barChartData: SalesViewViewModel.shared.getBarChartData(for: salesInterval, startDate: startDate, endDate: endDate))
+                        Spacer()
+                    }
+                }
+                .groupBoxStyle(YellowGroupBoxStyle())
+                .frame(width: graphWidth, height: graphHeight)
+                
+                Spacer()
+                
+                if salesInterval != SalesInterval.today {
+                    GroupBox {
+                        HStack {
+                            Spacer()
+                            
+                            LineChartView(startDate: $startDate, endDate: $endDate, barChartData: SalesViewViewModel.shared.getBarChartData(for: salesInterval, startDate: startDate, endDate: endDate))
+                            Spacer()
+                        }
+                    }
+                    .groupBoxStyle(YellowGroupBoxStyle())
+                    .frame(width: graphWidth, height: graphHeight)
+                }
+            }
         }
+        Spacer()
     }
 }
+
 
 #Preview {
     SalesView()
@@ -62,7 +107,7 @@ extension View {
     }
 }
 
-struct TimeIntervalSelectionView: View {
+struct TimeIntervalView: View {
     @Binding var timeIntervalStr: String
     @Binding var salesInterval: SalesInterval
     @Binding var startDate: Date
@@ -108,7 +153,6 @@ struct TimeIntervalSelectionView: View {
             }.menuOrder(.fixed)
                 .padding()
                 .font(.headline)
-            
             HStack {
                 Text("From")
                     .fixedSize()
@@ -125,7 +169,7 @@ struct TimeIntervalSelectionView: View {
                         timeIntervalStr = "\(startDate.formatted(date: .numeric, time: .omitted))  ~  \(endDate.formatted(date: .numeric, time: .omitted))"
                     }
             }.isHidden(value: !isTimeIntervalMode)
-        
+            
             Spacer()
         }
     }
@@ -137,27 +181,76 @@ struct BarChartView: View {
     @Binding var endDate: Date
     
     var barChartData: [SalesData]
-
+    
+    
     var body: some View {
-        Chart {
-            switch salesInterval {
-            case .today:
+        switch salesInterval {
+        case .today:
+            Chart {
                 ForEach(barChartData) { order in
                     BarMark(
                         x: .value("Order Type", order.type),
                         y: .value("Sales", order.sum),
                         stacking: .standard
-                    ).foregroundStyle(by: .value("color", order.type))
-                }
-            default:
-                ForEach(barChartData) { order in
-                    BarMark(
-                        x: .value("Order Type", order.date),
-                        y: .value("Sales", order.sum),
-                        stacking: .standard
-                    ).foregroundStyle(by: .value("color", order.type))
+                    )
+                    .foregroundStyle(by: .value("color", order.type))
+                    .annotation {
+                        Text("$\(String(format:"%.1f", order.sum))")
+                    }
                 }
             }
+            .chartYAxis {
+                AxisMarks(position: .leading)
+            }
+            
+        default:
+            
+            Chart {
+                ForEach(barChartData) { order in
+                    BarMark(
+                        x: .value("Date", order.date),
+                        y: .value("Sales", order.sum)
+                    )
+                    .foregroundStyle(by: .value("color", order.type))
+                    .annotation(position: .overlay) {
+                        Text("$\(String(format:"%.1f", order.sum))")
+                    }
+                    .annotation {
+                        let sum = SalesViewViewModel.shared.getSales(of: order.date, from: barChartData)
+                        Text("$\(String(format:"%.1f", sum))")
+                    }
+                }
+            }
+            .chartScrollableAxes(.horizontal)
+            .chartXVisibleDomain(length: 7)
+            .chartYAxis {
+                AxisMarks(position: .leading)
+            }
+        }
+    }
+}
+
+struct LineChartView: View {
+    @Binding var startDate: Date
+    @Binding var endDate: Date
+    
+    var barChartData: [SalesData]
+    
+    var body: some View {
+        Chart {
+            ForEach(barChartData) { order in
+                LineMark(
+                    x: .value("Date", order.date),
+                    y: .value("Sales", order.sum)
+                )
+                .foregroundStyle(by: .value("type", order.type))
+                .symbol(by: .value("type", order.type))
+            }
+        }
+        .chartScrollableAxes(.horizontal)
+        .chartXVisibleDomain(length: 7)
+        .chartYAxis {
+            AxisMarks(position: .leading)
         }
     }
 }

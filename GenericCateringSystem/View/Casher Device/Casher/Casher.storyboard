@@ -308,7 +308,7 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" image="chart.bar.xaxis" catalog="system"/>
                                                 <connections>
-                                                    <segue destination="Hz5-WX-eFq" kind="presentation" identifier="showSales" destinationCreationSelector="showSalesView:" id="CQN-os-Mmq"/>
+                                                    <segue destination="Hz5-WX-eFq" kind="presentation" identifier="showSales" destinationCreationSelector="showSalesView:" modalPresentationStyle="currentContext" id="CQN-os-Mmq"/>
                                                 </connections>
                                             </button>
                                         </subviews>

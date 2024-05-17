@@ -10,6 +10,8 @@ import OSLog
 class SalesViewViewModel {
     // MARK: Properties
     private var logger = Logger(subsystem: "Casher", category: "SalesViewViewModel")
+    
+    static let shared = SalesViewViewModel()
 }
 
 extension SalesViewViewModel {
@@ -26,7 +28,7 @@ extension SalesViewViewModel {
             returnData.append(SalesData(id: order.uuid!, date: (order.establishedDate?.toString(format: "dd/MM/yy"))!, type: getTypeStr(type: Int(order.type), platform: order.platformName), sum: order.totalSum))
         }
         
-        return returnData
+        return getFinalData(data: returnData)
     }
     
     private func getStartDate(for interval: SalesInterval, date: Date) -> Date {
@@ -54,10 +56,41 @@ extension SalesViewViewModel {
             return "Walk-In"
 
         case OrderType.deliveryPlatform.rawValue:
-            return platform!
+            return platform!.capitalized
         default:
             logger.error("unknown order type!")
             return "nil"
         }
+    }
+    
+    private func getFinalData(data: [SalesData]) -> [SalesData] {
+        var finalData: [SalesData] = []
+        
+        data.forEach { data in
+            if let index =  finalData.firstIndex(where: { fData in
+                if fData.date == data.date && fData.type == data.type {
+                    return true
+                }else {
+                    return false
+                }
+            }) {
+                finalData[index].sum += data.sum
+            }else {
+                finalData.append(data)
+            }
+        }
+        
+        return finalData
+    }
+    
+    func getSales(of date: String, from data: [SalesData]) -> Double {
+        var sum = 0.0
+        data.forEach { data in
+            if data.date == date {
+                sum += data.sum
+            }
+        }
+        
+        return sum
     }
 }

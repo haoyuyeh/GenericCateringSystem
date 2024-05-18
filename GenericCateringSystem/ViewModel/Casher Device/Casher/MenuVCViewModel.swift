@@ -29,6 +29,7 @@ extension MenuVCViewModel {
         let predicate2 = NSPredicate(format: "establishedDate >= %@", Calendar.current.startOfDay(for: Date()) as CVarArg)
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate1, predicate2])
         let walkInOrders = Helper.shared.fetchOrder(predicate: predicate)
+        logger.debug("\(walkInOrders)")
         return String(walkInOrders.count + 1)
     }
 }
@@ -69,7 +70,9 @@ extension MenuVCViewModel {
                 $0.name! < $1.name!
             }
         }
-        
+        saveAll()
+        logger.debug("add item:\(order)")
+
         delegate?.totalSumChanged(to: updateTotalSum())
     }
     
@@ -107,6 +110,7 @@ extension MenuVCViewModel {
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
+        saveAll()
         delegate?.totalSumChanged(to: updateTotalSum())
     }
 }
@@ -120,9 +124,8 @@ extension MenuVCViewModel {
     ///   - pName:
     ///   - num:
     ///   - note:
-    func completOrder(currentOrder order: Order, type t: Int, platformName pName: String, number num: String, comments note: String) {
+    func completOrder(currentOrder order: Order, platformName pName: String, number num: String, comments note: String) {
         order.currentState = Int16(OrderState.preparing.rawValue)
-        order.type = Int16(t)
         order.platformName = pName
         order.number = num
         order.comments = note
@@ -185,25 +188,42 @@ extension MenuVCViewModel {
 
 // MARK: Helper Functions
 extension MenuVCViewModel {
-    func addNewOrder() -> Order {
+    func addNewOrder(type: OrderType) -> Order {
         let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
         currentOrder.uuid = UUID()
         currentOrder.establishedDate = Date()
         currentOrder.currentState = Int16(OrderState.ordering.rawValue)
         currentOrder.isTakeOut = true
-        
+        currentOrder.type = Int16(type.rawValue)
+        saveAll()
+        logger.debug("add order:\(currentOrder)")
         return currentOrder
     }
     
-    func discardAll() {
+    func discardAll(currentOrder: Order?) {
         currentOrderedItems = []
-        PersistenceService.shared.resetContext()
+        if let order = currentOrder {
+            PersistenceService.shared.delete(object: order)
+            saveAll()
+        }
+        deleteAllUnfinishedOrders()
     }
     
     func saveAll() {
         PersistenceService.shared.saveContext()
     }
-
+    
+    /// when no one is ordering, but some order's currentState == ordering, means unable to complete.
+    /// therefore, needs to be deleted
+    private func deleteAllUnfinishedOrders() {
+        var orders = Helper.shared.fetchOrder(predicate: NSPredicate(format: "currentState == %i", OrderState.ordering.rawValue))
+        while !orders.isEmpty {
+            PersistenceService.shared.delete(object: orders.removeFirst())
+        }
+        saveAll()
+    }
+    
+    
     /// the data structure of option is link-list like
     /// therefore, use the targetUUID to retrieve the whole name and price of the picked item
     /// - Parameter targetUUID:
@@ -267,7 +287,7 @@ extension MenuVCViewModel {
         }
         // update to core data
         currentOrderedItems[0].orderedBy?.totalSum = sum
-        
+        saveAll()
         return sum
     }
 }

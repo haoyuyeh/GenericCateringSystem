@@ -208,6 +208,100 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>204</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>203</string>
+					<key>Timestamp</key>
+					<string>737724805.864526</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/ViewModel/Casher Device/Casher/MenuVCViewModel.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        currentOrderedItems = []
+</string>
+				<key>leading</key>
+				<string>    
+    func discardAll(currentOrder: Order?) {
+</string>
+				<key>trailing</key>
+				<string>        if let order = currentOrder {
+            PersistenceService.shared.delete(object: order)
+            saveAll()
+</string>
+			</dict>
+			<key>title</key>
+			<string>should check order's state before delete</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>36</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>35</string>
+					<key>Timestamp</key>
+					<string>737724876.767437</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/ViewModel/Display Device/DisplayWalkInVCViewModel.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    func updateTotalSum() -&gt; Double {
+</string>
+				<key>leading</key>
+				<string>    }
+    
+</string>
+				<key>trailing</key>
+				<string>        logger.debug("\(self.currentOrder)")
+        guard currentOrder != nil else {
+            return 0.0
+</string>
+			</dict>
+			<key>title</key>
+			<string>order's totalsum not well saved</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>

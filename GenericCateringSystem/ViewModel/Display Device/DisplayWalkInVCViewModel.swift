@@ -10,6 +10,8 @@ import OSLog
 class DisplayWalkInVCViewModel {
     // MARK: Properties
     private let logger = Logger(subsystem: "Display", category: "DisplayWalkInVCViewModel")
+    
+    private var currentOrder: Order?
 }
 
 extension DisplayWalkInVCViewModel {
@@ -21,11 +23,21 @@ extension DisplayWalkInVCViewModel {
         let comP = NSCompoundPredicate(type: .and, subpredicates: [p1, p2])
         let orders = Helper.shared.fetchOrder(predicate: comP)
         
-        logger.debug("orders' count:\(orders.count)\n\(orders)")
         if orders.isEmpty {
             return []
         }else {
-            return orders[0].items?.allObjects as! [Item]
+            currentOrder = orders[0]
+            let items = currentOrder?.items?.allObjects as! [Item]
+            logger.debug("\(self.currentOrder)\(items)")
+            return items
         }
+    }
+    
+    func updateTotalSum() -> Double {
+        logger.debug("\(self.currentOrder)")
+        guard currentOrder != nil else {
+            return 0.0
+        }
+        return currentOrder!.totalSum
     }
 }

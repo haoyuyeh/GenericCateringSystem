@@ -38,7 +38,7 @@ class MenuVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        viewModel.discardAll()
+        reset()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -107,7 +107,7 @@ class MenuVC: UIViewController {
         }
         
         // complet order and reset for next order
-        viewModel.completOrder(currentOrder: order, type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform.rawValue: OrderType.walkIn.rawValue, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: notes.text)
+        viewModel.completOrder(currentOrder: order, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: notes.text)
         reset()
     }
 }
@@ -174,7 +174,8 @@ extension MenuVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, handler in
             viewModel.deleteItem(at: indexPath.row)
-            
+            logger.debug("delete item:\(self.currentOrder)")
+
             DispatchQueue.main.async { [unowned self] in
                 updateOrderSnapShot(animatingDifferences: true)
                 orderTableView.reloadData()
@@ -191,6 +192,7 @@ extension MenuVC: UITableViewDelegate {
 extension MenuVC: TextFieldChangedDelegate {
     func itemQuantityChanged(to num: Int, of index: IndexPath) {
         viewModel.changeQuantity(of: index.row, to: num)
+        logger.debug("change quantity:\(self.currentOrder)")
     }
 }
 
@@ -204,6 +206,8 @@ extension MenuVC: TotalSumDelegate {
 // MARK: Helpler
 extension MenuVC {
     func config() {
+        viewModel.discardAll(currentOrder: currentOrder)
+        
         self.tabBarController?.delegate = self
         viewModel.delegate = self
         
@@ -229,9 +233,9 @@ extension MenuVC {
         }
     }
     
-    /// called when the order completed
+    /// called when the order completed or aborted
     func reset() {
-        viewModel.discardAll()
+        viewModel.discardAll(currentOrder: currentOrder)
         
         currentOrder = nil
         pickItemState = .enterCategory
@@ -261,7 +265,7 @@ extension MenuVC {
     /// if not have one, then create
     func addChoosedItem() {
         if currentOrder == nil {
-            currentOrder = viewModel.addNewOrder()
+            currentOrder = viewModel.addNewOrder(type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform: OrderType.walkIn)
         }
         
         viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)

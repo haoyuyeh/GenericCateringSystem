@@ -61,6 +61,15 @@ extension DisplayWalkInVC {
         snapShot.appendSections([.all])
         snapShot.appendItems(viewModel.getCurrentWalkInOrderItems(), toSection: .all)
         
+        if snapShot.numberOfItems == 0 {
+            itemTableView.noData(msg: "Nothing ordered yet.")
+        }else {
+            itemTableView.clearBackgroundView()
+        }
+        totalSum.text = "$\(String(viewModel.updateTotalSum()))"
+        
+        
+        
         DispatchQueue.main.async { [unowned self] in
             itemDatasource.apply(snapShot, animatingDifferences: value)
         }

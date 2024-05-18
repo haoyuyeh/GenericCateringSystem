@@ -27,6 +27,7 @@ enum TableSection {
 }
 
 enum OrdersSection {
+    case all
     case eatIn
     case walkIn
     case deliveryPlatform
@@ -49,7 +50,9 @@ enum Mode:String {
 /// only one device can be cashier, the rest are all client
 enum Roll:String {
     case cashier
-    case client
+    case displayWalkIn
+    case displayTakeOut
+    case customer
 }
 
 // MARK: MenuVC
@@ -84,6 +87,7 @@ enum DeleteObjectType {
     case option
 }
 
+// MARK: SalesView
 enum SalesInterval {
     case today
     case weekly

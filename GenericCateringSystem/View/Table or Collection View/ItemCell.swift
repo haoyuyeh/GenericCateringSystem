@@ -34,7 +34,7 @@ class ItemCell: UITableViewCell {
 extension ItemCell: CellConfig {
     func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
         let target = target as! Item
-
+        
         if cellType.self == MenuVC.self || cellType.self == TableOrderDetailVC.self {
             quantity.isEnabled = true
         }else {

@@ -73,8 +73,8 @@ class ConfigVC: UIViewController {
             switch roll {
             case Roll.cashier.rawValue:
                 let storyboard = UIStoryboard(name: "Casher", bundle: nil)
-                
                 let destVC = storyboard.instantiateViewController(withIdentifier: "CasherTabC") as! UITabBarController
+                
                 destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
                 destVC.selectedIndex = 0
                 
@@ -82,10 +82,11 @@ class ConfigVC: UIViewController {
                 menuVC.currentDevice = currentDevice
 
                 show(destVC, sender: sender)
-            default:
-                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
                 
+            case Roll.customer.rawValue:
+                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
                 let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+                
                 destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
                 destVC.selectedIndex = 0
                 
@@ -93,6 +94,25 @@ class ConfigVC: UIViewController {
 //                menuVC.currentDevice = currentDevice
 
                 show(destVC, sender: sender)
+                
+            case Roll.displayWalkIn.rawValue:
+                let storyBoard = UIStoryboard(name: "Display", bundle: nil)
+                let destVC = storyBoard.instantiateViewController(withIdentifier: "DisplayWalkInVC") as! DisplayWalkInVC
+                
+                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+
+                show(destVC, sender: self)
+                
+            case Roll.displayTakeOut.rawValue:
+                let storyBoard = UIStoryboard(name: "Display", bundle: nil)
+                let destVC = storyBoard.instantiateViewController(withIdentifier: "DisplayTakeOutVC") as! DisplayTakeOutVC
+                
+                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+
+                show(destVC, sender: self)
+                
+            default:
+                logger.error("unknow device roll.")
             }
         }
         
@@ -158,10 +178,19 @@ extension ConfigVC {
             self.currentDevice?.roll = Roll.cashier.rawValue
             layoutArrangement()
         })
-        let clientAction = UIAction(title: Roll.client.rawValue, handler: { [unowned self] _ in
-            self.currentDevice?.roll = Roll.client.rawValue
+        let customerAction = UIAction(title: Roll.customer.rawValue, handler: { [unowned self] _ in
+            self.currentDevice?.roll = Roll.customer.rawValue
             layoutArrangement()
         })
+        let displayTAAction = UIAction(title: Roll.displayTakeOut.rawValue, handler: { [unowned self] _ in
+            self.currentDevice?.roll = Roll.displayTakeOut.rawValue
+            layoutArrangement()
+        })
+        let displayWIAction = UIAction(title: Roll.displayWalkIn.rawValue, handler: { [unowned self] _ in
+            self.currentDevice?.roll = Roll.displayWalkIn.rawValue
+            layoutArrangement()
+        })
+        
         /**
          it can only have one cashier in the system, therefore, it try to provide different options based on the state of cashier
          */
@@ -171,39 +200,75 @@ extension ConfigVC {
         
         switch (currentRoll, hasCashier) {
             //already has cashier in the system
-        case ("", true), (Roll.client.rawValue, true):
-            clientAction.state = .on
-            currentDevice?.roll = Roll.client.rawValue
+        case ("", true):
             rollBtn.menu = UIMenu(children:[
-                clientAction
+                customerAction, displayWIAction, displayTAAction
+            ])
+        case (Roll.customer.rawValue, true):
+            customerAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                customerAction, displayWIAction, displayTAAction
+            ])
+        case (Roll.displayWalkIn.rawValue, true):
+            displayWIAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                customerAction, displayWIAction, displayTAAction
+            ])
+        case (Roll.displayTakeOut.rawValue, true):
+            displayTAAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                customerAction, displayWIAction, displayTAAction
             ])
             // no cashier in the system
-        case ("", false), (Roll.client.rawValue, false):
-            clientAction.state = .on
-            currentDevice?.roll = Roll.client.rawValue
+        case ("", false):
             rollBtn.menu = UIMenu(children:[
-                cashierAction, clientAction
+                cashierAction, customerAction, displayTAAction, displayWIAction
+            ])
+        case (Roll.customer.rawValue, false):
+            customerAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                cashierAction, customerAction, displayTAAction, displayWIAction
+            ])
+        case (Roll.displayWalkIn.rawValue, false):
+            displayWIAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                cashierAction, customerAction, displayTAAction, displayWIAction
+            ])
+        case (Roll.displayTakeOut.rawValue, false):
+            displayTAAction.state = .on
+            rollBtn.menu = UIMenu(children:[
+                cashierAction, customerAction, displayTAAction, displayWIAction
             ])
             // current device is the cashier; (Roll.cashier.rawValue, _)
         default:
             cashierAction.state = .on
             rollBtn.menu = UIMenu(children:[
-                cashierAction, clientAction
+                cashierAction, customerAction, displayTAAction, displayWIAction
             ])
         }
         
         rollBtn.showsMenuAsPrimaryAction = true
         rollBtn.changesSelectionAsPrimaryAction = true
+        layoutArrangement()
     }
     /// display the layout based on the roll of device
     func layoutArrangement() {
         switch currentDevice?.roll {
         case Roll.cashier.rawValue:
+            editBtn.isHidden = false
             deviceNumberLabel.isHidden = true
             deviceNumberTF.isHidden = true
             personServedLable.isHidden = true
             personServedTF.isHidden = true
-        case Roll.client.rawValue:
+            
+        case Roll.displayWalkIn.rawValue, Roll.displayTakeOut.rawValue:
+            editBtn.isHidden = true
+            deviceNumberLabel.isHidden = true
+            deviceNumberTF.isHidden = true
+            personServedLable.isHidden = true
+            personServedTF.isHidden = true
+            
+        case Roll.customer.rawValue:
             // only cashier can change accounts detail
             editBtn.isHidden = true
             deviceNumberLabel.isHidden = false
@@ -212,8 +277,10 @@ extension ConfigVC {
             personServedTF.isHidden = false
             deviceNumberTF.text = currentDevice?.number
             personServedTF.text =  String(describing: currentDevice?.person ?? 0)
+    
         default:
-            break
+            editBtn.isHidden = true
+
         }
     }
 }

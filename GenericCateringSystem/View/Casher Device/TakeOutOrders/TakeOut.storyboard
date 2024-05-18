@@ -170,23 +170,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXX" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibN-hw-pk4">
-                                                    <rect key="frame" x="5" y="0.0" width="416.5" height="34.5"/>
+                                                    <rect key="frame" x="5" y="0.0" width="486" height="34.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Qx0-Uf-wK0" userLabel="Price Stack View">
-                                                    <rect key="frame" x="416.5" y="0.0" width="277.5" height="34.5"/>
+                                                    <rect key="frame" x="486" y="0.0" width="208" height="34.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$30" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhE-IC-uey">
-                                                            <rect key="frame" x="0.0" y="0.0" width="138.5" height="34.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="104" height="34.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <color key="textColor" systemColor="systemRedColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="5" borderStyle="roundedRect" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Yk-4Y-Nnv">
-                                                            <rect key="frame" x="138.5" y="0.0" width="139" height="34.5"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <rect key="frame" x="104" y="0.0" width="104" height="34.5"/>
+                                                            <color key="textColor" systemColor="linkColor"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
@@ -196,7 +196,7 @@
                                             <constraints>
                                                 <constraint firstItem="Qx0-Uf-wK0" firstAttribute="bottom" secondItem="PAn-cV-KgK" secondAttribute="bottom" id="5xE-44-f10"/>
                                                 <constraint firstItem="ibN-hw-pk4" firstAttribute="leading" secondItem="PAn-cV-KgK" secondAttribute="leading" constant="5" id="A6c-6Y-SJs"/>
-                                                <constraint firstItem="Qx0-Uf-wK0" firstAttribute="width" secondItem="PAn-cV-KgK" secondAttribute="width" multiplier="0.4" id="B0U-BM-VWv"/>
+                                                <constraint firstItem="Qx0-Uf-wK0" firstAttribute="width" secondItem="PAn-cV-KgK" secondAttribute="width" multiplier="0.3" id="B0U-BM-VWv"/>
                                                 <constraint firstItem="Qx0-Uf-wK0" firstAttribute="trailing" secondItem="PAn-cV-KgK" secondAttribute="trailing" id="Eu6-O6-hAV"/>
                                                 <constraint firstItem="ibN-hw-pk4" firstAttribute="trailing" secondItem="Qx0-Uf-wK0" secondAttribute="leading" constant="5" id="F9e-HO-CSI"/>
                                                 <constraint firstItem="ibN-hw-pk4" firstAttribute="bottom" secondItem="PAn-cV-KgK" secondAttribute="bottom" id="GFX-JC-xkv"/>
@@ -267,6 +267,9 @@
         <image name="frying.pan" catalog="system" width="128" height="81"/>
         <image name="rectangle.portrait.and.arrow.forward" catalog="system" width="128" height="108"/>
         <image name="takeoutbag.and.cup.and.straw.fill" catalog="system" width="128" height="114"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

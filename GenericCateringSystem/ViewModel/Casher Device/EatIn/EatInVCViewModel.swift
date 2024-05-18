@@ -14,7 +14,7 @@ class EatInVCViewModel {
 
 extension EatInVCViewModel {
     func getAllTable() -> [Device] {
-        return Helper.shared.fetchDevice(predicate: NSPredicate(format: "roll == %@", Roll.client.rawValue))
+        return Helper.shared.fetchDevice(predicate: NSPredicate(format: "roll == %@", Roll.customer.rawValue))
     }
     
     func hasOngoingOrder(of table: UUID?) -> (result: Bool, order: Order?) {

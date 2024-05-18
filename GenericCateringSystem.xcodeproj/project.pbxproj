@@ -11,6 +11,11 @@
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
 		7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA452BF5A67B00B9B02E /* SalesView.swift */; };
 		7B45EA482BF604F500B9B02E /* SalesViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA472BF604F500B9B02E /* SalesViewViewModel.swift */; };
+		7B45EA4A2BF8344800B9B02E /* DisplayTakeOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA492BF8344800B9B02E /* DisplayTakeOutVC.swift */; };
+		7B45EA4C2BF8362200B9B02E /* DisplayTakeOutVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA4B2BF8362200B9B02E /* DisplayTakeOutVCViewModel.swift */; };
+		7B45EA4F2BF85D0200B9B02E /* DisplayWalkInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA4E2BF85D0200B9B02E /* DisplayWalkInVC.swift */; };
+		7B45EA512BF866D100B9B02E /* DisplayWalkInVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA502BF866D100B9B02E /* DisplayWalkInVCViewModel.swift */; };
+		7B45EA532BF8908E00B9B02E /* TableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA522BF8908E00B9B02E /* TableView+Ext.swift */; };
 		7B51548D2BEC8C8100B1787A /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548C2BEC8C8100B1787A /* Date+Ext.swift */; };
 		7B51548F2BECC39500B1787A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51548E2BECC39500B1787A /* Protocols.swift */; };
 		7B5154922BEDEF7200B1787A /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5154912BEDEF7200B1787A /* SectionHeader.swift */; };
@@ -73,6 +78,11 @@
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
 		7B45EA452BF5A67B00B9B02E /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
 		7B45EA472BF604F500B9B02E /* SalesViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewViewModel.swift; sourceTree = "<group>"; };
+		7B45EA492BF8344800B9B02E /* DisplayTakeOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTakeOutVC.swift; sourceTree = "<group>"; };
+		7B45EA4B2BF8362200B9B02E /* DisplayTakeOutVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTakeOutVCViewModel.swift; sourceTree = "<group>"; };
+		7B45EA4E2BF85D0200B9B02E /* DisplayWalkInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayWalkInVC.swift; sourceTree = "<group>"; };
+		7B45EA502BF866D100B9B02E /* DisplayWalkInVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayWalkInVCViewModel.swift; sourceTree = "<group>"; };
+		7B45EA522BF8908E00B9B02E /* TableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+Ext.swift"; sourceTree = "<group>"; };
 		7B51548C2BEC8C8100B1787A /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7B51548E2BECC39500B1787A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		7B5154912BEDEF7200B1787A /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
@@ -148,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				7B3789B12AE293080001EC9B /* Display.storyboard */,
+				7B45EA492BF8344800B9B02E /* DisplayTakeOutVC.swift */,
+				7B45EA4E2BF85D0200B9B02E /* DisplayWalkInVC.swift */,
 			);
 			path = "Display Device";
 			sourceTree = "<group>";
@@ -158,6 +170,15 @@
 				7B3789B42AE297F20001EC9B /* Customer.storyboard */,
 			);
 			path = "Customer Device";
+			sourceTree = "<group>";
+		};
+		7B45EA4D2BF8362900B9B02E /* Display Device */ = {
+			isa = PBXGroup;
+			children = (
+				7B45EA4B2BF8362200B9B02E /* DisplayTakeOutVCViewModel.swift */,
+				7B45EA502BF866D100B9B02E /* DisplayWalkInVCViewModel.swift */,
+			);
+			path = "Display Device";
 			sourceTree = "<group>";
 		};
 		7B51548B2BEC5DDC00B1787A /* HistoricalOrder */ = {
@@ -262,6 +283,7 @@
 			children = (
 				7BE778252AF48B1B00BE47FA /* Log In */,
 				7BE778652AF7654000BE47FA /* Casher Device */,
+				7B45EA4D2BF8362900B9B02E /* Display Device */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -304,6 +326,7 @@
 				7BE778262AF4986700BE47FA /* Viewcontroller+Ext.swift */,
 				7BF120732BDB5122002E18E8 /* String+Ext.swift */,
 				7B51548C2BEC8C8100B1787A /* Date+Ext.swift */,
+				7B45EA522BF8908E00B9B02E /* TableView+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -469,8 +492,10 @@
 				7BF120782BDB72B1002E18E8 /* Option+CoreDataProperties.swift in Sources */,
 				7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */,
 				7BF84B6F2BEB55ED00C5944C /* TakeOutOrderDetailVC.swift in Sources */,
+				7B45EA532BF8908E00B9B02E /* TableView+Ext.swift in Sources */,
 				7B51548D2BEC8C8100B1787A /* Date+Ext.swift in Sources */,
 				7BF84B692BEA247800C5944C /* TableOrderDetailVCViewModel.swift in Sources */,
+				7B45EA512BF866D100B9B02E /* DisplayWalkInVCViewModel.swift in Sources */,
 				7BF1205A2BB2BFCD002E18E8 /* ItemCell.swift in Sources */,
 				7BF84B822BEC5DA900C5944C /* HistoricalOrderVCViewModel.swift in Sources */,
 				7BF84B672BEA207E00C5944C /* TableOrderDetailVC.swift in Sources */,
@@ -493,12 +518,15 @@
 				7BE778272AF4986700BE47FA /* Viewcontroller+Ext.swift in Sources */,
 				7BA0E4482AE105A200CDA322 /* SceneDelegate.swift in Sources */,
 				7BF1206E2BDA1AEB002E18E8 /* MenuEditVC.swift in Sources */,
+				7B45EA4A2BF8344800B9B02E /* DisplayTakeOutVC.swift in Sources */,
+				7B45EA4C2BF8362200B9B02E /* DisplayTakeOutVCViewModel.swift in Sources */,
 				7BF1205E2BD4B750002E18E8 /* OptionCell.swift in Sources */,
 				7BF84B712BEB561700C5944C /* OrderCell.swift in Sources */,
 				7BF84B5E2BE9EAC700C5944C /* EatInVC.swift in Sources */,
 				7BF120702BDA1B1A002E18E8 /* MenuEditVCViewModel.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
 				7BE778562AF52F6300BE47FA /* Item+CoreDataClass.swift in Sources */,
+				7B45EA4F2BF85D0200B9B02E /* DisplayWalkInVC.swift in Sources */,
 				7BF120742BDB5122002E18E8 /* String+Ext.swift in Sources */,
 				7BE778572AF52F6300BE47FA /* Item+CoreDataProperties.swift in Sources */,
 				7BF84B7E2BEC5D5400C5944C /* HistoricalOrderDetailVC.swift in Sources */,

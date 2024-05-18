@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>86</string>
+					<string>87</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>85</string>
+					<string>86</string>
 					<key>Timestamp</key>
-					<string>737100000.521619</string>
+					<string>737694881.077793</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -37,12 +37,12 @@
 				<string>                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
 </string>
 				<key>leading</key>
-				<string>                show(destVC, sender: sender)
-            default:
+				<string>                
+            case Roll.customer.rawValue:
 </string>
 				<key>trailing</key>
-				<string>                
-                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+				<string>                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+                
                 destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
 </string>
 			</dict>
@@ -184,6 +184,27 @@
 			</dict>
 			<key>title</key>
 			<string>check  all core data's optional value</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/Casher/MenuVC.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>when ordering, it should save once having changes. delete currentOrder whenever leaving the view or change order type</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

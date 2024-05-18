@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad10_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -164,23 +164,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXX" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhq-aC-1Ts">
-                                                    <rect key="frame" x="5" y="0.0" width="419.5" height="34.5"/>
+                                                    <rect key="frame" x="5" y="0.0" width="489.5" height="34.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="3du-2c-BJ9" userLabel="Price Stack View">
-                                                    <rect key="frame" x="419.5" y="0.0" width="279.5" height="34.5"/>
+                                                    <rect key="frame" x="489.5" y="0.0" width="209.5" height="34.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$30" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JmB-P0-phM">
-                                                            <rect key="frame" x="0.0" y="0.0" width="139.5" height="34.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="104.5" height="34.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <color key="textColor" systemColor="systemRedColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2" borderStyle="roundedRect" placeholder="quantity" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="NxX-tK-vm9">
-                                                            <rect key="frame" x="139.5" y="0.0" width="140" height="34.5"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <rect key="frame" x="104.5" y="0.0" width="105" height="34.5"/>
+                                                            <color key="textColor" systemColor="linkColor"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
                                                         </textField>
@@ -190,7 +190,7 @@
                                             <constraints>
                                                 <constraint firstItem="3du-2c-BJ9" firstAttribute="trailing" secondItem="idg-4v-klC" secondAttribute="trailing" id="HQ7-vV-rdK"/>
                                                 <constraint firstItem="Lhq-aC-1Ts" firstAttribute="bottom" secondItem="idg-4v-klC" secondAttribute="bottom" id="P28-Jk-f8O"/>
-                                                <constraint firstItem="3du-2c-BJ9" firstAttribute="width" secondItem="idg-4v-klC" secondAttribute="width" multiplier="0.4" id="Rzl-qA-GCl"/>
+                                                <constraint firstItem="3du-2c-BJ9" firstAttribute="width" secondItem="idg-4v-klC" secondAttribute="width" multiplier="0.3" id="Rzl-qA-GCl"/>
                                                 <constraint firstItem="Lhq-aC-1Ts" firstAttribute="trailing" secondItem="3du-2c-BJ9" secondAttribute="leading" constant="5" id="V4o-gh-U1R"/>
                                                 <constraint firstItem="3du-2c-BJ9" firstAttribute="top" secondItem="idg-4v-klC" secondAttribute="top" id="ZJw-Wl-swS"/>
                                                 <constraint firstItem="Lhq-aC-1Ts" firstAttribute="leading" secondItem="idg-4v-klC" secondAttribute="leading" constant="5" id="euy-DC-6jX"/>
@@ -294,6 +294,9 @@
         <image name="fork.knife" catalog="system" width="94" height="128"/>
         <image name="rectangle.portrait.and.arrow.forward" catalog="system" width="128" height="108"/>
         <image name="sofa" catalog="system" width="128" height="71"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

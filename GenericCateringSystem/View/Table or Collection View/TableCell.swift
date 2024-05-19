@@ -4,19 +4,16 @@
 //
 //  Created by Hao Yu Yeh on 2024/5/7.
 //
-
+import OSLog
 import UIKit
 import CoreData
 
 class TableCell: UICollectionViewCell {
-    // MARK: IBOutlet
-    @IBOutlet weak var tableNumber: UILabel!
-    @IBOutlet weak var peopleServed: UILabel!
-    @IBOutlet weak var tableImg: UIImageView!
-    
     // MARK: Properties
+    private let logger = Logger(subsystem: "Table or Collection View", category: "TableCell")
     // customer device uuid
-    var uuid: UUID?
+    var device: Device?
+    var indexPath: IndexPath?
     var isOcuppied: Bool {
         didSet {
             if isOcuppied {
@@ -31,6 +28,11 @@ class TableCell: UICollectionViewCell {
         isOcuppied = false
         super.init(coder: coder)
     }
+    
+    // MARK: IBOutlet
+    @IBOutlet weak var tableNumber: UILabel!
+    @IBOutlet weak var peopleServed: UILabel!
+    @IBOutlet weak var tableImg: UIImageView!
 }
 
 // MARK: CellConfig

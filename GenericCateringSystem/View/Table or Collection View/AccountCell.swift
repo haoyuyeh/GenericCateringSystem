@@ -4,12 +4,14 @@
 //
 //  Created by Hao Yu Yeh on 2023/11/4.
 //
-
+import OSLog
 import UIKit
 import CoreData
 
 class AccountCell: UITableViewCell {
     // MARK: Properties
+    private let logger = Logger(subsystem: "Table or Collection View", category: "AccountCell")
+    
     var delegate: TextFieldChangedDelegate!
     var indexPath: IndexPath!
     

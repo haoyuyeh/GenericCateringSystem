@@ -28,6 +28,10 @@ class EatInVC: UIViewController {
         }
     }
     
+//    override func viewDidLoad() {
+//        NotificationCenter.default.addObserver(self, selector: <#T##Selector#>, name: .NSPersistentStoreRemoteChange, object: <#T##Any?#>)
+//    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "logOut":
@@ -58,6 +62,16 @@ class EatInVC: UIViewController {
         return destVC
     }
 }
+
+//// MARK: Helper
+//extension EatInVC {
+//    @objc func updateRemoteChanges() {
+//        DispatchQueue.main.async { [unowned self] in
+//            
+//        }
+//    }
+//}
+
 // MARK: - CheckOutDelegate
 extension EatInVC: EatInTableDelegate {
     func orderCompleted(at table: UUID) {
@@ -94,7 +108,7 @@ extension EatInVC {
             (collectionView, indexPath, device) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCell", for: indexPath) as! TableCell
             
-            cell.uuid = device.uuid
+            cell.device = device
             cell.configure(with: device, of: type(of: self))
             self.delegate = cell
             

@@ -37,6 +37,7 @@ extension DisplayWalkInVC {
     @objc func updateRemoteChanges() {
         DispatchQueue.main.async { [unowned self] in
             updateItemSnapShot()
+            itemTableView.reloadData()
         }
     }
 }
@@ -57,10 +58,10 @@ extension DisplayWalkInVC {
     
     func updateItemSnapShot(animatingDifferences value: Bool = false) {
         var snapShot = ItemSnapShot()
+        let items = viewModel.getCurrentWalkInOrderItems()
         
         snapShot.appendSections([.all])
-        snapShot.appendItems(viewModel.getCurrentWalkInOrderItems(), toSection: .all)
-        
+        snapShot.appendItems(items, toSection: .all)
         if snapShot.numberOfItems == 0 {
             itemTableView.noData(msg: "Nothing ordered yet.")
         }else {
@@ -68,10 +69,10 @@ extension DisplayWalkInVC {
         }
         totalSum.text = "$\(String(viewModel.updateTotalSum()))"
         
-        
-        
         DispatchQueue.main.async { [unowned self] in
             itemDatasource.apply(snapShot, animatingDifferences: value)
         }
     }
 }
+
+

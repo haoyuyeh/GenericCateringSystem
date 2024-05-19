@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>87</string>
+					<string>88</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>86</string>
+					<string>87</string>
 					<key>Timestamp</key>
-					<string>737694881.077793</string>
+					<string>737797992.743944</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -41,9 +41,9 @@
             case Roll.customer.rawValue:
 </string>
 				<key>trailing</key>
-				<string>                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+				<string>                let tabC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
                 
-                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                tabC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
 </string>
 			</dict>
 			<key>title</key>
@@ -129,14 +129,14 @@
 					<key>payload</key>
 					<dict>
 						<key>relative-path</key>
-						<string>GenericCateringSystem/View/Casher Device/Casher/SalesVC.swift</string>
+						<string>GenericCateringSystem/View/Customer Device/OrderDetailVC.swift</string>
 					</dict>
 				</dict>
 				<key>type</key>
 				<string>DVTDocumentLocation</string>
 			</dict>
 			<key>title</key>
-			<string>need implementation</string>
+			<string>use two swipe action to implement the function of serving food(how many portions are served)</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
@@ -148,13 +148,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>58</string>
+					<string>44</string>
 					<key>StartingColumnNumber</key>
-					<string>40</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>57</string>
+					<string>43</string>
 					<key>Timestamp</key>
-					<string>737294724.108003</string>
+					<string>737796743.25095</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -163,7 +163,122 @@
 					<key>payload</key>
 					<dict>
 						<key>relative-path</key>
-						<string>GenericCateringSystem/View/Table or Collection View/OptionCell.swift</string>
+						<string>GenericCateringSystem/View/Customer Device/OrderingVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        case "logOut":
+</string>
+				<key>leading</key>
+				<string>    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+</string>
+				<key>trailing</key>
+				<string>            let destVC = segue.destination as! LogInVC
+            
+            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+</string>
+			</dict>
+			<key>title</key>
+			<string>need to check pw before segue</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>39</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>38</string>
+					<key>Timestamp</key>
+					<string>737796743.250972</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Customer Device/OrderingVC.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        
+</string>
+				<key>leading</key>
+				<string>    
+    override func viewDidLoad() {
+</string>
+				<key>trailing</key>
+				<string>    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+</string>
+			</dict>
+			<key>title</key>
+			<string>listen to core data update of order's state</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/View/Casher Device/EatIn/TableOrderDetailVC.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>should add a new btn to delete order in case customer want to leave </string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>24</string>
+					<key>StartingColumnNumber</key>
+					<string>41</string>
+					<key>StartingLineNumber</key>
+					<string>23</string>
+					<key>Timestamp</key>
+					<string>737800095.4902411</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GenericCateringSystem/ViewModel/Casher Device/EatIn/EatInVCViewModel.swift</string>
 					</dict>
 				</dict>
 			</dict>
@@ -173,132 +288,17 @@
 				<string>
 </string>
 				<key>leading</key>
-				<string>            isSelectedImg.isHidden = false
-        }
-        name.text = target.name</string>
+				<string>        let p1 = NSPredicate(format: "number == %@ AND currentState == %d", device[0].number ?? "nil", OrderState.eating.rawValue)
+        let order = Helper.shared.fetchOrder(predicate: p1)
+        logger.debug("device: \(device)")</string>
 				<key>trailing</key>
-				<string>        unitPrice.text = "$\(String(target.price))"
-    }
-}
+				<string>        logger.debug("order: \(order)")
+        if order.count &gt; 0 {
+            return (true, order[0])
 </string>
 			</dict>
 			<key>title</key>
-			<string>check  all core data's optional value</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>GenericCateringSystem/View/Casher Device/Casher/MenuVC.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>title</key>
-			<string>when ordering, it should save once having changes. delete currentOrder whenever leaving the view or change order type</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>204</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>203</string>
-					<key>Timestamp</key>
-					<string>737724805.864526</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>GenericCateringSystem/ViewModel/Casher Device/Casher/MenuVCViewModel.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>        currentOrderedItems = []
-</string>
-				<key>leading</key>
-				<string>    
-    func discardAll(currentOrder: Order?) {
-</string>
-				<key>trailing</key>
-				<string>        if let order = currentOrder {
-            PersistenceService.shared.delete(object: order)
-            saveAll()
-</string>
-			</dict>
-			<key>title</key>
-			<string>should check order's state before delete</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>36</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>35</string>
-					<key>Timestamp</key>
-					<string>737724876.767437</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>GenericCateringSystem/ViewModel/Display Device/DisplayWalkInVCViewModel.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    func updateTotalSum() -&gt; Double {
-</string>
-				<key>leading</key>
-				<string>    }
-    
-</string>
-				<key>trailing</key>
-				<string>        logger.debug("\(self.currentOrder)")
-        guard currentOrder != nil else {
-            return 0.0
-</string>
-			</dict>
-			<key>title</key>
-			<string>order's totalsum not well saved</string>
+			<string>no order fetched</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

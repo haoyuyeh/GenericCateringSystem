@@ -24,17 +24,21 @@ extension DisplayWalkInVCViewModel {
         let orders = Helper.shared.fetchOrder(predicate: comP)
         
         if orders.isEmpty {
+            currentOrder = nil
             return []
         }else {
             currentOrder = orders[0]
-            let items = currentOrder?.items?.allObjects as! [Item]
-            logger.debug("\(self.currentOrder)\(items)")
+            var items = currentOrder?.items?.allObjects as! [Item]
+            items = items.sorted{
+                $0.name! < $1.name!
+            }
+            logger.debug("update: \(self.currentOrder)\n\(items)")
             return items
         }
     }
     
     func updateTotalSum() -> Double {
-        logger.debug("\(self.currentOrder)")
+        logger.debug("update total sum: \(self.currentOrder)\n")
         guard currentOrder != nil else {
             return 0.0
         }

@@ -12,7 +12,7 @@ import UIKit
 
 class OrderCell: UITableViewCell {
     // MARK: Properties
-    private let logger = Logger(subsystem: "TakeOut", category: "OrderCell")
+    private let logger = Logger(subsystem: "Table or Collection View", category: "OrderCell")
 
     var order: Order?
     var orderDelegate: OrderChangedDelegate?

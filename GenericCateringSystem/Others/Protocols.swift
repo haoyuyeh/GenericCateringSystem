@@ -28,12 +28,16 @@ extension TextFieldChangedDelegate {
     func noteChanged(to notes: String, of order: Order) {}
     func idChanged(to newName: String, at indexPath: IndexPath) {}
     func pwChanged(to newPw: String, at indexPath: IndexPath) {}
-    func itemQuantityChanged(to num: Int, of index: IndexPath) {}
+    func itemQuantityChanged(to num: Int, of index: IndexPath = IndexPath()) {}
 }
 
 // MARK: MenuEditVC
 protocol DeleteModeDelegate {
     func isEnterDeleteMode(value: Bool)
+}
+
+protocol TotalSumDelegate {
+    func totalSumChanged(to sum: Double)
 }
 
 // MARK: EatInVC
@@ -56,14 +60,6 @@ extension EatInTableDelegate {
 protocol OrderChangedDelegate {
     func statusChanged(to state: OrderState, of order: Order)
 }
-
-
-
-
-
-// MARK: EatInVC
-
-
 
 
 // MARK: EatInVC

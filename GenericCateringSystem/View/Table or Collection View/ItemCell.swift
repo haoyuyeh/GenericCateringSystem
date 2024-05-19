@@ -4,11 +4,13 @@
 //
 //  Created by Hao Yu Yeh on 2024/3/26.
 //
-
+import OSLog
 import UIKit
 import CoreData
 
 class ItemCell: UITableViewCell {
+    // MARK: Properties
+    private let logger = Logger(subsystem: "Table or Collection View", category: "ItemCell")
     
     var delegate: TextFieldChangedDelegate?
     var indexPath: IndexPath?
@@ -35,7 +37,7 @@ extension ItemCell: CellConfig {
     func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
         let target = target as! Item
         
-        if cellType.self == MenuVC.self || cellType.self == TableOrderDetailVC.self {
+        if (cellType.self == MenuVC.self) || (cellType.self == TableOrderDetailVC.self) || (cellType.self == OrderingVC.self) {
             quantity.isEnabled = true
         }else {
             quantity.isEnabled = false

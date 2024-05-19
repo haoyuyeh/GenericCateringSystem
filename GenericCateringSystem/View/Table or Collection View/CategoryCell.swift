@@ -11,10 +11,9 @@ import CoreData
 
 class CategoryCell: UICollectionViewCell {
     // MARK: Properties
-
-    private let logger = Logger(subsystem: "Cashier", category: "CategoryCell")
-    var uuid: UUID? = nil
+    private let logger = Logger(subsystem: "Table or Collection View", category: "CategoryCell")
     
+    var uuid: UUID?
     var isEnterDeleteMode: Bool {
         didSet {
             if isEnterDeleteMode {

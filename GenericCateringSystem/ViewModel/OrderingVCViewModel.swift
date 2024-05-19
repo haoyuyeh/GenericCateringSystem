@@ -1,49 +1,24 @@
 //
-//  MenuVCViewModel.swift
+//  OrderingVCViewModel.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/11/5.
+//  Created by Hao Yu Yeh on 2024/5/19.
 //
 
 import OSLog
 import CoreData
 
-class MenuVCViewModel {
+class OrderingVCViewModel {
     // MARK: Properties
-    private let logger = Logger(subsystem: "Cashier", category: "MenuVCViewModel")
+    private let logger = Logger(subsystem: "Customer", category: "OrderingVCViewModel")
     
     private var currentOrderedItems: [Item] = []
-    var delegate: TotalSumDelegate?
-}
-
-// MARK: Order Details
-extension MenuVCViewModel {
-    
-    /// determine the order number for the current walk-in order
-    /// - Returns: order number
-    func getWalkInOrderNumber() -> String {
-        let predicate1 = NSPredicate(format: "type == %i", OrderType.walkIn.rawValue)
-        let predicate2 = NSPredicate(format: "establishedDate >= %@", Calendar.current.startOfDay(for: Date()) as CVarArg)
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate1, predicate2])
-        let walkInOrders = Helper.shared.fetchOrder(predicate: predicate)
-        return String(walkInOrders.count + 1)
-    }
 }
 
 // MARK: Ordered Item TableView
-extension MenuVCViewModel {
-    func getAllItems(of order: Order?) -> [Item] {
-        if let order = order {
-            var items = order.items?.allObjects as! [Item]
-            
-            items = items.sorted{
-                $0.name! < $1.name!
-            }
-            
-            return items
-        }else {
-            return []
-        }
+extension OrderingVCViewModel {
+    func getCurrentOrderedItems() -> [Item] {
+        return currentOrderedItems
     }
     
     /// 1. check whether the new item exists in the order,
@@ -72,10 +47,10 @@ extension MenuVCViewModel {
                 $0.name! < $1.name!
             }
         }
-        saveAll()
+//        saveAll()
         logger.debug("add item:\(order)\n")
 
-        delegate?.totalSumChanged(to: updateTotalSum())
+//        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// check whether the new item exists in the order,
@@ -101,8 +76,8 @@ extension MenuVCViewModel {
         
         let deletedItem = currentOrderedItems.remove(at: index)
         PersistenceService.shared.delete(object: deletedItem)
-        saveAll()
-        delegate?.totalSumChanged(to: updateTotalSum())
+//        saveAll()
+//        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// 1. change the quantity of item at itemIndex position to newQuantity
@@ -112,33 +87,33 @@ extension MenuVCViewModel {
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
-        saveAll()
-        delegate?.totalSumChanged(to: updateTotalSum())
+//        saveAll()
+//        delegate?.totalSumChanged(to: updateTotalSum())
     }
 }
 
-// MARK: Check Out
-extension MenuVCViewModel {
-    /// change the state of order to preparing and save the details of order
+// MARK: Confirm Order
+extension OrderingVCViewModel {
+    
+    /// call when customer confirm ordering, this will save all changes to core data
     /// - Parameters:
     ///   - order:
-    ///   - t: order type
-    ///   - pName:
-    ///   - num:
     ///   - note:
-    func completOrder(currentOrder order: Order, platformName pName: String, number num: String, comments note: String) {
-        order.currentState = Int16(OrderState.preparing.rawValue)
-        order.platformName = pName
-        order.number = num
-        order.comments = note
-        logger.debug("complete order:\(order)\n")
+    func confirmOrder(currentOrder order: Order, comments note: String) {
+        
+        if let oldNote = order.comments {
+            order.comments = oldNote + "\n" + note
+        }else {
+            order.comments = note
+        }
+        logger.debug("confirm order:\(order)\n")
 
         saveAll()
     }
 }
 
 // MARK: Catagories
-extension MenuVCViewModel {
+extension OrderingVCViewModel {
     func getAllCategory() -> [Category] {
         // fetch all data
         return Helper.shared.fetchCategory(predicate: NSPredicate(value: true))
@@ -146,7 +121,7 @@ extension MenuVCViewModel {
 }
 
 // MARK: Options
-extension MenuVCViewModel {
+extension OrderingVCViewModel {
     func hasChildrenOption(of targetUUID: UUID?) -> Bool {
         if let uuid = targetUUID {
             let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
@@ -186,35 +161,31 @@ extension MenuVCViewModel {
             return []
         }
     }
-    
-    
 }
 
 // MARK: Helper Functions
-extension MenuVCViewModel {
-    func addNewOrder(type: OrderType) -> Order {
+extension OrderingVCViewModel {
+    /// 
+    /// - Parameter tableNumber:
+    /// - Returns:
+    func addNewOrder(at tableNumber: String) -> Order {
         let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
+        
         currentOrder.uuid = UUID()
         currentOrder.establishedDate = Date()
-        currentOrder.currentState = Int16(OrderState.ordering.rawValue)
-        currentOrder.isTakeOut = true
-        currentOrder.type = Int16(type.rawValue)
+        currentOrder.currentState = Int16(OrderState.eating.rawValue)
+        currentOrder.isTakeOut = false
+        currentOrder.number = tableNumber
+        currentOrder.type = Int16(OrderType.eatIn.rawValue)
         currentOrder.totalSum = 0.0
         saveAll()
         logger.debug("add order:\(currentOrder)\n")
+        
         return currentOrder
     }
-    
-    /// calling this method means changing state or leaving vc.
-    /// if there is any order having currentState as ordering, indicating the order is unfinished.
-    /// then delete all of them from core data.
-    func discardAll() {
+
+    func clearCurrentOrderedItems() {
         currentOrderedItems = []
-        var orders = Helper.shared.fetchOrder(predicate: NSPredicate(format: "currentState == %i", OrderState.ordering.rawValue))
-        while !orders.isEmpty {
-            PersistenceService.shared.delete(object: orders.removeFirst())
-        }
-        saveAll()
     }
     
     func saveAll() {
@@ -273,21 +244,21 @@ extension MenuVCViewModel {
         return (name, totalPrice)
     }
     
-    private func updateTotalSum() -> Double {
-        guard currentOrderedItems != [] else {
-            return 0.0
-        }
-        
-        var sum = 0.0
-        for item in currentOrderedItems {
-            sum += item.price * Double(item.quantity)
-            logger.debug("item:\(item)\n")
-        }
-        // update to core data
-        currentOrderedItems[0].orderedBy?.totalSum = sum
-        logger.debug("update total sum:\(self.currentOrderedItems[0].orderedBy)\n")
-        
-        saveAll()
-        return sum
-    }
+//    private func updateTotalSum() -> Double {
+//        guard currentOrderedItems != [] else {
+//            return 0.0
+//        }
+//        
+//        var sum = 0.0
+//        for item in currentOrderedItems {
+//            sum += item.price * Double(item.quantity)
+//            logger.debug("item:\(item)\n")
+//        }
+//        // update to core data
+//        currentOrderedItems[0].orderedBy?.totalSum = sum
+//        logger.debug("update total sum:\(self.currentOrderedItems[0].orderedBy)\n")
+//        
+//        saveAll()
+//        return sum
+//    }
 }

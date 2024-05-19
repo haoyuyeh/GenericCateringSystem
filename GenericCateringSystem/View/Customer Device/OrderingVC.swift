@@ -1,18 +1,17 @@
 //
-//  MenuVC.swift
+//  OrderingVC.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/11/5.
+//  Created by Hao Yu Yeh on 2024/5/19.
 //
-import SwiftUI
 import OSLog
 import UIKit
 
-class MenuVC: UIViewController {
+class OrderingVC: UIViewController {
     // MARK: Properties
-    private let logger = Logger(subsystem: "Cashier", category: "MenuVC")
+    private let logger = Logger(subsystem: "Customer", category: "OrderingVC")
     
-    private var viewModel = MenuVCViewModel()
+    private var viewModel = OrderingVCViewModel()
     var currentDevice: Device?
     var currentOrder: Order?
     
@@ -36,9 +35,8 @@ class MenuVC: UIViewController {
         config()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidLoad() {
         
-        reset()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -48,72 +46,37 @@ class MenuVC: UIViewController {
             
             destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             destVC.currentDevice = currentDevice
-        case "editMenu":
-            let destVC = segue.destination as! MenuEditVC
-            
-            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-            destVC.currentDevice = currentDevice
-        case "showSales":
-            break
         default:
             logger.error("unknown segue:\(segue.identifier ?? "nil")")
         }
     }
     
     // MARK: IBOutlet
-    @IBOutlet weak var orderTypeControler: UISegmentedControl!
-    @IBOutlet weak var deliveryPlatformNameTF: UITextField!
-    @IBOutlet weak var orderNumberTF: UITextField!
+    @IBOutlet weak var tableNumber: UILabel!
     @IBOutlet weak var notes: UITextView!
     
     @IBOutlet weak var orderTableView: UITableView!
-    
-    @IBOutlet weak var sumLabel: UILabel!
-    
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var optionCollectionView: UICollectionView!
     
-    // MARK: IBSegueAction
-
-    
-    @IBSegueAction func showSalesView(_ coder: NSCoder) -> UIViewController? {
-        UIHostingController(coder: coder, rootView: SalesView())
-    }
-    
-    
     // MARK: IBAction
-    
-    @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
-        reset()
-        
-        switch sender.selectedSegmentIndex {
-            // delivery platform
-        case 0:
-            deliveryPlatformNameTF.isHidden = false
-            orderNumberTF.isEnabled = true
-            orderNumberTF.text = nil
-            // Walk-in
-        default:
-            deliveryPlatformNameTF.isHidden = true
-            orderNumberTF.isEnabled = false
-            orderNumberTF.text = viewModel.getWalkInOrderNumber()
-        }
-    }
-    
-    @IBAction func checkOutBtnPressed(_ sender: UIButton) {
+    @IBAction func confirmBtnPressed(_ sender: UIButton) {
         guard let order = currentOrder else {
-            self.showAlert(alertTitle: "Warning", message: "Not have an order!!!")
+            self.showAlert(alertTitle: "Warning", message: "Ordering first.")
             return
         }
         
-        // complet order and reset for next order
-        viewModel.completOrder(currentOrder: order, platformName: deliveryPlatformNameTF.text ?? "nil", number: orderNumberTF.text ?? "nil", comments: notes.text)
-        reset()
+        // confirm currently ordered items
+        viewModel.confirmOrder(currentOrder: order, comments: notes.text)
+        viewModel.clearCurrentOrderedItems()
+        DispatchQueue.main.async { [unowned self] in
+            updateOrderSnapShot()
+        }
     }
 }
 
 // MARK: UITextFieldDelegate
-extension MenuVC: UITextViewDelegate {
+extension OrderingVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
@@ -129,9 +92,8 @@ extension MenuVC: UITextViewDelegate {
     }
 }
 
-
 // MARK: UITextFieldDelegate
-extension MenuVC: UITextFieldDelegate {
+extension OrderingVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -143,7 +105,7 @@ extension MenuVC: UITextFieldDelegate {
 }
 
 // MARK: Order Table View
-extension MenuVC {
+extension OrderingVC {
     func configureOrderDataSource() -> OrderDataSource {
         let dataSource = OrderDataSource(tableView: orderTableView) { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
@@ -161,16 +123,14 @@ extension MenuVC {
         var snapshot = OrdrSnapShot()
         
         snapshot.appendSections([.all])
-        snapshot.appendItems(viewModel.getAllItems(of: currentOrder).sorted{
-            $0.name! < $1.name!
-        }, toSection: .all)
+        snapshot.appendItems(viewModel.getCurrentOrderedItems(), toSection: .all)
         
         itemDataSource.apply(snapshot, animatingDifferences: value)
     }
 }
 
 // MARK: UITableViewDelegate
-extension MenuVC: UITableViewDelegate {
+extension OrderingVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, handler in
             viewModel.deleteItem(at: indexPath.row)
@@ -189,28 +149,19 @@ extension MenuVC: UITableViewDelegate {
 }
 
 // MARK: ItemQuantityDelegate
-extension MenuVC: TextFieldChangedDelegate {
+extension OrderingVC: TextFieldChangedDelegate {
     func itemQuantityChanged(to num: Int, of index: IndexPath) {
         viewModel.changeQuantity(of: index.row, to: num)
-        logger.debug("change quantity:\(self.currentOrder)")
-    }
-}
-
-// MARK: TotalSumDelegate
-extension MenuVC: TotalSumDelegate {
-    func totalSumChanged(to sum: Double) {
-        sumLabel.text = String("$\(sum)")
     }
 }
 
 // MARK: Helpler
-extension MenuVC {
+extension OrderingVC {
     func config() {
-        viewModel.discardAll()
         
         self.tabBarController?.delegate = self
-        viewModel.delegate = self
-        
+//        viewModel.delegate = self
+        tableNumber.text = "Table #\(currentDevice?.number ?? "nil")"
         if currentOrder != nil && currentOrder?.comments != nil {
             notes.textColor = UIColor.black
             notes.text = currentOrder?.comments
@@ -233,23 +184,19 @@ extension MenuVC {
         }
     }
     
+    
+    
+    
     /// called when the order completed or aborted
     func reset() {
-        viewModel.discardAll()
+        viewModel.clearCurrentOrderedItems()
         
         currentOrder = nil
         pickItemState = .enterCategory
         selectedOption = nil
-        deliveryPlatformNameTF.text = nil
-        orderNumberTF.text = nil
         notes.textColor = UIColor.lightGray
         notes.text = "Enter notes here."
-        sumLabel.text = "$0"
-        
-        if orderTypeControler.selectedSegmentIndex == 1 {
-            orderNumberTF.text = viewModel.getWalkInOrderNumber()
-        }
-        
+       
         DispatchQueue.main.async { [unowned self] in
             updateOrderSnapShot()
             updateCategorySnapshot()
@@ -265,7 +212,7 @@ extension MenuVC {
     /// if not have one, then create
     func addChoosedItem() {
         if currentOrder == nil {
-            currentOrder = viewModel.addNewOrder(type: orderTypeControler.selectedSegmentIndex == 0 ? OrderType.deliveryPlatform: OrderType.walkIn)
+            currentOrder = viewModel.addNewOrder(at: tableNumber.text!)
         }
         
         viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)
@@ -280,7 +227,7 @@ extension MenuVC {
 }
 
 // MARK: UICollectionViewDelegate
-extension MenuVC: UICollectionViewDelegate {
+extension OrderingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case categoryCollectionView:
@@ -306,7 +253,7 @@ extension MenuVC: UICollectionViewDelegate {
 }
 
 // MARK: Category CollectionView
-extension MenuVC {
+extension OrderingVC {
     func configureCategoryDataSource() -> CategoryDataSource {
         let dataSource = CategoryDataSource(collectionView: categoryCollectionView) {
             (collectionView, indexPath, category) -> UICollectionViewCell? in
@@ -335,7 +282,7 @@ extension MenuVC {
 }
 
 // MARK: Option CollectionView
-extension MenuVC {
+extension OrderingVC {
     func configureOptionDataSource() -> OptionDataSource {
         let dataSource = OptionDataSource(collectionView: optionCollectionView) {
             (collectionView, indexPath, option) -> UICollectionViewCell? in
@@ -371,26 +318,16 @@ extension MenuVC {
 }
 
 // MARK: UITabBarControllerDelegate
-extension MenuVC: UITabBarControllerDelegate {
+extension OrderingVC: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        reset()
-        
         switch tabBarController.selectedIndex {
         case 0:
-            let vc = viewController as! MenuVC
+            let vc = viewController as! OrderingVC
             vc.currentDevice = currentDevice
             
         case 1:
-            let vc = viewController as! EatInVC
-            vc.currentDevice = currentDevice
-            
-        case 2:
-            let vc = viewController as! TakeOutOrderVC
-            vc.currentDevice = currentDevice
-            
-        case 3:
-            let vc = viewController as! HistoricalOrderVC
-            vc.currentDevice = currentDevice
+            let vc = viewController as! OrderDetailVC
+//            vc.currentDevice = currentDevice
             
         default:
             logger.error("unrecognized view controller")

@@ -10,7 +10,7 @@ import CoreData
 
 class OptionCell: UICollectionViewCell {
     // MARK: Properties
-    private let logger = Logger(subsystem: "MenuVC", category: "OptionCell")
+    private let logger = Logger(subsystem: "Table or Collection View", category: "OptionCell")
     
     var uuid: UUID? = nil
     var isEnterDeleteMode: Bool {

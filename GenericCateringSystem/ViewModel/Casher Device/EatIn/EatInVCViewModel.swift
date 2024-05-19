@@ -21,7 +21,8 @@ extension EatInVCViewModel {
         let device = Helper.shared.fetchDevice(predicate: NSPredicate(format: "uuid == %@", table! as CVarArg))
         let p1 = NSPredicate(format: "number == %@ AND currentState == %d", device[0].number ?? "nil", OrderState.eating.rawValue)
         let order = Helper.shared.fetchOrder(predicate: p1)
-        
+        logger.debug("device: \(device)")
+        logger.debug("order: \(order)")
         if order.count > 0 {
             return (true, order[0])
         }else {

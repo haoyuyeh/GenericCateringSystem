@@ -69,6 +69,7 @@ class ConfigVC: UIViewController {
     
     @IBAction func startBtnPressed(_ sender: UIButton) {
         // segue to MenuVC or OrderingVC(for customer)
+        logger.debug("roll: \(self.currentDevice?.roll ?? "nil")")
         if let roll = currentDevice?.roll {
             switch roll {
             case Roll.cashier.rawValue:
@@ -85,15 +86,15 @@ class ConfigVC: UIViewController {
                 
             case Roll.customer.rawValue:
                 let storyboard = UIStoryboard(name: "Customer", bundle: nil)
-                let destVC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
+                let tabC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
                 
-                destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-                destVC.selectedIndex = 0
+                tabC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                tabC.selectedIndex = 0
                 
-//                let menuVC = destVC.selectedViewController as! MenuVC
-//                menuVC.currentDevice = currentDevice
+                let destVC = tabC.selectedViewController as! OrderingVC
+                destVC.currentDevice = currentDevice
 
-                show(destVC, sender: sender)
+                show(tabC, sender: sender)
                 
             case Roll.displayWalkIn.rawValue:
                 let storyBoard = UIStoryboard(name: "Display", bundle: nil)
@@ -194,16 +195,16 @@ extension ConfigVC {
         /**
          it can only have one cashier in the system, therefore, it try to provide different options based on the state of cashier
          */
-        let currentRoll = currentDevice?.roll ?? ""
+        // asign a default roll for new device
+        if currentDevice?.roll == nil {
+            currentDevice?.roll = Roll.customer.rawValue
+        }
+        
         let cashier = NSPredicate(format: "roll == %@", Roll.cashier.rawValue)
         let hasCashier = viewModel.hasRoll(as: cashier)
         
-        switch (currentRoll, hasCashier) {
+        switch (currentDevice?.roll, hasCashier) {
             //already has cashier in the system
-        case ("", true):
-            rollBtn.menu = UIMenu(children:[
-                customerAction, displayWIAction, displayTAAction
-            ])
         case (Roll.customer.rawValue, true):
             customerAction.state = .on
             rollBtn.menu = UIMenu(children:[
@@ -220,10 +221,6 @@ extension ConfigVC {
                 customerAction, displayWIAction, displayTAAction
             ])
             // no cashier in the system
-        case ("", false):
-            rollBtn.menu = UIMenu(children:[
-                cashierAction, customerAction, displayTAAction, displayWIAction
-            ])
         case (Roll.customer.rawValue, false):
             customerAction.state = .on
             rollBtn.menu = UIMenu(children:[

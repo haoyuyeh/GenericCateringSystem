@@ -4,11 +4,13 @@
 //
 //  Created by Hao Yu Yeh on 2024/5/10.
 //
-
+import OSLog
 import UIKit
 
 class SectionHeader: UITableViewHeaderFooterView {
     // MARK: Properties
+    private let logger = Logger(subsystem: "Table or Collection View", category: "SectionHeader")
+    
     static var reuseIdentifier: String {
         return String(describing: SectionHeader.self)
     }

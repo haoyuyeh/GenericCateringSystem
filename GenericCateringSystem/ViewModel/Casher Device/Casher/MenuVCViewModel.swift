@@ -54,11 +54,11 @@ extension MenuVCViewModel {
     ///   - order:
     ///   - option:
     ///   - q:
-    func addNewItem(currentOrder order: Order, selectedOption option: UUID) {
+    func addNewItem(currentOrder order: Order, selectedOption option: Option) {
         let newItem = Item(context: PersistenceService.shared.persistentContainer.viewContext)
         newItem.uuid = UUID()
         // use option to trace back the correct item name and price
-        (newItem.name, newItem.price) = getNameAndUnitPrice(of: option)
+        (newItem.name, newItem.price) = Helper.shared.getNameAndUnitPrice(of: option)
         newItem.quantity = 1
         
         let isExisted = isItemExisted(newItem: newItem)
@@ -145,51 +145,6 @@ extension MenuVCViewModel {
     }
 }
 
-// MARK: Options
-extension MenuVCViewModel {
-    func hasChildrenOption(of targetUUID: UUID?) -> Bool {
-        if let uuid = targetUUID {
-            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-            let children = option.children?.allObjects as! [Option]
-            if children.isEmpty {
-                return false
-            }else {
-                return true
-            }
-        }else {
-            /**
-             return true will keep the state of pickItemState in enterOption,
-             therefore, user can sense the error
-             */
-            logger.error("option uuid is nil")
-            return true
-        }
-    }
-    
-    /// This function will retrieve all sub-options of given option or root options of given category
-    /// - Parameters:
-    ///   - targetUUID:
-    ///   - state: option or category
-    /// - Returns:
-    func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
-        if let uuid = targetUUID {
-            switch state {
-            case .enterCategory:
-                // get all options which do not have parent and under this category
-                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
-            default:
-                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-                return option[0].children?.allObjects as! [Option]
-            }
-        }else {
-            return []
-        }
-    }
-    
-    
-}
-
 // MARK: Helper Functions
 extension MenuVCViewModel {
     func addNewOrder(type: OrderType) -> Order {
@@ -219,58 +174,6 @@ extension MenuVCViewModel {
     
     func saveAll() {
         PersistenceService.shared.saveContext()
-    }
-    
-    /// the data structure of option is link-list like
-    /// therefore, use the targetUUID to retrieve the whole name and price of the picked item
-    /// - Parameter targetUUID:
-    /// - Returns:
-    private func getNameAndUnitPrice(of targetUUID: UUID?) -> (name:String, unitPrice:Double) {
-        if let uuid = targetUUID {
-            let options = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-            if options != [] {
-                return generateItemNameAndUnitPrice(of: options[0])
-            }else {
-                logger.error("can't find an option match the uuid")
-                return ("nil", 0.0)
-            }
-        }else {
-            logger.error("uuid is nil")
-            return ("nil", 0.0)
-        }
-    }
-    
-    /// use the end node to back track the whole name and price
-    /// - Parameter option:
-    /// - Returns:
-    private func generateItemNameAndUnitPrice(of option: Option) -> (name:String, unitPrice:Double) {
-        var nameReversed: [String] = []
-        var item: Option? = option
-        var totalPrice = 0.0
-        
-        repeat {
-            nameReversed.append(item!.name ?? "nil")
-            totalPrice += item!.price
-            item = item!.parent
-        }while item != nil
-        
-        nameReversed.reverse()
-        
-        var count = 0, name = ""
-        
-        while count < nameReversed.count {
-            switch count {
-            case 0:
-                name = nameReversed[count] + " - "
-            case 1...:
-                name += nameReversed[count]
-                name += ","
-            default:
-                break
-            }
-            count += 1
-        }
-        return (name, totalPrice)
     }
     
     private func updateTotalSum() -> Double {

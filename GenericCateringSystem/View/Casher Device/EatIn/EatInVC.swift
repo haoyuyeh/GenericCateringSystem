@@ -28,10 +28,6 @@ class EatInVC: UIViewController {
         }
     }
     
-//    override func viewDidLoad() {
-//        NotificationCenter.default.addObserver(self, selector: <#T##Selector#>, name: .NSPersistentStoreRemoteChange, object: <#T##Any?#>)
-//    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "logOut":
@@ -51,11 +47,10 @@ class EatInVC: UIViewController {
     
     @IBSegueAction func showTableDetail(_ coder: NSCoder, sender: Any?) -> TableOrderDetailVC {
         let sender = sender as! TableCell
-        logger.debug("\(sender)")
-        let outcome = viewModel.hasOngoingOrder(of: sender.uuid)
+        let outcome = viewModel.hasOngoingOrder(of: sender.device)
         let destVC = TableOrderDetailVC()
         
-        destVC.uuid = sender.uuid
+        destVC.device = sender.device
         destVC.currentOrder = outcome.order
         destVC.delegate = self
         
@@ -63,18 +58,9 @@ class EatInVC: UIViewController {
     }
 }
 
-//// MARK: Helper
-//extension EatInVC {
-//    @objc func updateRemoteChanges() {
-//        DispatchQueue.main.async { [unowned self] in
-//            
-//        }
-//    }
-//}
-
 // MARK: - CheckOutDelegate
 extension EatInVC: EatInTableDelegate {
-    func orderCompleted(at table: UUID) {
+    func orderCompleted(at table: Device) {
         delegate?.tableReleased()
         //        delegate?.released(at: table)
     }
@@ -87,7 +73,7 @@ extension EatInVC: UICollectionViewDelegate {
         
         if cell.isOcuppied {
             // should check order state before segue to table order details VC
-            let outcome = viewModel.hasOngoingOrder(of: cell.uuid)
+            let outcome = viewModel.hasOngoingOrder(of: cell.device)
         
             if outcome.result {
                 performSegue(withIdentifier: "showTableDetail", sender: cell)

@@ -17,8 +17,8 @@ class MenuVC: UIViewController {
     var currentOrder: Order?
     
     private var pickItemState = PickItemState.enterCategory
-    private var selectedCategory: UUID?
-    private var selectedOption: UUID?
+    private var selectedCategory: Category?
+    private var selectedOption: Option?
     
     typealias OrderDataSource = UITableViewDiffableDataSource<ItemSection, Item>
     typealias OrdrSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
@@ -286,14 +286,14 @@ extension MenuVC: UICollectionViewDelegate {
         case categoryCollectionView:
             pickItemState = .enterCategory
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-            selectedCategory = cell.uuid
+            selectedCategory = cell.category
             
             updateOptionSnapshot()
         default:
             let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
-            selectedOption = cell.uuid
+            selectedOption = cell.option!
             
-            if viewModel.hasChildrenOption(of: selectedOption) {
+            if Helper.shared.hasChildren(of: selectedOption!) {
                 pickItemState = .enterOption
                 
                 updateOptionSnapshot()
@@ -313,7 +313,6 @@ extension MenuVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             
-            cell.uuid = category.uuid
             cell.configure(with: category, of: type(of: self))
             
             return cell
@@ -342,7 +341,6 @@ extension MenuVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             
-            cell.uuid = option.uuid
             cell.configure(with: option, of: type(of: self))
             
             return cell
@@ -358,9 +356,9 @@ extension MenuVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedCategory, at: .enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedOption, at: .enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
         default:
             break
         }

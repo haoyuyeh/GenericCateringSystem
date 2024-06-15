@@ -17,8 +17,8 @@ extension EatInVCViewModel {
         return Helper.shared.fetchDevice(predicate: NSPredicate(format: "roll == %@", Roll.customer.rawValue))
     }
     
-    func hasOngoingOrder(of table: UUID?) -> (result: Bool, order: Order?) {
-        let device = Helper.shared.fetchDevice(predicate: NSPredicate(format: "uuid == %@", table! as CVarArg))
+    func hasOngoingOrder(of table: Device?) -> (result: Bool, order: Order?) {
+        let device = Helper.shared.fetchDevice(predicate: NSPredicate(format: "uuid == %@", table!.uuid! as CVarArg))
         let p1 = NSPredicate(format: "number == %@ AND currentState == %d", device[0].number ?? "nil", OrderState.eating.rawValue)
         let order = Helper.shared.fetchOrder(predicate: p1)
         logger.debug("device: \(device)")

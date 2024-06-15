@@ -16,12 +16,8 @@ class OrderingVC: UIViewController {
     var currentOrder: Order?
     
     private var pickItemState = PickItemState.enterCategory
-    private var selectedCategory: UUID?
-    private var selectedOption: UUID?
-    
-    typealias OrderDataSource = UITableViewDiffableDataSource<ItemSection, Item>
-    typealias OrdrSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
-    private lazy var itemDataSource = configureOrderDataSource()
+    private var selectedCategory: Category?
+    private var selectedOption: Option?
     
     typealias CategoryDataSource = UICollectionViewDiffableDataSource<CategorySection, Category>
     typealias CategorySnapShot = NSDiffableDataSourceSnapshot<CategorySection, Category>
@@ -53,106 +49,9 @@ class OrderingVC: UIViewController {
     
     // MARK: IBOutlet
     @IBOutlet weak var tableNumber: UILabel!
-    @IBOutlet weak var notes: UITextView!
     
-    @IBOutlet weak var orderTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var optionCollectionView: UICollectionView!
-    
-    // MARK: IBAction
-    @IBAction func confirmBtnPressed(_ sender: UIButton) {
-        guard let order = currentOrder else {
-            self.showAlert(alertTitle: "Warning", message: "Ordering first.")
-            return
-        }
-        
-        // confirm currently ordered items
-        viewModel.confirmOrder(currentOrder: order, comments: notes.text)
-        viewModel.clearCurrentOrderedItems()
-        DispatchQueue.main.async { [unowned self] in
-            updateOrderSnapShot()
-        }
-    }
-}
-
-// MARK: UITextFieldDelegate
-extension OrderingVC: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            notes.textColor = UIColor.lightGray
-            notes.text = "Enter notes here."
-        }
-    }
-}
-
-// MARK: UITextFieldDelegate
-extension OrderingVC: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-}
-
-// MARK: Order Table View
-extension OrderingVC {
-    func configureOrderDataSource() -> OrderDataSource {
-        let dataSource = OrderDataSource(tableView: orderTableView) { (tableView, indexPath, item) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
-            
-            cell.delegate = self
-            cell.indexPath = indexPath
-            cell.configure(with: item, of: type(of: self))
-            
-            return cell
-        }
-        return dataSource
-    }
-    
-    func updateOrderSnapShot(animatingDifferences value: Bool = false) {
-        var snapshot = OrdrSnapShot()
-        
-        snapshot.appendSections([.all])
-        snapshot.appendItems(viewModel.getCurrentOrderedItems(), toSection: .all)
-        
-        itemDataSource.apply(snapshot, animatingDifferences: value)
-    }
-}
-
-// MARK: UITableViewDelegate
-extension OrderingVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, handler in
-            viewModel.deleteItem(at: indexPath.row)
-            logger.debug("delete item:\(self.currentOrder)")
-
-            DispatchQueue.main.async { [unowned self] in
-                updateOrderSnapShot(animatingDifferences: true)
-                orderTableView.reloadData()
-            }
-        }
-        deleteAction.backgroundColor = .red
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
-    }
-}
-
-// MARK: ItemQuantityDelegate
-extension OrderingVC: TextFieldChangedDelegate {
-    func itemQuantityChanged(to num: Int, of index: IndexPath) {
-        viewModel.changeQuantity(of: index.row, to: num)
-    }
 }
 
 // MARK: Helpler
@@ -160,32 +59,18 @@ extension OrderingVC {
     func config() {
         
         self.tabBarController?.delegate = self
-//        viewModel.delegate = self
         tableNumber.text = "Table #\(currentDevice?.number ?? "nil")"
-        if currentOrder != nil && currentOrder?.comments != nil {
-            notes.textColor = UIColor.black
-            notes.text = currentOrder?.comments
-        }else {
-            notes.textColor = UIColor.lightGray
-            notes.text = "Enter notes here."
-        }
         
-        orderTableView.dataSource = itemDataSource
         categoryCollectionView.dataSource = categoryDataSource
         optionCollectionView.dataSource = optionDataSource
-        updateOrderSnapShot()
         updateCategorySnapshot()
         updateOptionSnapshot()
         
         DispatchQueue.main.async { [unowned self] in
-            orderTableView.reloadData()
             categoryCollectionView.reloadData()
             optionCollectionView.reloadData()
         }
     }
-    
-    
-    
     
     /// called when the order completed or aborted
     func reset() {
@@ -194,15 +79,11 @@ extension OrderingVC {
         currentOrder = nil
         pickItemState = .enterCategory
         selectedOption = nil
-        notes.textColor = UIColor.lightGray
-        notes.text = "Enter notes here."
        
         DispatchQueue.main.async { [unowned self] in
-            updateOrderSnapShot()
             updateCategorySnapshot()
             updateOptionSnapshot()
             
-            orderTableView.reloadData()
             categoryCollectionView.reloadData()
             optionCollectionView.reloadData()
         }
@@ -219,10 +100,13 @@ extension OrderingVC {
         pickItemState = .enterCategory
         selectedOption = nil
         
-        DispatchQueue.main.async { [unowned self] in
-            updateOrderSnapShot()
-            orderTableView.reloadData()
-        }
+    }
+}
+
+// MARK: Helpler
+extension OrderingVC: CustomerOptionCellDelegate {
+    func addItem(of option: Option, quantity: Int) {
+        viewModel
     }
 }
 
@@ -233,20 +117,27 @@ extension OrderingVC: UICollectionViewDelegate {
         case categoryCollectionView:
             pickItemState = .enterCategory
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-            selectedCategory = cell.uuid
+            selectedCategory = cell.category
             
             updateOptionSnapshot()
         default:
-            let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
-            selectedOption = cell.uuid
+            let cell = optionCollectionView.cellForItem(at: indexPath) as! CustomerOptionCell
+            selectedOption = cell.option
             
-            if viewModel.hasChildrenOption(of: selectedOption) {
+            if Helper.shared.hasChildren(of: selectedOption!) {
                 pickItemState = .enterOption
+                cell.plusBtn.isHidden = true
+                cell.quantity.isHidden = true
+                cell.minusBtn.isHidden = true
+                cell.addItemBtn.isHidden = true
                 
                 updateOptionSnapshot()
             }else {
                 pickItemState = .endOfChoic
-                addChoosedItem()
+                cell.plusBtn.isHidden = false
+                cell.quantity.isHidden = false
+                cell.minusBtn.isHidden = false
+                cell.addItemBtn.isHidden = false
             }
         }
     }
@@ -260,7 +151,6 @@ extension OrderingVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             
-            cell.uuid = category.uuid
             cell.configure(with: category, of: type(of: self))
             
             return cell
@@ -287,9 +177,10 @@ extension OrderingVC {
         let dataSource = OptionDataSource(collectionView: optionCollectionView) {
             (collectionView, indexPath, option) -> UICollectionViewCell? in
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomerOptionCell", for: indexPath) as! CustomerOptionCell
             
-            cell.uuid = option.uuid
+            cell.option = option
+            cell.delegate = self
             cell.configure(with: option, of: type(of: self))
             
             return cell
@@ -305,9 +196,9 @@ extension OrderingVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedCategory, at: .enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedOption, at: .enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
         default:
             break
         }
@@ -327,7 +218,6 @@ extension OrderingVC: UITabBarControllerDelegate {
             
         case 1:
             let vc = viewController as! OrderDetailVC
-//            vc.currentDevice = currentDevice
             
         default:
             logger.error("unrecognized view controller")

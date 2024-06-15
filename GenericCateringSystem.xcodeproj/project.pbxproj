@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B0271662C1D8472007CD23A /* CustomerOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0271652C1D8472007CD23A /* CustomerOptionCell.swift */; };
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
 		7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA452BF5A67B00B9B02E /* SalesView.swift */; };
@@ -77,6 +78,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B0271652C1D8472007CD23A /* CustomerOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOptionCell.swift; sourceTree = "<group>"; };
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
 		7B45EA452BF5A67B00B9B02E /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				7BF120592BB2BFCD002E18E8 /* ItemCell.swift */,
 				7BF1205B2BD4B635002E18E8 /* CategoryCell.swift */,
 				7BF1205D2BD4B750002E18E8 /* OptionCell.swift */,
+				7B0271652C1D8472007CD23A /* CustomerOptionCell.swift */,
 				7BF84B622BE9ECB700C5944C /* TableCell.swift */,
 				7BF84B702BEB561700C5944C /* OrderCell.swift */,
 				7B5154912BEDEF7200B1787A /* SectionHeader.swift */,
@@ -534,6 +537,7 @@
 				7BF84B712BEB561700C5944C /* OrderCell.swift in Sources */,
 				7BF84B5E2BE9EAC700C5944C /* EatInVC.swift in Sources */,
 				7B8506752BF9A19700F66FD3 /* OrderDetailVC.swift in Sources */,
+				7B0271662C1D8472007CD23A /* CustomerOptionCell.swift in Sources */,
 				7BF120702BDA1B1A002E18E8 /* MenuEditVCViewModel.swift in Sources */,
 				7BA0E4622AE15F2400CDA322 /* ConfigVC.swift in Sources */,
 				7BE778562AF52F6300BE47FA /* Item+CoreDataClass.swift in Sources */,

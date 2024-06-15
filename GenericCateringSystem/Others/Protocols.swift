@@ -42,16 +42,16 @@ protocol TotalSumDelegate {
 
 // MARK: EatInVC
 protocol EatInTableDelegate {
-    func orderCompleted(at table: UUID)
-    func occupied(at table: UUID)
-    func released(at table: UUID)
+    func orderCompleted(at table: Device)
+    func occupied(at table: Device)
+    func released(at table: Device)
     func tableOccupied()
     func tableReleased()
 }
 extension EatInTableDelegate {
-    func orderCompleted(at table: UUID) {}
-    func occupied(at table: UUID) {}
-    func released(at table: UUID) {}
+    func orderCompleted(at table: Device) {}
+    func occupied(at table: Device) {}
+    func released(at table: Device) {}
     func tableOccupied() {}
     func tableReleased() {}
 }
@@ -62,4 +62,9 @@ protocol OrderChangedDelegate {
 }
 
 
-// MARK: EatInVC
+// MARK: CustomerOptionCell
+protocol CustomerOptionCellDelegate {
+    func addItem(of option: Option, quantity: Int)
+}
+
+// MARK: CustomerOptionCell

@@ -29,11 +29,11 @@ extension OrderingVCViewModel {
     ///   - order:
     ///   - option:
     ///   - q:
-    func addNewItem(currentOrder order: Order, selectedOption option: UUID) {
+    func addNewItem(currentOrder order: Order, selectedOption option: Option) {
         let newItem = Item(context: PersistenceService.shared.persistentContainer.viewContext)
         newItem.uuid = UUID()
         // use option to trace back the correct item name and price
-        (newItem.name, newItem.price) = getNameAndUnitPrice(of: option)
+        (newItem.name, newItem.price) = Helper.shared.getNameAndUnitPrice(of: option)
         newItem.quantity = 1
         
         let isExisted = isItemExisted(newItem: newItem)
@@ -47,10 +47,6 @@ extension OrderingVCViewModel {
                 $0.name! < $1.name!
             }
         }
-//        saveAll()
-        logger.debug("add item:\(order)\n")
-
-//        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// check whether the new item exists in the order,
@@ -76,8 +72,6 @@ extension OrderingVCViewModel {
         
         let deletedItem = currentOrderedItems.remove(at: index)
         PersistenceService.shared.delete(object: deletedItem)
-//        saveAll()
-//        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// 1. change the quantity of item at itemIndex position to newQuantity
@@ -87,8 +81,6 @@ extension OrderingVCViewModel {
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
-//        saveAll()
-//        delegate?.totalSumChanged(to: updateTotalSum())
     }
 }
 
@@ -106,7 +98,6 @@ extension OrderingVCViewModel {
         }else {
             order.comments = note
         }
-        logger.debug("confirm order:\(order)\n")
 
         saveAll()
     }
@@ -121,47 +112,47 @@ extension OrderingVCViewModel {
 }
 
 // MARK: Options
-extension OrderingVCViewModel {
-    func hasChildrenOption(of targetUUID: UUID?) -> Bool {
-        if let uuid = targetUUID {
-            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-            let children = option.children?.allObjects as! [Option]
-            if children.isEmpty {
-                return false
-            }else {
-                return true
-            }
-        }else {
-            /**
-             return true will keep the state of pickItemState in enterOption,
-             therefore, user can sense the error
-             */
-            logger.error("option uuid is nil")
-            return true
-        }
-    }
-    
-    /// This function will retrieve all sub-options of given option or root options of given category
-    /// - Parameters:
-    ///   - targetUUID:
-    ///   - state: option or category
-    /// - Returns:
-    func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
-        if let uuid = targetUUID {
-            switch state {
-            case .enterCategory:
-                // get all options which do not have parent and under this category
-                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
-                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
-            default:
-                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-                return option[0].children?.allObjects as! [Option]
-            }
-        }else {
-            return []
-        }
-    }
-}
+//extension OrderingVCViewModel {
+//    func hasChildrenOption(of targetUUID: UUID?) -> Bool {
+//        if let uuid = targetUUID {
+//            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
+//            let children = option.children?.allObjects as! [Option]
+//            if children.isEmpty {
+//                return false
+//            }else {
+//                return true
+//            }
+//        }else {
+//            /**
+//             return true will keep the state of pickItemState in enterOption,
+//             therefore, user can sense the error
+//             */
+//            logger.error("option uuid is nil")
+//            return true
+//        }
+//    }
+//    
+//    /// This function will retrieve all sub-options of given option or root options of given category
+//    /// - Parameters:
+//    ///   - targetUUID:
+//    ///   - state: option or category
+//    /// - Returns:
+//    func getAllOption(of targetUUID: UUID?, at state: PickItemState) -> [Option] {
+//        if let uuid = targetUUID {
+//            switch state {
+//            case .enterCategory:
+//                // get all options which do not have parent and under this category
+//                let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))[0]
+//                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
+//            default:
+//                let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
+//                return option[0].children?.allObjects as! [Option]
+//            }
+//        }else {
+//            return []
+//        }
+//    }
+//}
 
 // MARK: Helper Functions
 extension OrderingVCViewModel {
@@ -179,7 +170,6 @@ extension OrderingVCViewModel {
         currentOrder.type = Int16(OrderType.eatIn.rawValue)
         currentOrder.totalSum = 0.0
         saveAll()
-        logger.debug("add order:\(currentOrder)\n")
         
         return currentOrder
     }
@@ -191,74 +181,4 @@ extension OrderingVCViewModel {
     func saveAll() {
         PersistenceService.shared.saveContext()
     }
-    
-    /// the data structure of option is link-list like
-    /// therefore, use the targetUUID to retrieve the whole name and price of the picked item
-    /// - Parameter targetUUID:
-    /// - Returns:
-    private func getNameAndUnitPrice(of targetUUID: UUID?) -> (name:String, unitPrice:Double) {
-        if let uuid = targetUUID {
-            let options = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", uuid as CVarArg))
-            if options != [] {
-                return generateItemNameAndUnitPrice(of: options[0])
-            }else {
-                logger.error("can't find an option match the uuid")
-                return ("nil", 0.0)
-            }
-        }else {
-            logger.error("uuid is nil")
-            return ("nil", 0.0)
-        }
-    }
-    
-    /// use the end node to back track the whole name and price
-    /// - Parameter option:
-    /// - Returns:
-    private func generateItemNameAndUnitPrice(of option: Option) -> (name:String, unitPrice:Double) {
-        var nameReversed: [String] = []
-        var item: Option? = option
-        var totalPrice = 0.0
-        
-        repeat {
-            nameReversed.append(item!.name ?? "nil")
-            totalPrice += item!.price
-            item = item!.parent
-        }while item != nil
-        
-        nameReversed.reverse()
-        
-        var count = 0, name = ""
-        
-        while count < nameReversed.count {
-            switch count {
-            case 0:
-                name = nameReversed[count] + " - "
-            case 1...:
-                name += nameReversed[count]
-                name += ","
-            default:
-                break
-            }
-            count += 1
-        }
-        return (name, totalPrice)
-    }
-    
-//    private func updateTotalSum() -> Double {
-//        guard currentOrderedItems != [] else {
-//            return 0.0
-//        }
-//        
-//        var sum = 0.0
-//        for item in currentOrderedItems {
-//            sum += item.price * Double(item.quantity)
-//            logger.debug("item:\(item)\n")
-//        }
-//        // update to core data
-//        currentOrderedItems[0].orderedBy?.totalSum = sum
-//        logger.debug("update total sum:\(self.currentOrderedItems[0].orderedBy)\n")
-//        
-//        saveAll()
-//        return sum
-//    }
 }

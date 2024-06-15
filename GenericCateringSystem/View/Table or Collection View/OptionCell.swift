@@ -12,7 +12,7 @@ class OptionCell: UICollectionViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "Table or Collection View", category: "OptionCell")
     
-    var uuid: UUID? = nil
+    var option: Option?
     var isEnterDeleteMode: Bool {
         didSet {
             if isEnterDeleteMode {
@@ -50,13 +50,14 @@ class OptionCell: UICollectionViewCell {
 // MARK: CellConfig
 extension OptionCell: CellConfig {
     func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
-        let target = target as! Option
+        option = (target as! Option)
         
         if cellType.self == MenuEditVC.self {
             isSelectedImg.isHidden = false
         }
-        name.text = target.name
-        unitPrice.text = "$\(String(target.price))"
+        
+        name.text = option!.name
+        unitPrice.text = "$\(String(option!.price))"
     }
 }
 

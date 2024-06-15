@@ -13,7 +13,7 @@ class CategoryCell: UICollectionViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "Table or Collection View", category: "CategoryCell")
     
-    var uuid: UUID?
+    var category: Category?
     var isEnterDeleteMode: Bool {
         didSet {
             if isEnterDeleteMode {
@@ -61,13 +61,12 @@ class CategoryCell: UICollectionViewCell {
 // MARK: CellConfig
 extension CategoryCell: CellConfig {
     func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
-        let target = target as! Category
-        
+        category = (target as! Category)
         if cellType.self == MenuEditVC.self {
             isSelectedImg.isHidden = false
         }
         
-        name.text = target.name
+        name.text = category!.name
     }
 }
 

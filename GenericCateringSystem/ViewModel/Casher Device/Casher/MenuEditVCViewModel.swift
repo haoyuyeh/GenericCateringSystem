@@ -32,11 +32,14 @@ extension MenuEditVCViewModel {
         }
     }
     
-    func deleteCategory(targets: [UUID]) {
+    func deleteCategory(targets: [NSManagedObject]) {
+        
         for target in targets {
-            let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
-            PersistenceService.shared.delete(object: category)
-            logger.debug("category number in database: \(Helper.shared.fetchCategory(predicate: NSPredicate(value: true)))")
+            PersistenceService.shared.delete(object: target)
+
+//            let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
+//            PersistenceService.shared.delete(object: category)
+//            logger.debug("category number in database: \(Helper.shared.fetchCategory(predicate: NSPredicate(value: true)))")
         }
     }
 }
@@ -70,7 +73,7 @@ extension MenuEditVCViewModel {
     ///   - unitPrice:
     ///   - category: which the option is belonged to
     ///   - option: parent option
-    func addOption(name: String, unitPrice: Double, belongTo category: UUID, parent option: UUID?) {
+    func addOption(name: String, unitPrice: Double, belongTo category: Category, parent option: Option?) {
         let newOption = Option(context: PersistenceService.shared.persistentContainer.viewContext)
         
         newOption.uuid = UUID()
@@ -80,18 +83,18 @@ extension MenuEditVCViewModel {
             newOption.name = "empty"
         }
         newOption.price = unitPrice
-        newOption.category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid  == %@", category as CVarArg))[0]
+        newOption.category = category
         if option == nil {
             newOption.parent = nil
         }else {
-            newOption.parent = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", option! as CVarArg))[0]
+            newOption.parent = option
         }
     }
     
-    func deleteOption(targets: [UUID]) {
+    func deleteOption(targets: [NSManagedObject]) {
         for target in targets {
-            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
-            PersistenceService.shared.delete(object: option)
+//            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
+            PersistenceService.shared.delete(object: target)
         }
     }
 }

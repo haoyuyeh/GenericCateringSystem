@@ -7,6 +7,7 @@
 
 import OSLog
 import UIKit
+import CoreData
 
 class MenuEditVC: UIViewController {
     // MARK: Properties
@@ -15,8 +16,8 @@ class MenuEditVC: UIViewController {
     private var viewModel = MenuEditVCViewModel()
     var currentDevice: Device?
     private var pickItemState = PickItemState.enterCategory
-    private var selectedCategory: UUID?
-    private var selectedOption: UUID?
+    private var selectedCategory: Category?
+    private var selectedOption: Option?
     
     private var categoryDelegate: DeleteModeDelegate?
     private var optionDelegate: DeleteModeDelegate?
@@ -139,7 +140,7 @@ extension MenuEditVC: UICollectionViewDelegate {
                 pickItemState = .enterCategory
                 selectedOption = nil
                 let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-                selectedCategory = cell.uuid
+                selectedCategory = cell.category
                 
                 addOptionBtn.isHidden = false
                 deleteOptionBtn.isHidden = false
@@ -148,7 +149,7 @@ extension MenuEditVC: UICollectionViewDelegate {
             default:
                 pickItemState = .enterOption
                 let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
-                selectedOption = cell.uuid
+                selectedOption = cell.option
                 
                 updateOptionSnapshot()
             }
@@ -316,23 +317,23 @@ extension MenuEditVC {
     /// This function will compile the deleted objects list, based on the selections of collection views
     /// - Parameter type: category or option
     /// - Returns: <#description#>
-    func generateDeleteObjects(type: DeleteObjectType) -> [UUID] {
+    func generateDeleteObjects(type: DeleteObjectType) -> [NSManagedObject] {
+        var results: [NSManagedObject] = []
+
         switch type {
         case .category:
             let selected = categoryCollectionView.indexPathsForSelectedItems ?? []
-            var results: [UUID] = []
             selected.forEach { indexPath in
                 let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-                results.append(cell.uuid!)
+                results.append(cell.category!)
             }
             
             return results
         default:
             let selected = optionCollectionView.indexPathsForSelectedItems ?? []
-            var results: [UUID] = []
             selected.forEach { indexPath in
                 let cell = optionCollectionView.cellForItem(at: indexPath) as! OptionCell
-                results.append(cell.uuid!)
+                results.append(cell.option!)
             }
             
             return results
@@ -348,7 +349,6 @@ extension MenuEditVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
             
-            cell.uuid = category.uuid
             cell.configure(with: category, of: type(of: self))
             self.categoryDelegate = cell
             self.categoryDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
@@ -379,7 +379,6 @@ extension MenuEditVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
             
-            cell.uuid = option.uuid
             cell.configure(with: option, of: type(of: self))
             self.optionDelegate = cell
             self.optionDelegate?.isEnterDeleteMode(value: !self.deleteBtn.isHidden)
@@ -397,9 +396,9 @@ extension MenuEditVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedCategory, at: PickItemState.enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(viewModel.getAllOption(of: selectedOption, at: PickItemState.enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
         default:
             break
         }

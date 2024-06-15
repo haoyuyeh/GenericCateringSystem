@@ -11,7 +11,7 @@ import CoreData
 class TableCell: UICollectionViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "Table or Collection View", category: "TableCell")
-    // customer device uuid
+    // customer device 
     var device: Device?
     var indexPath: IndexPath?
     var isOcuppied: Bool {
@@ -49,14 +49,14 @@ extension TableCell: CellConfig {
 
 // MARK: TableStateChangedDelegate
 extension TableCell: EatInTableDelegate {
-    func occupied(at table: UUID) {
-        if table.uuidString == self.uuid!.uuidString {
+    func occupied(at table: Device) {
+        if table.uuid?.uuidString == self.device?.uuid?.uuidString {
             isOcuppied = true
         }
     }
     
-    func released(at table: UUID) {
-        if table.uuidString == self.uuid!.uuidString {
+    func released(at table: Device) {
+        if table.uuid?.uuidString == self.device?.uuid?.uuidString {
             isOcuppied = false
         }
     }

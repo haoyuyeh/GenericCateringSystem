@@ -11,8 +11,8 @@ class TableOrderDetailVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "EatIn", category: "TableOrderDetailVC")
     private var viewModel = TableOrderDetailVCViewModel()
-    /// customer device uuid
-    var uuid: UUID?
+    /// customer device
+    var device: Device?
     var currentOrder: Order?
     var delegate: EatInTableDelegate?
     
@@ -56,7 +56,7 @@ class TableOrderDetailVC: UIViewController {
     
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
         viewModel.checkOut(order: currentOrder!)
-        delegate?.orderCompleted(at: uuid!)
+        delegate?.orderCompleted(at: device!)
     }
 }
 

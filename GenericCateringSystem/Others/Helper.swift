@@ -65,6 +65,65 @@ extension Helper {
             return []
         }
     }
+    
+    func hasChildren(of option: Option) -> Bool {
+        let children = option.children?.allObjects as! [Option]
+        if children.isEmpty {
+            return false
+        }else {
+            return true
+        }
+    }
+    
+    /// This function will retrieve all sub-options of given option or root options of given category
+    /// - Parameters:
+    ///   - targetUUID:
+    ///   - state: option or category
+    /// - Returns:
+    func getAllOption(of target: NSManagedObject, at state: PickItemState) -> [Option] {
+        switch state {
+        case .enterCategory:
+            // get all options which do not have parent and under this category
+            let category = target as! Category
+            return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
+        default:
+            let option = target as! Option
+            return option.children?.allObjects as! [Option]
+        }
+    }
+    /// the data structure of option is link-list like
+    /// therefore, use the end node to back track the whole name and price
+    /// - Parameter option:
+    /// - Returns:
+    func getNameAndUnitPrice(of option: Option) -> (name:String, unitPrice:Double) {
+        var nameReversed: [String] = []
+        var endNode: Option? = option
+        var totalPrice = 0.0
+        
+        repeat {
+            nameReversed.append(endNode!.name ?? "nil")
+            totalPrice += endNode!.price
+            endNode = endNode!.parent
+        }while endNode != nil
+        
+        nameReversed.reverse()
+        
+        var count = 0, name = ""
+        
+        while count < nameReversed.count {
+            switch count {
+            case 0:
+                name = nameReversed[count] + " - "
+            case 1...:
+                name += nameReversed[count]
+                name += ","
+            default:
+                break
+            }
+            count += 1
+        }
+        return (name, totalPrice)
+    }
 }
 
 // MARK: User Input Restraint
@@ -95,7 +154,7 @@ extension Helper {
     }
 }
 
-// MARK: Properties
+// MARK: Others
 extension Helper {
     func activityIndicator(style: UIActivityIndicatorView.Style, center: CGPoint? = nil) -> UIActivityIndicatorView {
         let activityIndicator = UIActivityIndicatorView(style: style)

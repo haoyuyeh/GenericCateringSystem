@@ -49,10 +49,10 @@ class OptionCell: UICollectionViewCell {
 }
 // MARK: CellConfig
 extension OptionCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         option = (target as! Option)
         
-        if cellType.self == MenuEditVC.self {
+        if classType.self == MenuEditVC.self {
             isSelectedImg.isHidden = false
         }
         

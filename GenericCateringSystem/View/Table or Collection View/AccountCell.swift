@@ -30,7 +30,7 @@ class AccountCell: UITableViewCell {
 }
 
 extension AccountCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         let target = target as! Device
         
         idTextField.text = target.name

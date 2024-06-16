@@ -80,16 +80,21 @@ extension Helper {
     ///   - targetUUID:
     ///   - state: option or category
     /// - Returns:
-    func getAllOption(of target: NSManagedObject, at state: PickItemState) -> [Option] {
-        switch state {
-        case .enterCategory:
-            // get all options which do not have parent and under this category
-            let category = target as! Category
-            return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
-        default:
-            let option = target as! Option
-            return option.children?.allObjects as! [Option]
+    func getAllOption(of target: NSManagedObject?, at state: PickItemState) -> [Option] {
+        if let target = target {
+            switch state {
+            case .enterCategory:
+                // get all options which do not have parent and under this category
+                let category = target as! Category
+                return Helper.shared.fetchOption(predicate: NSPredicate(format: "category == %@ AND parent == nil", category))
+            default:
+                let option = target as! Option
+                return option.children?.allObjects as! [Option]
+            }
+        }else {
+            return []
         }
+        
     }
     /// the data structure of option is link-list like
     /// therefore, use the end node to back track the whole name and price

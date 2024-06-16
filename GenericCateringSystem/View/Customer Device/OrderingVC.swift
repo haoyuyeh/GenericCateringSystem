@@ -32,19 +32,7 @@ class OrderingVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "logOut":
-            let destVC = segue.destination as! LogInVC
-            
-            destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-            destVC.currentDevice = currentDevice
-        default:
-            logger.error("unknown segue:\(segue.identifier ?? "nil")")
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateRemoteChanges), name: .NSPersistentStoreRemoteChange, object: PersistenceService.shared.persistentContainer.persistentStoreCoordinator)
     }
     
     // MARK: IBOutlet
@@ -56,6 +44,15 @@ class OrderingVC: UIViewController {
 
 // MARK: Helpler
 extension OrderingVC {
+    @objc func updateRemoteChanges() {
+        guard let currentOrder = currentOrder else {
+            return
+        }
+        if currentOrder.currentState == OrderState.paid.rawValue {
+            self.currentOrder = nil
+        }
+    }
+    
     func config() {
         
         self.tabBarController?.delegate = self
@@ -88,10 +85,11 @@ extension OrderingVC {
             optionCollectionView.reloadData()
         }
     }
-    
-    /// Adding choosed item into current order,
-    /// if not have one, then create
-    func addChoosedItem() {
+}
+
+// MARK: Helpler
+extension OrderingVC: CustomerOptionCellDelegate {
+    func addItem(of option: Option, quantity: Int) {
         if currentOrder == nil {
             currentOrder = viewModel.addNewOrder(at: tableNumber.text!)
         }
@@ -99,45 +97,43 @@ extension OrderingVC {
         viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)
         pickItemState = .enterCategory
         selectedOption = nil
-        
-    }
-}
-
-// MARK: Helpler
-extension OrderingVC: CustomerOptionCellDelegate {
-    func addItem(of option: Option, quantity: Int) {
-        viewModel
     }
 }
 
 // MARK: UICollectionViewDelegate
 extension OrderingVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case optionCollectionView:
+            let cell = optionCollectionView.cellForItem(at: indexPath) as! CustomerOptionCell
+            cell.hidePurchasPart()
+            updateCategorySnapshot()
+        default:
+            break
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case categoryCollectionView:
             pickItemState = .enterCategory
             let cell = categoryCollectionView.cellForItem(at: indexPath) as! CategoryCell
-            selectedCategory = cell.category
             
+            selectedCategory = cell.category
+            updateCategorySnapshot()
             updateOptionSnapshot()
+            
         default:
             let cell = optionCollectionView.cellForItem(at: indexPath) as! CustomerOptionCell
             selectedOption = cell.option
             
             if Helper.shared.hasChildren(of: selectedOption!) {
                 pickItemState = .enterOption
-                cell.plusBtn.isHidden = true
-                cell.quantity.isHidden = true
-                cell.minusBtn.isHidden = true
-                cell.addItemBtn.isHidden = true
                 
                 updateOptionSnapshot()
             }else {
                 pickItemState = .endOfChoic
-                cell.plusBtn.isHidden = false
-                cell.quantity.isHidden = false
-                cell.minusBtn.isHidden = false
-                cell.addItemBtn.isHidden = false
+                cell.showPurchasPart()
             }
         }
     }
@@ -179,7 +175,6 @@ extension OrderingVC {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomerOptionCell", for: indexPath) as! CustomerOptionCell
             
-            cell.option = option
             cell.delegate = self
             cell.configure(with: option, of: type(of: self))
             
@@ -196,9 +191,9 @@ extension OrderingVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption, at: .enterOption), toSection: .all)
         default:
             break
         }

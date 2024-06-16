@@ -34,10 +34,10 @@ class ItemCell: UITableViewCell {
 
 // MARK: CellConfig
 extension ItemCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         let target = target as! Item
         
-        if (cellType.self == MenuVC.self) || (cellType.self == TableOrderDetailVC.self) || (cellType.self == OrderingVC.self) {
+        if (classType.self == MenuVC.self) || (classType.self == TableOrderDetailVC.self) || (classType.self == OrderingVC.self) {
             quantity.isEnabled = true
         }else {
             quantity.isEnabled = false

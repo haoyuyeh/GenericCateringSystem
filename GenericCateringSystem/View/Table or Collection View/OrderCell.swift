@@ -43,12 +43,12 @@ class OrderCell: UITableViewCell {
 
 // MARK: CellConfig
 extension OrderCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         order = (target as! Order)
         
-        if cellType.self == TakeOutOrderVC.self {
+        if classType.self == TakeOutOrderVC.self {
             configTakeOutOrder(with: order!)
-        }else if cellType.self == HistoricalOrderVC.self {
+        }else if classType.self == HistoricalOrderVC.self {
             configHistoricalOrder(with: order!)
         }else {
             logger.error("call from unknown view controller!!!")

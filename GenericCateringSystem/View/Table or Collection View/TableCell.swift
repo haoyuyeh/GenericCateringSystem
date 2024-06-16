@@ -37,7 +37,7 @@ class TableCell: UICollectionViewCell {
 
 // MARK: CellConfig
 extension TableCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         let target = target as! Device
         tableNumber.text = target.number
         peopleServed.text = String(target.person)

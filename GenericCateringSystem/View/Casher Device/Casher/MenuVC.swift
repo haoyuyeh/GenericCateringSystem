@@ -356,9 +356,9 @@ extension MenuVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption, at: .enterOption), toSection: .all)
         default:
             break
         }

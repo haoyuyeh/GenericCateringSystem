@@ -10,7 +10,11 @@ import CoreData
 
 // MARK: Common
 protocol CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type)
+    /// configure a cell which is resided in the view controller of classType with NSManagedObject
+    /// - Parameters:
+    ///   - target:
+    ///   - classType:
+    func configure<T>(with target: NSManagedObject, of classType: T.Type)
 }
 
 protocol ShowMsgDelegate {

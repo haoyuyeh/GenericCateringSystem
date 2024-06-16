@@ -223,6 +223,9 @@ extension MenuEditVC {
                 self.optionCollectionView.deselectItem(at: $0, animated: false)}
         }
         optionDelegate?.isEnterDeleteMode(value: !deleteBtn.isHidden)
+        DispatchQueue.main.async { [unowned self] in
+            updateOptionSnapshot()
+        }
     }
     
     
@@ -396,9 +399,9 @@ extension MenuEditVC {
         
         switch pickItemState {
         case .enterCategory:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory!, at: .enterCategory), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedCategory, at: .enterCategory), toSection: .all)
         case .enterOption:
-            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption!, at: .enterOption), toSection: .all)
+            snapshot.appendItems(Helper.shared.getAllOption(of: selectedOption, at: .enterOption), toSection: .all)
         default:
             break
         }

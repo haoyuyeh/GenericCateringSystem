@@ -13,6 +13,10 @@ class CategoryCell: UICollectionViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "Table or Collection View", category: "CategoryCell")
     
+    private var widthConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+    
+    var widthOrHeight: Bool?
     var category: Category?
     var isEnterDeleteMode: Bool {
         didSet {
@@ -40,9 +44,9 @@ class CategoryCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet{
             if isSelected {
-                self.backgroundColor = UIColor.systemYellow
-            }else {
                 self.backgroundColor = UIColor.white
+            }else {
+                self.backgroundColor = UIColor.systemYellow
             }
         }
     }
@@ -52,6 +56,21 @@ class CategoryCell: UICollectionViewCell {
         cellIsChoosed = false
         super.init(coder: coder)
     }
+    
+    override func updateConstraints() {
+        if widthOrHeight! {
+            widthConstraint = contentView.widthAnchor.constraint(equalToConstant: 0)
+            widthConstraint?.constant = superview?.bounds.width ?? 0
+            widthConstraint?.isActive = true
+        }else {
+            // for MenuVC and MenuEditVC
+            heightConstraint = contentView.heightAnchor.constraint(equalToConstant: 0)
+            heightConstraint?.constant = superview?.bounds.height ?? 0
+            heightConstraint?.isActive = true
+        }
+        super.updateConstraints()
+    }
+    
     // MARK: IBOutlet
     /// use to mark whether this cell will be delete or not
     @IBOutlet weak var isSelectedImg: UIImageView!
@@ -60,9 +79,16 @@ class CategoryCell: UICollectionViewCell {
 
 // MARK: CellConfig
 extension CategoryCell: CellConfig {
-    func configure<T>(with target: NSManagedObject, of cellType: T.Type) {
+    func configure<T>(with target: NSManagedObject, of classType: T.Type) {
         category = (target as! Category)
-        if cellType.self == MenuEditVC.self {
+        
+        if classType.self == OrderingVC.self {
+            widthOrHeight = true
+        }else {
+            // for MenuVC and MenuEditVC
+            widthOrHeight = false
+        }
+        if classType.self == MenuEditVC.self {
             isSelectedImg.isHidden = false
         }
         

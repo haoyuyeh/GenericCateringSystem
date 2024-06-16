@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B0271662C1D8472007CD23A /* CustomerOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0271652C1D8472007CD23A /* CustomerOptionCell.swift */; };
+		7B0271682C1EB4D3007CD23A /* OrderDetailVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0271672C1EB4D3007CD23A /* OrderDetailVCViewModel.swift */; };
 		7B3789B22AE293080001EC9B /* Display.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B12AE293080001EC9B /* Display.storyboard */; };
 		7B3789B52AE297F20001EC9B /* Customer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3789B42AE297F20001EC9B /* Customer.storyboard */; };
 		7B45EA462BF5A67B00B9B02E /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B45EA452BF5A67B00B9B02E /* SalesView.swift */; };
@@ -79,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		7B0271652C1D8472007CD23A /* CustomerOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOptionCell.swift; sourceTree = "<group>"; };
+		7B0271672C1EB4D3007CD23A /* OrderDetailVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailVCViewModel.swift; sourceTree = "<group>"; };
 		7B3789B12AE293080001EC9B /* Display.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Display.storyboard; sourceTree = "<group>"; };
 		7B3789B42AE297F20001EC9B /* Customer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Customer.storyboard; sourceTree = "<group>"; };
 		7B45EA452BF5A67B00B9B02E /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
@@ -162,6 +164,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1292292C1EB4FC0004DEEB /* Customer Device */ = {
+			isa = PBXGroup;
+			children = (
+				7B8506762BF9C9F200F66FD3 /* OrderingVCViewModel.swift */,
+				7B0271672C1EB4D3007CD23A /* OrderDetailVCViewModel.swift */,
+			);
+			path = "Customer Device";
+			sourceTree = "<group>";
+		};
 		7B3789B32AE293440001EC9B /* Display Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,7 +306,7 @@
 				7BE778252AF48B1B00BE47FA /* Log In */,
 				7BE778652AF7654000BE47FA /* Casher Device */,
 				7B45EA4D2BF8362900B9B02E /* Display Device */,
-				7B8506762BF9C9F200F66FD3 /* OrderingVCViewModel.swift */,
+				7B1292292C1EB4FC0004DEEB /* Customer Device */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -553,6 +564,7 @@
 				7BF84B7C2BEB5C8900C5944C /* HistoricalOrderVC.swift in Sources */,
 				7BE778542AF52F6300BE47FA /* Device+CoreDataClass.swift in Sources */,
 				7BF84B612BE9EC4900C5944C /* EatInVCViewModel.swift in Sources */,
+				7B0271682C1EB4D3007CD23A /* OrderDetailVCViewModel.swift in Sources */,
 				7BE778592AF62D5900BE47FA /* AccountVC.swift in Sources */,
 				7BE778522AF52F6300BE47FA /* Category+CoreDataClass.swift in Sources */,
 				7BF84B652BE9FDD300C5944C /* Enums.swift in Sources */,

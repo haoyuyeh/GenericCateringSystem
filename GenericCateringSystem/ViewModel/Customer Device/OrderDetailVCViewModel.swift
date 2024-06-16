@@ -13,3 +13,17 @@ class OrderDetailVCViewModel {
     private let logger = Logger(subsystem: "Customer", category: "OrderDetailVCViewModel")
     
 }
+
+// MARK: Item Table View
+extension OrderDetailVCViewModel {
+    func getAllItems(currentOrder: Order?) -> [Item] {
+        guard let currentOrder = currentOrder else {
+            return []
+        }
+        return currentOrder.items?.allObjects as! [Item]
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
+    }
+}

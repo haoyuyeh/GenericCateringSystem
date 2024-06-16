@@ -33,13 +33,8 @@ extension MenuEditVCViewModel {
     }
     
     func deleteCategory(targets: [NSManagedObject]) {
-        
         for target in targets {
             PersistenceService.shared.delete(object: target)
-
-//            let category = Helper.shared.fetchCategory(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
-//            PersistenceService.shared.delete(object: category)
-//            logger.debug("category number in database: \(Helper.shared.fetchCategory(predicate: NSPredicate(value: true)))")
         }
     }
 }
@@ -93,7 +88,6 @@ extension MenuEditVCViewModel {
     
     func deleteOption(targets: [NSManagedObject]) {
         for target in targets {
-//            let option = Helper.shared.fetchOption(predicate: NSPredicate(format: "uuid == %@", target as CVarArg))[0]
             PersistenceService.shared.delete(object: target)
         }
     }

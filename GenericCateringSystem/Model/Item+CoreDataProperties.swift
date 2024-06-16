@@ -2,7 +2,7 @@
 //  Item+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/11/3.
+//  Created by Hao Yu Yeh on 2024/6/16.
 //
 //
 
@@ -24,6 +24,8 @@ extension Item {
     @NSManaged public var price: Double
     @NSManaged public var quantity: Int16
     @NSManaged public var uuid: UUID?
+    /// indicate how many portions are served
+    @NSManaged public var served: Int16
     @NSManaged public var orderedBy: Order?
 
 }

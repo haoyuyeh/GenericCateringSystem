@@ -32,13 +32,13 @@ class CustomerOptionCell: UICollectionViewCell {
     // MARK: IBAction
 
     @IBAction func plusBtnPressed(_ sender: UIButton) {
-        let quantity = Int(self.quantity.text ?? "1")
+        let quantity = Int(self.quantity.text!)
         
         self.quantity.text = String(quantity! + 1)
     }
     
     @IBAction func minusBtnPressed(_ sender: UIButton) {
-        let quantity = Int(self.quantity.text ?? "1")
+        let quantity = Int(self.quantity.text!)
 
         guard quantity! > 1 else {
             return
@@ -48,8 +48,8 @@ class CustomerOptionCell: UICollectionViewCell {
     }
     
     @IBAction func addItemBtnPressed(_ sender: UIButton) {
-        let quantity = Int(self.quantity.text ?? "1")
-        
+        let quantity = Int(self.quantity.text!)
+        logger.debug("add: \(quantity!)")
         delegate?.addItem(of: option!, quantity: quantity!)
         hidePurchasPart()
     }

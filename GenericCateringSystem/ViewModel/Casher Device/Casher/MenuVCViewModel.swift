@@ -72,10 +72,8 @@ extension MenuVCViewModel {
                 $0.name! < $1.name!
             }
         }
+        delegate?.totalSumChanged(to: Helper.shared.updateTotalSum(currentOrderedItems: currentOrderedItems))
         saveAll()
-        logger.debug("add item:\(order)\n")
-
-        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// check whether the new item exists in the order,
@@ -101,8 +99,8 @@ extension MenuVCViewModel {
         
         let deletedItem = currentOrderedItems.remove(at: index)
         PersistenceService.shared.delete(object: deletedItem)
+        delegate?.totalSumChanged(to: Helper.shared.updateTotalSum(currentOrderedItems: currentOrderedItems))
         saveAll()
-        delegate?.totalSumChanged(to: updateTotalSum())
     }
     
     /// 1. change the quantity of item at itemIndex position to newQuantity
@@ -112,8 +110,8 @@ extension MenuVCViewModel {
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
+        delegate?.totalSumChanged(to: Helper.shared.updateTotalSum(currentOrderedItems: currentOrderedItems))
         saveAll()
-        delegate?.totalSumChanged(to: updateTotalSum())
     }
 }
 
@@ -174,23 +172,5 @@ extension MenuVCViewModel {
     
     func saveAll() {
         PersistenceService.shared.saveContext()
-    }
-    
-    private func updateTotalSum() -> Double {
-        guard currentOrderedItems != [] else {
-            return 0.0
-        }
-        
-        var sum = 0.0
-        for item in currentOrderedItems {
-            sum += item.price * Double(item.quantity)
-            logger.debug("item:\(item)\n")
-        }
-        // update to core data
-        currentOrderedItems[0].orderedBy?.totalSum = sum
-        logger.debug("update total sum:\(self.currentOrderedItems[0].orderedBy)\n")
-        
-        saveAll()
-        return sum
     }
 }

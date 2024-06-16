@@ -112,7 +112,7 @@ class MenuVC: UIViewController {
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: UITextViewDelegate
 extension MenuVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {

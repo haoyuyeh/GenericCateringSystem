@@ -13,6 +13,7 @@ class ItemCell: UITableViewCell {
     private let logger = Logger(subsystem: "Table or Collection View", category: "ItemCell")
     
     var delegate: TextFieldChangedDelegate?
+    var item: Item?
     var indexPath: IndexPath?
     
     @IBOutlet weak var name: UILabel!
@@ -35,16 +36,20 @@ class ItemCell: UITableViewCell {
 // MARK: CellConfig
 extension ItemCell: CellConfig {
     func configure<T>(with target: NSManagedObject, of classType: T.Type) {
-        let target = target as! Item
+        item = (target as! Item)
         
         if (classType.self == MenuVC.self) || (classType.self == TableOrderDetailVC.self) || (classType.self == OrderingVC.self) {
             quantity.isEnabled = true
         }else {
             quantity.isEnabled = false
         }
-        
-        name.text = target.name
-        unitPrice.text = "$\(String(target.price))"
-        quantity.text = "\(String(target.quantity))"
+        if classType == OrderDetailVC.self {
+            name.text = "\(item!.name ?? "nil") ( \(item!.quantity) )"
+            quantity.text = "\(item!.quantity - item!.served) Left"
+        }else {
+            name.text = item!.name
+            unitPrice.text = "$\(String(item!.price))"
+            quantity.text = "\(String(item!.quantity))"
+        }
     }
 }

@@ -57,6 +57,7 @@ extension OrderingVC {
         
         self.tabBarController?.delegate = self
         tableNumber.text = "Table #\(currentDevice?.number ?? "nil")"
+        currentOrder = viewModel.checkOngoingOrder(at: tableNumber.text!)
         
         categoryCollectionView.dataSource = categoryDataSource
         optionCollectionView.dataSource = optionDataSource
@@ -87,14 +88,15 @@ extension OrderingVC {
     }
 }
 
-// MARK: Helpler
+// MARK: CustomerOptionCellDelegate
 extension OrderingVC: CustomerOptionCellDelegate {
     func addItem(of option: Option, quantity: Int) {
         if currentOrder == nil {
             currentOrder = viewModel.addNewOrder(at: tableNumber.text!)
         }
-        
-        viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!)
+        logger.debug("additem: \(quantity)")
+
+        viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!, quantity: quantity)
         pickItemState = .enterCategory
         selectedOption = nil
     }
@@ -210,10 +212,11 @@ extension OrderingVC: UITabBarControllerDelegate {
         case 0:
             let vc = viewController as! OrderingVC
             vc.currentDevice = currentDevice
-            
+
         case 1:
             let vc = viewController as! OrderDetailVC
-            
+            vc.currentDevice = currentDevice
+            vc.currentOrder = currentOrder
         default:
             logger.error("unrecognized view controller")
         }

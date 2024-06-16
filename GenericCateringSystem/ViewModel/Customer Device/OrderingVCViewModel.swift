@@ -25,12 +25,12 @@ extension OrderingVCViewModel {
     ///   - order:
     ///   - option:
     ///   - q:
-    func addNewItem(currentOrder order: Order, selectedOption option: Option) {
+    func addNewItem(currentOrder order: Order, selectedOption option: Option, quantity: Int) {
         let newItem = Item(context: PersistenceService.shared.persistentContainer.viewContext)
         newItem.uuid = UUID()
         // use option to trace back the correct item name and price
         (newItem.name, newItem.price) = Helper.shared.getNameAndUnitPrice(of: option)
-        newItem.quantity = 1
+        newItem.quantity = Int16(quantity)
         
         let isExisted = isItemExisted(newItem: newItem)
         if isExisted.result {
@@ -43,6 +43,7 @@ extension OrderingVCViewModel {
                 $0.name! < $1.name!
             }
         }
+        order.totalSum = Helper.shared.updateTotalSum(currentOrderedItems: currentOrderedItems)
         saveAll()
     }
     
@@ -73,7 +74,29 @@ extension OrderingVCViewModel {
 
 // MARK: Helper Functions
 extension OrderingVCViewModel {
-    /// 
+    /// check if there is order in eating state under the tableNumber.
+    /// - Returns: nil for no ongoing order
+    func checkOngoingOrder(at tableNumber: String) -> Order? {
+        let startDate = Date().startOfDay
+        let p1 = NSPredicate(format: "establishedDate >= %@", startDate as CVarArg)
+        let p2 = NSPredicate(format: "number == %@", tableNumber)
+        let p3 = NSPredicate(format: "currentState == %i", Int16(OrderState.eating.rawValue))
+        let p = NSCompoundPredicate(type: .and, subpredicates: [p1, p2, p3])
+        let orders = Helper.shared.fetchOrder(predicate: p)
+        logger.debug("orders in eating state: \(orders)")
+
+        if orders.count == 0{
+            return nil
+        }else {
+            currentOrderedItems = orders[0].items?.allObjects as! [Item]
+            currentOrderedItems = currentOrderedItems.sorted{
+                $0.name! < $1.name!
+            }
+            return orders[0]
+        }
+    }
+    
+    /// create a new one
     /// - Parameter tableNumber:
     /// - Returns:
     func addNewOrder(at tableNumber: String) -> Order {

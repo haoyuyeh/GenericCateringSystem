@@ -129,6 +129,23 @@ extension Helper {
         }
         return (name, totalPrice)
     }
+    
+    func updateTotalSum(currentOrderedItems: [Item]) -> Double {
+        guard currentOrderedItems != [] else {
+            return 0.0
+        }
+        
+        var sum = 0.0
+        for item in currentOrderedItems {
+            sum += item.price * Double(item.quantity)
+            logger.debug("item:\(item)\n")
+        }
+        // update to core data
+        currentOrderedItems[0].orderedBy?.totalSum = sum
+        logger.debug("update total sum:\(currentOrderedItems[0].orderedBy)\n")
+        
+        return sum
+    }
 }
 
 // MARK: User Input Restraint

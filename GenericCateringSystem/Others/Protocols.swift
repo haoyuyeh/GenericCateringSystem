@@ -46,18 +46,7 @@ protocol TotalSumDelegate {
 
 // MARK: EatInVC
 protocol EatInTableDelegate {
-    func orderCompleted(at table: Device)
-    func occupied(at table: Device)
-    func released(at table: Device)
-    func tableOccupied()
-    func tableReleased()
-}
-extension EatInTableDelegate {
-    func orderCompleted(at table: Device) {}
-    func occupied(at table: Device) {}
-    func released(at table: Device) {}
-    func tableOccupied() {}
-    func tableReleased() {}
+    func orderCompleted(at table: IndexPath)
 }
 
 // MARK: OrderCell

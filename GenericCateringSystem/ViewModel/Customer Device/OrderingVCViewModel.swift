@@ -76,24 +76,17 @@ extension OrderingVCViewModel {
 extension OrderingVCViewModel {
     /// check if there is order in eating state under the tableNumber.
     /// - Returns: nil for no ongoing order
-    func checkOngoingOrder(at tableNumber: String) -> Order? {
-        let startDate = Date().startOfDay
-        let p1 = NSPredicate(format: "establishedDate >= %@", startDate as CVarArg)
-        let p2 = NSPredicate(format: "number == %@", tableNumber)
-        let p3 = NSPredicate(format: "currentState == %i", Int16(OrderState.eating.rawValue))
-        let p = NSCompoundPredicate(type: .and, subpredicates: [p1, p2, p3])
-        let orders = Helper.shared.fetchOrder(predicate: p)
-        logger.debug("orders in eating state: \(orders)")
+    func checkOngoingOrder(of table: Device) -> (result: Bool, order: Order?) {
+        let outcome = Helper.shared.hasOngoingOrder(of: table)
 
-        if orders.count == 0{
-            return nil
-        }else {
-            currentOrderedItems = orders[0].items?.allObjects as! [Item]
+
+        if outcome.result {
+            currentOrderedItems = outcome.order!.items?.allObjects as! [Item]
             currentOrderedItems = currentOrderedItems.sorted{
                 $0.name! < $1.name!
             }
-            return orders[0]
         }
+        return outcome
     }
     
     /// create a new one

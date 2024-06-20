@@ -11,8 +11,8 @@ class TableOrderDetailVC: UIViewController {
     // MARK: Properties
     private let logger = Logger(subsystem: "EatIn", category: "TableOrderDetailVC")
     private var viewModel = TableOrderDetailVCViewModel()
-    /// customer device
-    var device: Device?
+    // for indentifying which cell in the collectionview
+    var indexPath: IndexPath?
     var currentOrder: Order?
     var delegate: EatInTableDelegate?
     
@@ -22,8 +22,6 @@ class TableOrderDetailVC: UIViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         config()
-        itemTableView.dataSource = itemDataSource
-        updateItemSnapShot()
     }
     
     // MARK: IBOutlet
@@ -56,7 +54,8 @@ class TableOrderDetailVC: UIViewController {
     
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
         viewModel.checkOut(order: currentOrder!)
-        delegate?.orderCompleted(at: device!)
+        delegate?.orderCompleted(at: indexPath!)
+        dismiss(animated: false)
     }
 }
 
@@ -65,12 +64,15 @@ extension TableOrderDetailVC {
     func config() {
         switch Int(currentOrder!.type) {
         case OrderType.eatIn.rawValue:
-            orderTitle.text = "Table #\(currentOrder?.number ?? "nil")"
+            orderTitle.text = "\(currentOrder?.number ?? "nil")"
         default:
             orderTitle.text = "error order type"
         }
-        totalSum.titleLabel?.text = "$\(String(currentOrder?.totalSum ?? 0))"
+        totalSum.setTitle("$\(String(currentOrder?.totalSum ?? 0))", for: .normal)
         notes.text = currentOrder?.comments
+        
+        itemTableView.dataSource = itemDataSource
+        updateItemSnapShot()
     }
 }
 

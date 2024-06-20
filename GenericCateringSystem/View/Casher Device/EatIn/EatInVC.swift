@@ -12,7 +12,6 @@ class EatInVC: UIViewController {
     private let logger = Logger(subsystem: "EatIn", category: "EatInVC")
     private var viewModel = EatInVCViewModel()
     var currentDevice: Device?
-    var delegate: EatInTableDelegate?
     
     typealias TableDataSource = UICollectionViewDiffableDataSource<TableSection, Device>
     typealias TableSnapShot = NSDiffableDataSourceSnapshot<TableSection, Device>
@@ -35,7 +34,14 @@ class EatInVC: UIViewController {
             
             destVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             destVC.currentDevice = currentDevice
+        case "showTableDetail":
+            let sender = sender as! TableCell
+            let destVC = segue.destination as! TableOrderDetailVC
             
+            destVC.indexPath = sender.indexPath
+            destVC.currentOrder = sender.ongoingOrder
+            logger.debug("order: \(destVC.currentOrder)")
+            destVC.delegate = self
         default:
             logger.error("unknown segue")
             
@@ -44,25 +50,13 @@ class EatInVC: UIViewController {
     
     // MARK: IBOutlet
     @IBOutlet weak var tableCollectionView: UICollectionView!
-    
-    @IBSegueAction func showTableDetail(_ coder: NSCoder, sender: Any?) -> TableOrderDetailVC {
-        let sender = sender as! TableCell
-        let outcome = viewModel.hasOngoingOrder(of: sender.device)
-        let destVC = TableOrderDetailVC()
-        
-        destVC.device = sender.device
-        destVC.currentOrder = outcome.order
-        destVC.delegate = self
-        
-        return destVC
-    }
 }
 
 // MARK: - CheckOutDelegate
 extension EatInVC: EatInTableDelegate {
-    func orderCompleted(at table: Device) {
-        delegate?.tableReleased()
-        //        delegate?.released(at: table)
+    func orderCompleted(at table: IndexPath) {
+        let cell = tableCollectionView.cellForItem(at: table) as! TableCell
+        cell.tableReleased()
     }
 }
 
@@ -72,17 +66,10 @@ extension EatInVC: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! TableCell
         
         if cell.isOcuppied {
-            // should check order state before segue to table order details VC
-            let outcome = viewModel.hasOngoingOrder(of: cell.device)
-        
-            if outcome.result {
-                performSegue(withIdentifier: "showTableDetail", sender: cell)
-            }else {
-                self.showAlert(alertTitle: "Warning", message: "Not Order Yet")
-            }
+            performSegue(withIdentifier: "showTableDetail", sender: cell)
         }else {
-            delegate?.tableOccupied()
-//            delegate?.occupied(at: cell.uuid!)
+            cell.tableOccupied()
+            cell.ongoingOrder = viewModel.addNewOrder(at: "Table #\(cell.tableNumber.text ?? "nil")")
         }
     }
 }
@@ -94,9 +81,8 @@ extension EatInVC {
             (collectionView, indexPath, device) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCell", for: indexPath) as! TableCell
             
-            cell.device = device
+            cell.indexPath = indexPath
             cell.configure(with: device, of: type(of: self))
-            self.delegate = cell
             
             return cell
         }

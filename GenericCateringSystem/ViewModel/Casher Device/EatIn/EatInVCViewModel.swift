@@ -6,6 +6,7 @@
 //
 
 import OSLog
+import CoreData
 
 class EatInVCViewModel {
     // MARK: Properties
@@ -17,16 +18,25 @@ extension EatInVCViewModel {
         return Helper.shared.fetchDevice(predicate: NSPredicate(format: "roll == %@", Roll.customer.rawValue))
     }
     
-    func hasOngoingOrder(of table: Device?) -> (result: Bool, order: Order?) {
-        let device = Helper.shared.fetchDevice(predicate: NSPredicate(format: "uuid == %@", table!.uuid! as CVarArg))
-        let p1 = NSPredicate(format: "number == %@ AND currentState == %d", device[0].number ?? "nil", OrderState.eating.rawValue)
-        let order = Helper.shared.fetchOrder(predicate: p1)
-        logger.debug("device: \(device)")
-        logger.debug("order: \(order)")
-        if order.count > 0 {
-            return (true, order[0])
-        }else {
-            return (false, nil)
-        }
+    /// create a new order for eat-in
+    /// - Parameter tableNumber:
+    /// - Returns:
+    func addNewOrder(at tableNumber: String) -> Order {
+        let currentOrder = Order(context: PersistenceService.shared.persistentContainer.viewContext)
+        
+        currentOrder.uuid = UUID()
+        currentOrder.establishedDate = Date()
+        currentOrder.currentState = Int16(OrderState.eating.rawValue)
+        currentOrder.isTakeOut = false
+        currentOrder.number = tableNumber
+        currentOrder.type = Int16(OrderType.eatIn.rawValue)
+        currentOrder.totalSum = 0.0
+        saveAll()
+        
+        return currentOrder
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
     }
 }

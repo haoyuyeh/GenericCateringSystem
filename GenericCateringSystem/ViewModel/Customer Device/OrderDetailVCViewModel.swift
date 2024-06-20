@@ -20,7 +20,10 @@ extension OrderDetailVCViewModel {
         guard let currentOrder = currentOrder else {
             return []
         }
-        return currentOrder.items?.allObjects as! [Item]
+        let items = currentOrder.items?.allObjects as! [Item]
+        logger.debug("items: \(items)")
+        return items
+//        return currentOrder.items?.allObjects as! [Item]
     }
     
     func saveAll() {

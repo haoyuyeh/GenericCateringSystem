@@ -146,6 +146,26 @@ extension Helper {
         
         return sum
     }
+    
+    /// checking if today has ongoing eat-in order under the table
+    /// - Parameter table:
+    /// - Returns:
+    func hasOngoingOrder(of table: Device) -> (result: Bool, order: Order?) {
+        let device = Helper.shared.fetchDevice(predicate: NSPredicate(format: "uuid == %@", table.uuid! as CVarArg))
+        let startDate = Date().startOfDay
+        let p1 = NSPredicate(format: "establishedDate >= %@", startDate as CVarArg)
+        let p2 = NSPredicate(format: "number == %@", "Table #\(device[0].number ?? "nil")")
+        let p3 = NSPredicate(format: "currentState == %i", Int16(OrderState.eating.rawValue))
+        let p = NSCompoundPredicate(type: .and, subpredicates: [p1, p2, p3])
+        let orders = Helper.shared.fetchOrder(predicate: p)
+        logger.debug("orders in eating state: \(orders)")
+
+        if orders.count > 0 {
+            return (true, orders[0])
+        }else {
+            return (false, nil)
+        }
+    }
 }
 
 // MARK: User Input Restraint

@@ -11,11 +11,23 @@ import CoreData
 class CustomerOptionCell: UICollectionViewCell {
     // MARK: Properties
     private let logger = Logger(subsystem: "Customer", category: "CustomerOptionCell")
+    
     var option: Option?
     var delegate: CustomerOptionCellDelegate?
     
+    private var widthConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
     
-    
+    override func updateConstraints() {
+        // 2X3 metrix
+        widthConstraint = contentView.widthAnchor.constraint(equalToConstant: 0)
+        widthConstraint?.constant = (superview?.bounds.width ?? 0) * 0.3
+        widthConstraint?.isActive = true
+        heightConstraint = contentView.heightAnchor.constraint(equalToConstant: 0)
+        heightConstraint?.constant = (superview?.bounds.height ?? 0) * 0.45
+        heightConstraint?.isActive = true
+        super.updateConstraints()
+    }
     
     // MARK: IBOutlet
 

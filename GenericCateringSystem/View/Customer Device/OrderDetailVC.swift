@@ -15,7 +15,6 @@ class OrderDetailVC: UIViewController {
     private var viewModel = OrderDetailVCViewModel()
     var currentDevice: Device?
     var currentOrder: Order?
-//    var isGranted: Bool = false
     
     typealias ItemDataSource = UITableViewDiffableDataSource<ItemSection, Item>
     typealias ItemSnapShot = NSDiffableDataSourceSnapshot<ItemSection, Item>
@@ -25,6 +24,9 @@ class OrderDetailVC: UIViewController {
         config()
     }
     
+    override func viewDidLoad() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateRemoteChanges), name: .NSPersistentStoreRemoteChange, object: PersistenceService.shared.persistentContainer.persistentStoreCoordinator)
+    }
     
     // MARK: IBOulets
     @IBOutlet weak var tableNumber: UILabel!
@@ -81,7 +83,6 @@ class OrderDetailVC: UIViewController {
         
         let ok = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
             if passwordValidation(inputPW: alert.textFields?[0].text) {
-//                isGranted = true
                 doneBtn.isHidden = false
                 itemTableView.isUserInteractionEnabled = true
             }else {
@@ -97,18 +98,31 @@ class OrderDetailVC: UIViewController {
     }
     
     @IBAction func doneBtnPressed(_ sender: UIButton) {
-//        isGranted = false
         doneBtn.isHidden = true
         itemTableView.isUserInteractionEnabled = false
     }
 }
 
 extension OrderDetailVC {
+    @objc func updateRemoteChanges() {
+        let outcome = Helper.shared.hasOngoingOrder(of: currentDevice!)
+        
+        guard outcome.result else {
+            currentOrder = nil
+            DispatchQueue.main.async { [unowned self] in
+                sum.text = "$0.0"
+                updateItemSnapshot()
+            }
+            return
+        }
+        currentOrder = outcome.order
+    }
+    
     func config() {
         self.tabBarController?.delegate = self
         tableNumber.text = "Table #\(currentDevice?.number ?? "nil")"
         doneBtn.isHidden = true
-        sum.text = "\(currentOrder!.totalSum)"
+        sum.text = "$\(currentOrder?.totalSum ?? 0.0)"
         
         itemTableView.isUserInteractionEnabled = false
         itemTableView.dataSource = itemDataSource

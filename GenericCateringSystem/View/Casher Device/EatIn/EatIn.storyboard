@@ -34,7 +34,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="rectangle.portrait.and.arrow.forward" catalog="system"/>
                                         <connections>
-                                            <segue destination="sg4-nb-pFk" kind="presentation" identifier="logOut" id="1Fk-iS-7bK"/>
+                                            <segue destination="sg4-nb-pFk" kind="presentation" identifier="logOut" destinationCreationSelector="as:" id="1Fk-iS-7bK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -126,7 +126,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableCollectionView" destination="JB3-5O-cwR" id="Jma-aU-cec"/>
-                        <segue destination="Jpt-Mk-ejk" kind="presentation" identifier="showTableDetail" destinationCreationSelector="showTableDetail:sender:segueIdentifier:" id="qiw-ew-rH2"/>
+                        <segue destination="Jpt-Mk-ejk" kind="presentation" identifier="showTableDetail" destinationCreationSelector="showTableDetail:sender:" id="qiw-ew-rH2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -15,6 +15,20 @@ class OrderingVC: UIViewController {
     var currentDevice: Device?
     var currentOrder: Order?
     
+    private var hasOrder: Bool = false {
+        didSet {
+            DispatchQueue.main.async { [unowned self] in
+                if hasOrder {
+                    
+                    categoryCollectionView.isUserInteractionEnabled = true
+                    optionCollectionView.isUserInteractionEnabled = true
+                }else {
+                    categoryCollectionView.isUserInteractionEnabled = false
+                    optionCollectionView.isUserInteractionEnabled = false
+                }
+            }
+        }
+    }
     private var pickItemState = PickItemState.enterCategory
     private var selectedCategory: Category?
     private var selectedOption: Option?
@@ -45,19 +59,13 @@ class OrderingVC: UIViewController {
 // MARK: Helpler
 extension OrderingVC {
     @objc func updateRemoteChanges() {
-        guard let currentOrder = currentOrder else {
-            return
-        }
-        if currentOrder.currentState == OrderState.paid.rawValue {
-            self.currentOrder = nil
-        }
+        checkHasOngoingOrder()
     }
     
     func config() {
-        
         self.tabBarController?.delegate = self
         tableNumber.text = "Table #\(currentDevice?.number ?? "nil")"
-        currentOrder = viewModel.checkOngoingOrder(at: tableNumber.text!)
+        checkHasOngoingOrder()
         
         categoryCollectionView.dataSource = categoryDataSource
         optionCollectionView.dataSource = optionDataSource
@@ -71,19 +79,15 @@ extension OrderingVC {
     }
     
     /// called when the order completed or aborted
-    func reset() {
-        viewModel.clearCurrentOrderedItems()
-        
-        currentOrder = nil
-        pickItemState = .enterCategory
-        selectedOption = nil
-       
-        DispatchQueue.main.async { [unowned self] in
-            updateCategorySnapshot()
-            updateOptionSnapshot()
-            
-            categoryCollectionView.reloadData()
-            optionCollectionView.reloadData()
+    func checkHasOngoingOrder() {
+        let outcome = viewModel.checkOngoingOrder(of: currentDevice!)
+        if outcome.result {
+            currentOrder = outcome.order
+            hasOrder = true
+        }else {
+            currentOrder = nil
+            hasOrder = false
+            viewModel.clearCurrentOrderedItems()
         }
     }
 }
@@ -91,16 +95,26 @@ extension OrderingVC {
 // MARK: CustomerOptionCellDelegate
 extension OrderingVC: CustomerOptionCellDelegate {
     func addItem(of option: Option, quantity: Int) {
-        if currentOrder == nil {
-            currentOrder = viewModel.addNewOrder(at: tableNumber.text!)
-        }
         logger.debug("additem: \(quantity)")
-
+        
         viewModel.addNewItem(currentOrder: currentOrder!, selectedOption: selectedOption!, quantity: quantity)
         pickItemState = .enterCategory
         selectedOption = nil
     }
 }
+// MARK: UICollectionViewDelegateFlowLayout
+extension OrderingVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // left align if only one item
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: collectionView.frame.width - flowLayout.itemSize.width)
+        }
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+}
+
 
 // MARK: UICollectionViewDelegate
 extension OrderingVC: UICollectionViewDelegate {
@@ -212,7 +226,7 @@ extension OrderingVC: UITabBarControllerDelegate {
         case 0:
             let vc = viewController as! OrderingVC
             vc.currentDevice = currentDevice
-
+            
         case 1:
             let vc = viewController as! OrderDetailVC
             vc.currentDevice = currentDevice

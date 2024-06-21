@@ -18,24 +18,26 @@ class TableOrderDetailVCViewModel {
 extension TableOrderDetailVCViewModel {
     func discount(for order: Order?, rate: Double) {
         order?.totalSum = (order?.totalSum ?? 0.0) * rate
+        saveAll()
     }
     
     func checkOut(order: Order) {
         order.currentState = Int16(OrderState.paid.rawValue)
-        PersistenceService.shared.saveContext()
+        saveAll()
     }
     
     func updateNotes(of order: Order, to notes: String) {
         order.comments = notes
+        saveAll()
     }
     
-    private func updateTotalSum() -> Double {
+    private func updateTotalSum(of order: Order) -> Double {
         var sum = 0.0
         for item in currentOrderedItems {
             sum += item.price * Double(item.quantity)
         }
         // update to core data
-        currentOrderedItems[0].orderedBy?.totalSum = sum
+        order.totalSum = sum
         
         return sum
     }
@@ -44,30 +46,14 @@ extension TableOrderDetailVCViewModel {
 // MARK: Ordered Item TableView
 extension TableOrderDetailVCViewModel {
     func getAllItems(of order: Order) -> [Item] {
-        currentOrderedItems = order.items?.allObjects as! [Item]
+        if let items = order.items {
+            currentOrderedItems = items.allObjects as! [Item]
+            currentOrderedItems = currentOrderedItems.sorted { $0.name! <= $1.name! }
+        }else {
+            currentOrderedItems = []
+        }
         
         return currentOrderedItems
-    }
-    
-    /// get name of item at index position from current order
-    /// - Parameter index:
-    /// - Returns: item name
-    func getItemName(at index: Int) -> String {
-        return currentOrderedItems[index].name ?? "nil"
-    }
-    
-    /// get unit price of item at index position from current order
-    /// - Parameter index:
-    /// - Returns:
-    func getItemUnitPrice(at index: Int) -> String {
-        return "$\(String(currentOrderedItems[index].price))"
-    }
-    
-    /// get quantiy of item at index position from current order
-    /// - Parameter index:
-    /// - Returns: quantity of item
-    func getItemQuantity(at index: Int) -> String {
-        return String(currentOrderedItems[index].quantity)
     }
     
     /// 1. delete item at index position and coredata from order
@@ -75,8 +61,10 @@ extension TableOrderDetailVCViewModel {
     /// - Parameter index:
     func deleteItem(at index: Int) {
         let deletedItem = currentOrderedItems.remove(at: index)
+        let order = deletedItem.orderedBy
         PersistenceService.shared.delete(object: deletedItem)
-        delegate?.totalSumChanged(to: updateTotalSum())
+        delegate?.totalSumChanged(to: updateTotalSum(of: order!))
+        saveAll()
     }
     
     /// 1. change the quantity of item at itemIndex position to newQuantity
@@ -85,7 +73,14 @@ extension TableOrderDetailVCViewModel {
     ///   - itemIndex:
     ///   - newQuantity:
     func changeQuantity(of itemIndex: Int, to newQuantity: Int) {
+        let order = currentOrderedItems[itemIndex].orderedBy
+
         currentOrderedItems[itemIndex].quantity = Int16(newQuantity)
-        delegate?.totalSumChanged(to: updateTotalSum())
+        delegate?.totalSumChanged(to: updateTotalSum(of: order!))
+        saveAll()
+    }
+    
+    func saveAll() {
+        PersistenceService.shared.saveContext()
     }
 }

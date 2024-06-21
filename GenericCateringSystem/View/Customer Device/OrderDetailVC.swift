@@ -112,10 +112,16 @@ extension OrderDetailVC {
             DispatchQueue.main.async { [unowned self] in
                 sum.text = "$0.0"
                 updateItemSnapshot()
+                itemTableView.reloadData()
             }
             return
         }
         currentOrder = outcome.order
+        DispatchQueue.main.async { [unowned self] in
+            updateItemSnapshot()
+            itemTableView.reloadData()
+            sum.text = "$\(currentOrder?.totalSum ?? 0.0)"
+        }
     }
     
     func config() {

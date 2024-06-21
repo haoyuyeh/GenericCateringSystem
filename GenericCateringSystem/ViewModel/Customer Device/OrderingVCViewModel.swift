@@ -81,10 +81,15 @@ extension OrderingVCViewModel {
 
 
         if outcome.result {
-            currentOrderedItems = outcome.order!.items?.allObjects as! [Item]
-            currentOrderedItems = currentOrderedItems.sorted{
-                $0.name! < $1.name!
+            if let items = outcome.order!.items {
+                currentOrderedItems = items.allObjects as! [Item]
+                currentOrderedItems = currentOrderedItems.sorted{
+                    $0.name! < $1.name!
+                }
+            }else {
+                currentOrderedItems = []
             }
+            
         }
         return outcome
     }

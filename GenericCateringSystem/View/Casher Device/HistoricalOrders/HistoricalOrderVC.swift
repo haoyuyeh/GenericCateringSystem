@@ -21,6 +21,7 @@ class HistoricalOrderVC: UIViewController {
     override func viewIsAppearing(_ animated: Bool) {
         datePicker.contentHorizontalAlignment = .fill
         datePicker.contentVerticalAlignment = .fill
+        datePicker.maximumDate = Date().endOfDay
         self.tabBarController?.delegate = self
         historicalOrderTableView.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.reuseIdentifier)
         historicalOrderTableView.dataSource = historicalOrderDataSource

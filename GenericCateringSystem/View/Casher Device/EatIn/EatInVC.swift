@@ -20,6 +20,9 @@ class EatInVC: UIViewController {
     override func viewIsAppearing(_ animated: Bool) {
         self.tabBarController?.delegate = self
         
+        let lpg = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressHandler))
+        
+        tableCollectionView.addGestureRecognizer(lpg)
         tableCollectionView.dataSource = tableDataSource
         updateTableSnapShot()
         DispatchQueue.main.async { [unowned self] in
@@ -52,15 +55,38 @@ class EatInVC: UIViewController {
     @IBOutlet weak var tableCollectionView: UICollectionView!
 }
 
+// MARK: - Helper
+extension EatInVC {
+    @objc func cellLongPressHandler(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: tableCollectionView)
+            
+            if let indexPath = tableCollectionView.indexPathForItem(at: touchPoint) {
+                let cell = tableCollectionView.cellForItem(at: indexPath) as! TableCell
+                let alert = UIAlertController(title: "Warning", message: "Do you want to release table?", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .destructive) {_ in 
+                    cell.tableCanceled()
+                }
+                let noAction = UIAlertAction(title: "No", style: .cancel)
+                
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                present(alert, animated: true)
+            }
+        }
+    }
+}
+
 // MARK: - CheckOutDelegate
 extension EatInVC: EatInTableDelegate {
     func orderCompleted(at table: IndexPath) {
         let cell = tableCollectionView.cellForItem(at: table) as! TableCell
         cell.tableReleased()
+        
     }
 }
 
-// MARK: - CheckOutDelegate
+// MARK: - UICollectionViewDelegate
 extension EatInVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TableCell

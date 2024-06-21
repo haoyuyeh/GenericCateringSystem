@@ -39,6 +39,7 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="3L7-4i-ldf" firstAttribute="top" secondItem="6aN-ln-efC" secondAttribute="top" id="1u1-Ys-Rtr"/>
                                     <constraint firstItem="3L7-4i-ldf" firstAttribute="width" secondItem="6aN-ln-efC" secondAttribute="width" multiplier="0.1" id="6Ib-3G-a6k"/>
@@ -97,6 +98,7 @@
                                                 <constraint firstItem="qW7-0v-gbQ" firstAttribute="height" secondItem="FAQ-Mf-Nqu" secondAttribute="height" multiplier="0.3" id="wI1-9D-vJO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <gestureRecognizers/>
                                         <connections>
                                             <outlet property="peopleServed" destination="VhN-zU-mq4" id="7Mn-Mt-Ua2"/>
                                             <outlet property="tableImg" destination="SCS-x9-6Dl" id="D0S-v5-Q74"/>
@@ -183,6 +185,10 @@
                                                             <color key="textColor" systemColor="linkColor"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                                                            <connections>
+                                                                <action selector="itemQuantityChanged:" destination="UIi-KG-Mco" eventType="editingDidEnd" id="GP5-TW-cbf"/>
+                                                                <outlet property="delegate" destination="Jpt-Mk-ejk" id="Hpb-Bv-Z68"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                 </stackView>

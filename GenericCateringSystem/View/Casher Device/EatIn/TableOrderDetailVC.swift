@@ -24,6 +24,10 @@ class TableOrderDetailVC: UIViewController {
         config()
     }
     
+    override func viewDidLoad() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateRemoteChanges), name: .NSPersistentStoreRemoteChange, object: PersistenceService.shared.persistentContainer.persistentStoreCoordinator)
+    }
+    
     // MARK: IBOutlet
     @IBOutlet weak var orderTitle: UILabel!
     @IBOutlet weak var itemTableView: UITableView!
@@ -31,7 +35,7 @@ class TableOrderDetailVC: UIViewController {
     @IBOutlet weak var notes: UITextView!
     
     // MARK: IBAction
-
+    
     @IBAction func totalSumBtnPressed(_ sender: UIButton) {
         let alert = UIAlertController(title: "Warning", message: "Offer discount between 0.01 ~ 1.0(newSum = sum * discount) ", preferredStyle: .alert)
         alert.addTextField { textField in
@@ -61,7 +65,41 @@ class TableOrderDetailVC: UIViewController {
 
 // MARK: Helper
 extension TableOrderDetailVC {
+    @objc func updateRemoteChanges() {
+        DispatchQueue.main.async { [unowned self] in
+            updateItemSnapShot()
+            itemTableView.reloadData()
+            totalSum.setTitle("$\(String(currentOrder?.totalSum ?? 0))", for: .normal)       
+        }
+    }
+    
+    @objc func itemCellLongPressHandler(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: itemTableView)
+            
+            if let indexPath = itemTableView.indexPathForRow(at: touchPoint) {
+                let alert = UIAlertController(title: "Warning", message: "Do you want to delete this item?", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .destructive) { [unowned self] _ in
+                    viewModel.deleteItem(at: indexPath.row)
+                    DispatchQueue.main.async {
+                        self.updateItemSnapShot()
+                    }
+                }
+                let noAction = UIAlertAction(title: "No", style: .cancel)
+                
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                
+                present(alert, animated: true)
+            }
+        }
+    }
+    
     func config() {
+        viewModel.delegate = self
+        let lpg = UILongPressGestureRecognizer(target: self, action: #selector(itemCellLongPressHandler))
+        itemTableView.addGestureRecognizer(lpg)
+        
         switch Int(currentOrder!.type) {
         case OrderType.eatIn.rawValue:
             orderTitle.text = "\(currentOrder?.number ?? "nil")"
@@ -93,18 +131,6 @@ extension TableOrderDetailVC: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // make sure only input decimal between 0.01~1.0
-        if let text = textField.text {
-            if !text.isMatch(pattern: "^0\\.\\d+$") {
-                textField.text = nil
-                self.showAlert(alertTitle: "Warning", message: "Input deciaml between 0.01 ~ 1.0")
-            }
-        }else {
-            textField.text = nil
-        }
-    }
 }
 
 // MARK: Item Table View
@@ -133,20 +159,6 @@ extension TableOrderDetailVC {
     }
 }
 
-// MARK: UITableViewDelegate
-extension TableOrderDetailVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        tableView.beginUpdates()
-        viewModel.deleteItem(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.endUpdates()
-    }
-}
-
 // MARK: ItemQuantityDelegate
 extension TableOrderDetailVC: TextFieldChangedDelegate {
     func itemQuantityChanged(to num: Int, of index: IndexPath) {
@@ -157,6 +169,6 @@ extension TableOrderDetailVC: TextFieldChangedDelegate {
 // MARK: TotalSumDelegate
 extension TableOrderDetailVC: TotalSumDelegate {
     func totalSumChanged(to sum: Double) {
-        totalSum.titleLabel?.text = String(sum)
+        totalSum.titleLabel?.text = "$\(sum)"
     }
 }

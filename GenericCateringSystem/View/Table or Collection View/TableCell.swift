@@ -65,4 +65,16 @@ extension TableCell {
         isOcuppied = false
         ongoingOrder = nil
     }
+    
+    /// customer decide to leave before ordering anything.
+    /// therefore, it will clear the table and delete the order
+    func tableCanceled() {
+        guard ongoingOrder != nil else {
+            return
+        }
+        isOcuppied = false
+        PersistenceService.shared.delete(object: ongoingOrder!)
+        PersistenceService.shared.saveContext()
+        ongoingOrder = nil
+    }
 }

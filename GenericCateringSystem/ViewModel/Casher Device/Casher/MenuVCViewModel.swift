@@ -69,7 +69,7 @@ extension MenuVCViewModel {
             newItem.orderedBy = order
             currentOrderedItems.append(newItem)
             currentOrderedItems = currentOrderedItems.sorted{
-                $0.name! < $1.name!
+                $0.name! <= $1.name!
             }
         }
         delegate?.totalSumChanged(to: Helper.shared.updateTotalSum(currentOrderedItems: currentOrderedItems))

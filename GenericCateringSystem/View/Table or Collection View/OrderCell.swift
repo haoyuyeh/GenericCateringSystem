@@ -86,7 +86,7 @@ extension OrderCell: CellConfig {
     private func configHistoricalOrder(with target: Order) {
         switch Int(target.type) {
         case OrderType.eatIn.rawValue:
-            name.text = "Eat-in - Table #\(target.number ?? "nil")"
+            name.text = "Eat-in - \(target.number ?? "nil")"
             
         case OrderType.walkIn.rawValue:
             name.text = "Walk-in #\(target.number ?? "nil")"

@@ -7,19 +7,6 @@
 		<dict>
 			<key>destination</key>
 			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>88</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>87</string>
-					<key>Timestamp</key>
-					<string>737797992.743944</string>
-				</dict>
 				<key>rebasable-url</key>
 				<dict>
 					<key>base</key>
@@ -30,66 +17,11 @@
 						<string>GenericCateringSystem/View/Log In/ConfigVC.swift</string>
 					</dict>
 				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>                let storyboard = UIStoryboard(name: "Customer", bundle: nil)
-</string>
-				<key>leading</key>
-				<string>                
-            case Roll.customer.rawValue:
-</string>
-				<key>trailing</key>
-				<string>                let tabC = storyboard.instantiateViewController(withIdentifier: "CustomerTabC") as! UITabBarController
-                
-                tabC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-</string>
-			</dict>
-			<key>title</key>
-			<string>review after finish CustomerVC</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>GenericCateringSystem/View/Casher Device/EatIn/TableOrderDetailVC.swift</string>
-					</dict>
-				</dict>
 				<key>type</key>
 				<string>DVTDocumentLocation</string>
 			</dict>
 			<key>title</key>
-			<string>need to check edit delete items functionality</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>GenericCateringSystem/View/Casher Device/EatIn/EatInVC.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>title</key>
-			<string>long press cell to force release table</string>
+			<string>mode functionality should implement</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

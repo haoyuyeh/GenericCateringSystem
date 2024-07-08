@@ -41,18 +41,14 @@ enum LogInState: String {
     case success
 }
 
-// MARK: ConfigVC
-enum Mode:String {
-    case full
-    case takeOut
-}
-
-/// only one device can be cashier, the rest are all client
+/// only one device can be cashier
 enum Roll:String {
     case cashier
     case displayWalkIn
     case displayTakeOut
     case customer
+    case kitchenControl
+    case kitchenPosition
 }
 
 // MARK: MenuVC

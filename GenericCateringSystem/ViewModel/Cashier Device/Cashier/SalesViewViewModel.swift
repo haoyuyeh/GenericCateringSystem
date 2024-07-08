@@ -9,7 +9,7 @@ import OSLog
 
 class SalesViewViewModel {
     // MARK: Properties
-    private var logger = Logger(subsystem: "Casher", category: "SalesViewViewModel")
+    private var logger = Logger(subsystem: "Cashier", category: "SalesViewViewModel")
     
     static let shared = SalesViewViewModel()
 }

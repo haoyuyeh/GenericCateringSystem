@@ -2,7 +2,7 @@
 //  Order+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2024/4/24.
+//  Created by Hao Yu Yeh on 2024/6/23.
 //
 //
 
@@ -17,7 +17,6 @@ extension Order {
     }
 
     @NSManaged public var comments: String?
-    
     /// possible state: ordering, preparing, etc
     @NSManaged public var currentState: Int16
     @NSManaged public var establishedDate: Date?
@@ -25,6 +24,8 @@ extension Order {
     @NSManaged public var isTakeOut: Bool
     /// order number: eat in order will use table number as order number
     @NSManaged public var number: String?
+    /// delivery platform's name
+    @NSManaged public var platformName: String?
     @NSManaged public var totalSum: Double
     /**
      Eat-In = 0
@@ -33,8 +34,6 @@ extension Order {
      */
     @NSManaged public var type: Int16
     @NSManaged public var uuid: UUID?
-    /// delivery platform's name
-    @NSManaged public var platformName: String?
     @NSManaged public var items: NSSet?
 
 }

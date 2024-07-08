@@ -2,7 +2,7 @@
 //  Category+CoreDataProperties.swift
 //  GenericCateringSystem
 //
-//  Created by Hao Yu Yeh on 2023/11/3.
+//  Created by Hao Yu Yeh on 2024/6/23.
 //
 //
 
